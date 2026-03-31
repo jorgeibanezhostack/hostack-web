@@ -1,0 +1,2 @@
+/* Hostack V3 — reset only, all styles in App.jsx */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
