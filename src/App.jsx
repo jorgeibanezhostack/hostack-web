@@ -1,255 +1,402 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from 'react';
 
-const C = {
-  ink: "#0d1f22", inkMid: "#1e3a3f", inkSoft: "#4a6e74", inkFaint: "#7a9ea4",
-  surface: "#ffffff", surface2: "#f4f8f8", surface3: "#e6f0f1",
-  accent: "#084e59", accentDark: "#052f36", accentDeep: "#031e23",
-  neon: "#4af8d4", neonSoft: "rgba(74,248,212,0.12)", neonMid: "rgba(74,248,212,0.25)",
-  accentSoft: "rgba(8,78,89,0.07)", accentMid: "rgba(8,78,89,0.15)",
-  tealSoft: "#ddf4f1", tealMid: "#b0e8e2",
-  border: "rgba(8,78,89,0.10)", borderStrong: "rgba(8,78,89,0.20)",
+// ─── PALETTE ────────────────────────────────────────────────────────────────
+const P = {
+  ink: '#0d1f22', inkMid: '#1e3a3f', inkSoft: '#4a6e74', inkFaint: '#7a9ea4',
+  surface: '#ffffff', surface2: '#f4f8f8', surface3: '#e6f0f1',
+  accent: '#084e59', accentDark: '#052f36', accentDeep: '#031e23',
+  neon: '#4af8d4', neonSoft: 'rgba(74,248,212,0.12)', neonMid: 'rgba(74,248,212,0.25)',
+  accentSoft: 'rgba(8,78,89,0.07)', accentMid: 'rgba(8,78,89,0.15)',
+  tealSoft: '#ddf4f1', tealMid: '#b0e8e2',
+  border: 'rgba(8,78,89,0.10)', borderStrong: 'rgba(8,78,89,0.20)',
 };
 
+// ─── TYPOGRAPHY ──────────────────────────────────────────────────────────────
 const T = {
-  h1: { fontFamily:"'DM Sans',sans-serif", fontWeight:300, letterSpacing:"0.02em", lineHeight:1.08 },
-  h2: { fontFamily:"'DM Sans',sans-serif", fontWeight:300, letterSpacing:"0.04em", lineHeight:1.1 },
-  h3: { fontFamily:"'DM Sans',sans-serif", fontWeight:400, letterSpacing:"0.05em" },
-  h4: { fontFamily:"'DM Sans',sans-serif", fontWeight:500, letterSpacing:"0.06em" },
-  eye: { fontSize:11, fontWeight:500, letterSpacing:"0.16em", textTransform:"uppercase", fontFamily:"'DM Sans',sans-serif" },
-  mono: { fontFamily:"'DM Mono',monospace", letterSpacing:"0.05em" },
+  h1: { fontFamily: "'DM Sans',sans-serif", fontWeight: 300, letterSpacing: '0.04em', lineHeight: 1.08 },
+  h2: { fontFamily: "'DM Sans',sans-serif", fontWeight: 300, letterSpacing: '0.06em', lineHeight: 1.1 },
+  h3: { fontFamily: "'DM Sans',sans-serif", fontWeight: 400, letterSpacing: '0.07em' },
+  h4: { fontFamily: "'DM Sans',sans-serif", fontWeight: 500, letterSpacing: '0.08em' },
+  eye: { fontSize: 11, fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', fontFamily: "'DM Sans',sans-serif" },
+  mono: { fontFamily: "'DM Mono',monospace", letterSpacing: '0.05em' },
 };
 
-function useInView(t=0.08){const r=useRef(null);const[v,setV]=useState(false);useEffect(()=>{const o=new IntersectionObserver(([e])=>{if(e.isIntersecting)setV(true);},{threshold:t});if(r.current)o.observe(r.current);return()=>o.disconnect();},[]);return[r,v];}
-function FI({children,d=0,s={}}){const[r,v]=useInView();return<div ref={r} style={{opacity:v?1:0,transform:v?"translateY(0)":"translateY(18px)",transition:`opacity .6s ease ${d}ms,transform .6s ease ${d}ms`,...s}}>{children}</div>;}
-
-const Ic={
-  Logo:({l})=><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="1" y="1" width="7" height="7" rx="1.5" fill={l?"white":C.accent}/><rect x="10" y="1" width="7" height="7" rx="1.5" fill={l?"white":C.accent} opacity=".55"/><rect x="1" y="10" width="7" height="7" rx="1.5" fill={l?"white":C.accent} opacity=".55"/><rect x="10" y="10" width="7" height="7" rx="1.5" fill={l?"white":C.accent} opacity=".22"/></svg>,
-  Chk:({c=C.accent})=><svg width="13" height="13" viewBox="0 0 13 13" fill="none" style={{flexShrink:0,marginTop:2}}><path d="M2 6.5L5.2 9.5L11 3.5" stroke={c} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>,
-  Arr:({s=13})=><svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
-  QR:()=><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>,
-  Bell:()=><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>,
-  Lay:()=><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>,
-  Shi:()=><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
-  Usr:()=><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
-  Act:()=><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>,
-  Chat:()=><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
-  Ref:()=><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>,
-  Eye:()=><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>,
-  Tag:()=><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>,
-  Glb:()=><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>,
+// ─── i18n ────────────────────────────────────────────────────────────────────
+const TRANSLATIONS = {
+  en: {
+    navHow: 'How it works', navResults: 'Results', navPricing: 'Pricing',
+    navCta: 'Get started →',
+    heroBadge: 'Live at Torridonia · 23 beds',
+    heroH1a: 'The system that runs ops —',
+    heroH1b: 'so you can build community.',
+    heroSub: 'Guest requests go to your team automatically. Your team logs everything. You see it all — from anywhere. No WhatsApp groups. No paper checklists.',
+    heroCta: 'Get started free →', heroSee: 'See how it works',
+    problemEye: 'The problem',
+    problemH2: 'Managers spend 3+ hours a day on operational noise.',
+    problemSub: "That's time you're not spending with your guests or growing your space.",
+    solutionEye: 'The product',
+    solutionH2: 'Three layers. One system.',
+    solutionSub: 'How it works',
+    resultsEye: 'Live since 2025',
+    resultsH3: 'Torridonia',
+    resultsSub: 'Loch Torridon, Scottish Highlands · 23 beds · 8–11 team members',
+    quote: '"Before Hostack, I was forwarding messages and chasing updates all morning. Now I open the dashboard and I know exactly what\'s happening across every room before I\'ve had coffee."',
+    quoteBy: '— Felix, Owner · Torridonia',
+    before: 'Before:', beforeText: '3 WhatsApp groups, paper checklists, daily briefings.',
+    after: 'After:', afterText: 'One dashboard. Automated task routing. Zero missed requests.',
+    pricingEye: 'Start free. Upgrade when you\'re ready.',
+    pricingH2: 'Simple tools. Real results.',
+    pricingTag: 'What\'s included',
+    foundingTitle: 'Founding Member Programme — 3 spots left',
+    foundingTag: '2 of 5 taken',
+    foundingSub: 'Skip the setup fee. Lock in the best price. Shape what we build next.',
+    freePlan: 'Free', freeSub: 'No credit card. No time limit.', freeCta: 'Get started free →',
+    freeTagline: 'Try everything for up to 20 beds. See if it works before you pay anything.',
+    foundingPlan: 'Founding Member', foundingDeal: 'Founding Member deal',
+    foundingPrice: '6 months × €99', foundingGet: 'You get 12 months',
+    foundingDetail: 'Pay 6 months · Get 12 · Setup fee waived',
+    foundingCta: 'Claim your spot →',
+    fullPlan: 'Full Service', fullSub: 'Operator + add-ons', fullCta: 'Book a call →',
+    trial: '30-day trial on all paid plans. Cancel any time.',
+    ctaH2: 'Founding Member Programme — 3 spots left',
+    ctaTag: '2 of 5 taken',
+    ctaPlaceholder: 'your@email.com',
+    ctaButton: 'Claim my spot →',
+    ctaConfirm: 'Got it — we\'ll reach out within 24 hours. ✓',
+    footerTagline: 'The system that runs ops — so the manager builds community.',
+    footerAvailable: 'Available in Europe & UK',
+    footerCopy: '© 2026 Hostack. Available in Europe & UK.',
+    footerSub: 'Built for operators who care about the experience, not just the booking.',
+    guestApp: 'Guest App', staffApp: 'Staff App', ownerDash: 'Owner Dashboard',
+  },
+  es: {
+    navHow: 'Cómo funciona', navResults: 'Resultados', navPricing: 'Precios',
+    navCta: 'Empezar →',
+    heroBadge: 'En vivo en Torridonia · 23 camas',
+    heroH1a: 'El sistema que gestiona operaciones —',
+    heroH1b: 'para que construyas comunidad.',
+    heroSub: 'Las solicitudes de huéspedes llegan a tu equipo automáticamente. Tu equipo registra todo. Tú lo ves todo — desde cualquier lugar. Sin grupos de WhatsApp. Sin listas en papel.',
+    heroCta: 'Empezar gratis →', heroSee: 'Ver cómo funciona',
+    problemEye: 'El problema',
+    problemH2: 'Los managers pasan 3+ horas al día en ruido operacional.',
+    problemSub: 'Ese es tiempo que no estás dedicando a tus huéspedes o al crecimiento de tu espacio.',
+    solutionEye: 'El producto',
+    solutionH2: 'Tres capas. Un sistema.',
+    solutionSub: 'Cómo funciona',
+    resultsEye: 'En vivo desde 2025',
+    resultsH3: 'Torridonia',
+    resultsSub: 'Loch Torridon, Highlands de Escocia · 23 camas · 8–11 personas',
+    quote: '"Antes de Hostack, pasaba la mañana reenviando mensajes y persiguiendo actualizaciones. Ahora abro el dashboard y sé exactamente lo que pasa en cada habitación antes de tomar café."',
+    quoteBy: '— Felix, Propietario · Torridonia',
+    before: 'Antes:', beforeText: '3 grupos de WhatsApp, listas en papel, briefings diarios.',
+    after: 'Después:', afterText: 'Un dashboard. Tareas automáticas. Cero solicitudes perdidas.',
+    pricingEye: 'Empieza gratis. Mejora cuando estés listo.',
+    pricingH2: 'Herramientas simples. Resultados reales.',
+    pricingTag: 'Qué incluye',
+    foundingTitle: 'Programa Founding Member — 3 plazas',
+    foundingTag: '2 de 5 tomadas',
+    foundingSub: 'Sin tarifa de configuración. Mejor precio bloqueado. Influye en lo que construimos.',
+    freePlan: 'Gratis', freeSub: 'Sin tarjeta. Sin límite de tiempo.', freeCta: 'Empezar gratis →',
+    freeTagline: 'Prueba todo hasta 20 camas. Comprueba si funciona antes de pagar.',
+    foundingPlan: 'Founding Member', foundingDeal: 'Oferta Founding Member',
+    foundingPrice: '6 meses × €99', foundingGet: 'Obtienes 12 meses',
+    foundingDetail: 'Pagas 6 meses · Recibes 12 · Sin tarifa de configuración',
+    foundingCta: 'Reserva tu plaza →',
+    fullPlan: 'Full Service', fullSub: 'Operador + complementos', fullCta: 'Reservar llamada →',
+    trial: 'Prueba de 30 días en todos los planes de pago. Cancela cuando quieras.',
+    ctaH2: 'Programa Founding Member — 3 plazas',
+    ctaTag: '2 de 5 tomadas',
+    ctaPlaceholder: 'tu@email.com',
+    ctaButton: 'Reservar mi plaza →',
+    ctaConfirm: 'Recibido — te contactamos en 24 horas. ✓',
+    footerTagline: 'El sistema que gestiona operaciones — para que el manager construya comunidad.',
+    footerAvailable: 'Disponible en Europa & UK',
+    footerCopy: '© 2026 Hostack. Disponible en Europa & UK.',
+    footerSub: 'Hecho para operadores que cuidan la experiencia, no solo la reserva.',
+    guestApp: 'App Huésped', staffApp: 'App Personal', ownerDash: 'Dashboard Propietario',
+  }
 };
 
-const sec={padding:"88px 2rem"};
-const wrap={maxWidth:1060,margin:"0 auto"};
-const g3={display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12};
-const card={background:C.surface,borderRadius:14,border:`1px solid ${C.border}`,padding:"24px 22px",transition:"border-color 0.2s,box-shadow 0.2s"};
+function useLang() {
+  const [lang, setLang] = useState(() => {
+    const nav = typeof navigator !== 'undefined' ? navigator.language : 'en';
+    return nav.toLowerCase().startsWith('es') ? 'es' : 'en';
+  });
+  return [lang, setLang];
+}
 
-function Header(){
-  const[sc,setSc]=useState(false);
-  useEffect(()=>{const f=()=>setSc(window.scrollY>8);window.addEventListener("scroll",f);return()=>window.removeEventListener("scroll",f);},[]);
-  return(
-    <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:200,height:56,background:sc?"rgba(255,255,255,0.97)":"transparent",backdropFilter:sc?"blur(20px)":"none",borderBottom:sc?`1px solid ${C.border}`:"1px solid transparent",transition:"all 0.3s",display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0 2rem"}}>
-      <a href="#" style={{display:"flex",alignItems:"center",gap:9,textDecoration:"none"}}>
-        <div style={{width:28,height:28,background:C.accent,borderRadius:7,display:"flex",alignItems:"center",justifyContent:"center"}}><Ic.Logo l/></div>
-        <span style={{...T.h4,fontSize:15,color:C.ink}}>hostack</span>
-      </a>
-      <div style={{display:"flex",gap:2,alignItems:"center"}}>
-        {[["How it works","#solution"],["Results","#results"],["Pricing","#pricing"]].map(([l,h])=>(
-          <a key={l} href={h} style={{padding:"6px 14px",fontSize:13,color:C.inkSoft,textDecoration:"none",borderRadius:7,letterSpacing:"0.03em",transition:"color 0.15s"}} onMouseEnter={e=>e.currentTarget.style.color=C.ink} onMouseLeave={e=>e.currentTarget.style.color=C.inkSoft}>{l}</a>
-        ))}
-        <a href="#cta" style={{marginLeft:10,display:"inline-flex",alignItems:"center",gap:6,background:C.accent,color:"#fff",padding:"7px 18px",borderRadius:8,fontSize:13,fontWeight:500,textDecoration:"none",letterSpacing:"0.04em",transition:"background 0.2s,box-shadow 0.2s"}} onMouseEnter={e=>{e.currentTarget.style.background=C.accentDeep;e.currentTarget.style.boxShadow=`0 0 0 2px ${C.neon}`;}} onMouseLeave={e=>{e.currentTarget.style.background=C.accent;e.currentTarget.style.boxShadow="none";}}>
-          Get early access <Ic.Arr s={12}/>
+// ─── RESPONSIVE ──────────────────────────────────────────────────────────────
+function useBreakpoint() {
+  const [bp, setBp] = useState(() => {
+    if (typeof window === 'undefined') return 'desktop';
+    if (window.innerWidth < 640) return 'mobile';
+    if (window.innerWidth < 900) return 'tablet';
+    return 'desktop';
+  });
+  useEffect(() => {
+    const handler = () => {
+      if (window.innerWidth < 640) setBp('mobile');
+      else if (window.innerWidth < 900) setBp('tablet');
+      else setBp('desktop');
+    };
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+  return bp;
+}
+
+// ─── LAYOUT HELPERS ───────────────────────────────────────────────────────────
+const section = { padding: '88px 0' };
+const container = (bp) => ({
+  maxWidth: 1080,
+  margin: '0 auto',
+  padding: bp === 'mobile' ? '0 20px' : bp === 'tablet' ? '0 32px' : '0 40px',
+});
+
+// ─── FADE-IN ──────────────────────────────────────────────────────────────────
+function useFade(threshold = 0.08) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  return [ref, visible];
+}
+function Fade({ children, delay = 0, style = {} }) {
+  const [ref, visible] = useFade();
+  return (
+    <div ref={ref} style={{
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'translateY(0)' : 'translateY(18px)',
+      transition: `opacity .6s ease ${delay}ms, transform .6s ease ${delay}ms`,
+      ...style,
+    }}>{children}</div>
+  );
+}
+
+// ─── ICONS ────────────────────────────────────────────────────────────────────
+const Icons = {
+  Logo: ({ light }) => (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <rect x="1" y="1" width="7" height="7" rx="1.5" fill={light ? 'white' : P.accent} />
+      <rect x="10" y="1" width="7" height="7" rx="1.5" fill={light ? 'white' : P.accent} opacity=".55" />
+      <rect x="1" y="10" width="7" height="7" rx="1.5" fill={light ? 'white' : P.accent} opacity=".55" />
+      <rect x="10" y="10" width="7" height="7" rx="1.5" fill={light ? 'white' : P.accent} opacity=".22" />
+    </svg>
+  ),
+  Chk: ({ color = P.accent }) => (
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style={{ flexShrink: 0, marginTop: 2 }}>
+      <path d="M2 6.5L5.2 9.5L11 3.5" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+  Arr: ({ size = 13 }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M5 12h14M12 5l7 7-7 7" />
+    </svg>
+  ),
+  Ham: () => (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <rect x="3" y="5" width="16" height="2" rx="1" fill={P.inkMid} />
+      <rect x="3" y="10" width="16" height="2" rx="1" fill={P.inkMid} />
+      <rect x="3" y="15" width="16" height="2" rx="1" fill={P.inkMid} />
+    </svg>
+  ),
+  Close: () => (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <path d="M5 5L17 17M17 5L5 17" stroke={P.inkMid} strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  ),
+};
+
+// ─── NAV ─────────────────────────────────────────────────────────────────────
+function Nav({ bp, lang, setLang, i }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const isMobile = bp === 'mobile';
+  const isTablet = bp === 'tablet';
+
+  const links = [
+    [i.navHow, '#solution'],
+    [i.navResults, '#results'],
+    [i.navPricing, '#pricing'],
+  ];
+
+  return (
+    <nav style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+      background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(12px)',
+      borderBottom: `1px solid ${P.border}`,
+    }}>
+      <div style={{ ...container(bp), display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56 }}>
+        {/* Logo */}
+        <a href="#" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
+          <div style={{ width: 28, height: 28, background: P.accent, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Icons.Logo light />
+          </div>
+          <span style={{ ...T.h4, fontSize: 15, color: P.ink }}>hostack</span>
         </a>
+
+        {/* Desktop nav */}
+        {!isMobile && (
+          <div style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+            {links.map(([label, href]) => (
+              <a key={label} href={href} style={{ padding: '6px 14px', fontSize: 13, color: P.inkSoft, textDecoration: 'none', borderRadius: 7, letterSpacing: '0.03em', transition: 'color 0.15s' }}
+                onMouseEnter={e => e.currentTarget.style.color = P.ink}
+                onMouseLeave={e => e.currentTarget.style.color = P.inkSoft}>
+                {label}
+              </a>
+            ))}
+          </div>
+        )}
+
+        {/* Right controls */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          {/* Lang toggle */}
+          <button onClick={() => setLang(lang === 'en' ? 'es' : 'en')}
+            style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', padding: '4px 10px', borderRadius: 6, border: `1px solid ${P.border}`, background: 'transparent', color: P.inkSoft, cursor: 'pointer', fontFamily: "'DM Sans',sans-serif" }}>
+            {lang === 'en' ? 'ES' : 'EN'}
+          </button>
+
+          {!isMobile && (
+            <a href="#cta" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: P.accent, color: '#fff', padding: '7px 18px', borderRadius: 8, fontSize: 13, fontWeight: 500, textDecoration: 'none', letterSpacing: '0.04em', transition: 'background 0.2s, box-shadow 0.2s' }}
+              onMouseEnter={e => { e.currentTarget.style.background = P.accentDeep; e.currentTarget.style.boxShadow = `0 0 0 2px ${P.neon}`; }}
+              onMouseLeave={e => { e.currentTarget.style.background = P.accent; e.currentTarget.style.boxShadow = 'none'; }}>
+              {i.navCta}
+            </a>
+          )}
+
+          {/* Hamburger */}
+          {isMobile && (
+            <button onClick={() => setMenuOpen(!menuOpen)}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
+              {menuOpen ? <Icons.Close /> : <Icons.Ham />}
+            </button>
+          )}
+        </div>
       </div>
+
+      {/* Mobile dropdown */}
+      {isMobile && menuOpen && (
+        <div style={{ background: '#fff', borderTop: `1px solid ${P.border}`, padding: '12px 20px 16px' }}>
+          {links.map(([label, href]) => (
+            <a key={label} href={href} onClick={() => setMenuOpen(false)}
+              style={{ display: 'block', padding: '10px 0', fontSize: 15, color: P.inkMid, textDecoration: 'none', borderBottom: `1px solid ${P.border}` }}>
+              {label}
+            </a>
+          ))}
+          <a href="#cta" onClick={() => setMenuOpen(false)}
+            style={{ display: 'block', marginTop: 14, background: P.accent, color: '#fff', padding: '11px 20px', borderRadius: 8, fontSize: 14, fontWeight: 500, textDecoration: 'none', textAlign: 'center', letterSpacing: '0.04em' }}>
+            {i.navCta}
+          </a>
+        </div>
+      )}
     </nav>
   );
 }
 
-function Hero(){
-  const[tk,setTk]=useState(0);
-  useEffect(()=>{const t=setInterval(()=>setTk(x=>(x+1)%3),3200);return()=>clearInterval(t);},[]);
-  const evs=[
-    {tx:"Room 4 — extra towels needed",ly:"GUEST LAYER",cl:C.accent},
-    {tx:"Assigned to Ana · Housekeeping",ly:"STAFF LAYER",cl:"#0077b6"},
-    {tx:"Task done · Dashboard updated",ly:"OWNER LAYER",cl:"#7b5ea7"},
-  ];
-  return(
-    <section style={{...sec,background:C.surface2,paddingTop:110,position:"relative",overflow:"hidden"}}>
-      <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:C.neon,opacity:0.7}}/>
-      <div style={{position:"absolute",right:"8%",top:"10%",width:420,height:420,background:`radial-gradient(ellipse,${C.neonSoft} 0%,transparent 70%)`,pointerEvents:"none"}}/>
-      <div style={{...wrap,display:"grid",gridTemplateColumns:"1fr 1fr",gap:"5rem",alignItems:"center"}}>
+// ─── HERO ─────────────────────────────────────────────────────────────────────
+function Hero({ bp, i }) {
+  const isMobile = bp === 'mobile';
+  const isTablet = bp === 'tablet';
+
+  return (
+    <section style={{ ...section, paddingTop: 120, background: P.surface, position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: P.neon, opacity: 0.7 }} />
+      <div style={{ position: 'absolute', right: '8%', top: '10%', width: 420, height: 420, background: `radial-gradient(ellipse,${P.neonSoft} 0%,transparent 70%)`, pointerEvents: 'none' }} />
+
+      <div style={{ ...container(bp), display: 'grid', gridTemplateColumns: isMobile || isTablet ? '1fr' : '1fr 1fr', gap: isMobile ? '2rem' : '5rem', alignItems: 'center' }}>
         <div>
-          <FI><div style={{display:"inline-flex",alignItems:"center",gap:7,background:C.tealSoft,border:`1px solid ${C.tealMid}`,borderRadius:999,padding:"5px 14px",marginBottom:24}}><div style={{width:6,height:6,borderRadius:"50%",background:C.neon}}/><span style={{...T.eye,fontSize:11,color:C.accent}}>Live at Torridonia · 23 beds</span></div></FI>
-          <FI d={80}><h1 style={{...T.h1,fontSize:"clamp(2.4rem,4.5vw,3.6rem)",color:C.ink,marginBottom:20}}>The system that runs ops —<br/><span style={{color:C.accent}}>so you can build community.</span></h1></FI>
-          <FI d={160}><p style={{fontSize:17,color:C.inkSoft,lineHeight:1.78,marginBottom:32,maxWidth:430}}>Guest requests go to your team automatically. Your team logs everything. You see it all — from anywhere. No WhatsApp groups. No paper checklists.</p></FI>
-          <FI d={240}><div style={{display:"flex",gap:10,flexWrap:"wrap",marginBottom:30}}>
-            <a href="#cta" style={{display:"inline-flex",alignItems:"center",gap:7,background:C.accent,color:"#fff",padding:"12px 24px",borderRadius:9,fontSize:14,fontWeight:500,textDecoration:"none",letterSpacing:"0.04em",transition:"background 0.2s,box-shadow 0.2s,transform 0.12s"}} onMouseEnter={e=>{e.currentTarget.style.background=C.accentDeep;e.currentTarget.style.boxShadow=`0 0 0 2px ${C.neon},0 8px 32px rgba(8,78,89,0.2)`;e.currentTarget.style.transform="translateY(-1px)";}} onMouseLeave={e=>{e.currentTarget.style.background=C.accent;e.currentTarget.style.boxShadow="none";e.currentTarget.style.transform="none";}}>Claim your early access spot <Ic.Arr/></a>
-            <a href="#solution" style={{display:"inline-flex",alignItems:"center",gap:7,background:"transparent",color:C.inkSoft,padding:"12px 24px",borderRadius:9,fontSize:14,textDecoration:"none",border:`1px solid ${C.borderStrong}`,letterSpacing:"0.03em",transition:"color 0.15s,border-color 0.15s"}} onMouseEnter={e=>{e.currentTarget.style.color=C.ink;e.currentTarget.style.borderColor=C.ink;}} onMouseLeave={e=>{e.currentTarget.style.color=C.inkSoft;e.currentTarget.style.borderColor=C.borderStrong;}}>See how it works</a>
-          </div></FI>
-          <FI d={320}><div style={{display:"flex",gap:"1.5rem",flexWrap:"wrap",fontSize:13}}>
-            {["No app download needed","Set up in under 1 hour","Available in Europe & UK"].map(t=><span key={t} style={{display:"flex",alignItems:"center",gap:5,letterSpacing:"0.02em",color:C.inkSoft}}><Ic.Chk/>{t}</span>)}
-          </div></FI>
-        </div>
-        <FI d={200}>
-          <div style={{background:C.surface,border:`1px solid ${C.border}`,borderRadius:16,padding:24,boxShadow:"0 4px 40px rgba(8,78,89,0.06)"}}>
-            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:18}}>
-              <span style={{...T.eye,fontSize:10,color:C.inkFaint}}>Live data flow</span>
-              <span style={{display:"inline-flex",alignItems:"center",gap:5,background:C.tealSoft,border:`1px solid ${C.tealMid}`,borderRadius:999,padding:"3px 10px",fontSize:10,color:C.accent,...T.mono}}>
-                <span style={{width:5,height:5,borderRadius:"50%",background:C.neon,display:"inline-block",animation:"hs-pulse 2s infinite"}}/>LIVE
-              </span>
+          <Fade>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: P.tealSoft, border: `1px solid ${P.tealMid}`, borderRadius: 999, padding: '5px 14px', marginBottom: 24 }}>
+              <div style={{ width: 6, height: 6, borderRadius: '50%', background: P.neon }} />
+              <span style={{ ...T.eye, fontSize: 11, color: P.accent }}>{i.heroBadge}</span>
             </div>
-            {evs.map((ev,i)=>(
-              <div key={i} style={{display:"flex",alignItems:"flex-start",gap:12,padding:"10px 12px",marginBottom:5,borderRadius:9,background:tk===i?C.surface2:C.surface,border:`1px solid ${tk===i?C.borderStrong:C.border}`,borderLeft:`2.5px solid ${tk===i?C.neon:ev.cl}`,opacity:tk===i?1:0.5,transition:"all 0.4s"}}>
-                <div style={{width:26,height:26,borderRadius:7,background:`${ev.cl}14`,border:`1px solid ${ev.cl}30`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,color:ev.cl}}>
-                  {i===0&&<Ic.QR/>}{i===1&&<Ic.Usr/>}{i===2&&<Ic.Act/>}
-                </div>
-                <div style={{flex:1}}><div style={{fontSize:13,color:C.ink,marginBottom:2}}>{ev.tx}</div><div style={{fontSize:10,color:C.inkFaint,...T.mono}}>{ev.ly}</div></div>
-                {tk===i&&<div style={{width:6,height:6,borderRadius:"50%",background:C.neon,flexShrink:0,marginTop:9,boxShadow:`0 0 8px ${C.neon}`}}/>}
-              </div>
-            ))}
-            <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:7,marginTop:12}}>
-              {[["98%","tasks done"],["<30s","response"],["0","missed"]].map(([v,l])=>(
-                <div key={l} style={{background:C.surface2,borderRadius:8,padding:"11px 7px",textAlign:"center",border:`1px solid ${C.border}`}}>
-                  <div style={{fontSize:"1.25rem",fontWeight:300,letterSpacing:"0.02em",color:C.accent,lineHeight:1}}>{v}</div>
-                  <div style={{fontSize:10,color:C.inkFaint,marginTop:3}}>{l}</div>
+          </Fade>
+
+          <Fade delay={80}>
+            <h1 style={{ ...T.h1, fontSize: isMobile ? 'clamp(2rem,8vw,2.6rem)' : 'clamp(2.4rem,4.5vw,3.6rem)', color: P.ink, marginBottom: 20 }}>
+              {i.heroH1a}<br />
+              <span style={{ color: P.accent }}>{i.heroH1b}</span>
+            </h1>
+          </Fade>
+
+          <Fade delay={160}>
+            <p style={{ fontSize: isMobile ? 15 : 17, color: P.inkSoft, lineHeight: 1.78, marginBottom: 32, maxWidth: 430 }}>
+              {i.heroSub}
+            </p>
+          </Fade>
+
+          <Fade delay={240}>
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 30 }}>
+              <a href="#cta" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: P.accent, color: '#fff', padding: isMobile ? '12px 20px' : '12px 24px', borderRadius: 9, fontSize: 14, fontWeight: 500, textDecoration: 'none', letterSpacing: '0.04em', width: isMobile ? '100%' : 'auto', justifyContent: 'center', transition: 'background 0.2s, box-shadow 0.2s', boxSizing: 'border-box' }}
+                onMouseEnter={e => { e.currentTarget.style.background = P.accentDeep; e.currentTarget.style.boxShadow = `0 0 0 3px ${P.neon}`; }}
+                onMouseLeave={e => { e.currentTarget.style.background = P.accent; e.currentTarget.style.boxShadow = 'none'; }}>
+                {i.heroCta} <Icons.Arr />
+              </a>
+              <a href="#solution" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'transparent', color: P.inkMid, padding: isMobile ? '12px 20px' : '12px 20px', borderRadius: 9, fontSize: 14, textDecoration: 'none', border: `1px solid ${P.border}`, width: isMobile ? '100%' : 'auto', justifyContent: 'center', boxSizing: 'border-box' }}>
+                {i.heroSee}
+              </a>
+            </div>
+          </Fade>
+        </div>
+
+        {/* Live data flow visual */}
+        {!isMobile && (
+          <Fade delay={300}>
+            <div style={{ background: P.surface2, borderRadius: 16, border: `1px solid ${P.border}`, padding: '28px 24px', maxWidth: 380 }}>
+              <div style={{ ...T.eye, fontSize: 10, color: P.accent, marginBottom: 16 }}>Live data flow</div>
+              {[
+                { label: 'Guest App', sub: 'Request sent', dot: P.neon },
+                { label: 'Staff App', sub: 'Task assigned → in progress', dot: '#4af8d4' },
+                { label: 'Owner Dashboard', sub: 'Visible in real time', dot: P.accentDark },
+              ].map((item, idx) => (
+                <div key={item.label} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: idx < 2 ? 20 : 0, position: 'relative' }}>
+                  {idx < 2 && <div style={{ position: 'absolute', left: 7, top: 20, width: 2, height: 22, background: P.border }} />}
+                  <div style={{ width: 16, height: 16, borderRadius: '50%', background: item.dot, flexShrink: 0, marginTop: 2, boxShadow: `0 0 0 3px ${P.neonSoft}` }} />
+                  <div>
+                    <div style={{ ...T.h4, fontSize: 13, color: P.ink }}>{item.label}</div>
+                    <div style={{ fontSize: 12, color: P.inkSoft, marginTop: 2 }}>{item.sub}</div>
+                  </div>
                 </div>
               ))}
             </div>
-          </div>
-        </FI>
+          </Fade>
+        )}
       </div>
     </section>
   );
 }
 
-function Problem(){
-  const ps=[
-    {I:Ic.Chat,t:"No shared source of truth",b:"Tasks live in WhatsApp, sticky notes, or someone's memory. Every shift starts from zero."},
-    {I:Ic.Ref,t:"Context resets every shift",b:"Without a handover system, nothing carries forward. The same issue gets missed, found, missed again."},
-    {I:Ic.Eye,t:"No visibility when you're off-site",b:"Did the rooms get done? Was the incident handled? You find out when guests complain."},
+// ─── PROBLEM ─────────────────────────────────────────────────────────────────
+function Problem({ bp, i }) {
+  const isMobile = bp === 'mobile';
+  const issues = [
+    ['Guest requests lost in WhatsApp', 'No central record. No accountability.'],
+    ['Staff don\'t know what\'s urgent', 'Everything feels equal. Nothing gets prioritised.'],
+    ['Owner can\'t see what\'s happening', 'No visibility without calling someone.'],
+    ['Handovers fail', 'Night shift doesn\'t know what day shift left unresolved.'],
   ];
-  return(
-    <section style={{...sec,background:C.surface}}>
-      <div style={wrap}>
-        <FI><p style={{...T.eye,color:C.inkFaint,marginBottom:14}}>The problem</p></FI>
-        <FI d={60}><h2 style={{...T.h2,fontSize:"clamp(1.9rem,3.5vw,2.6rem)",color:C.ink,marginBottom:16}}>You started a hostel to build community.<br/>Most of your day is something else.</h2></FI>
-        <FI d={120}><p style={{fontSize:16,color:C.inkSoft,maxWidth:540,lineHeight:1.78,marginBottom:40}}>Shift handovers, task logs, team coordination — it never ends. Guests feel the gap between the community you're building and the chaos behind the scenes.</p></FI>
-        <FI d={160}><div style={{background:C.surface2,borderRadius:14,border:`1px solid ${C.border}`,padding:"30px 34px",display:"grid",gridTemplateColumns:"auto 1fr",gap:"2.5rem",alignItems:"center",marginBottom:12}}>
-          <div><div style={{fontSize:"3.6rem",fontWeight:300,letterSpacing:"0.02em",color:C.accent,lineHeight:1}}>70%</div><div style={{...T.mono,fontSize:11,color:C.inkFaint,marginTop:5,lineHeight:1.5}}>of manager time<br/>lost to operations</div></div>
-          <p style={{fontSize:15,color:C.inkSoft,lineHeight:1.82}}>Most hostel and coliving managers spend more than half their day on coordination that could be automated. <strong style={{color:C.ink,fontWeight:500}}>That's time you're not spending with your guests or growing your space.</strong></p>
-        </div></FI>
-        <div style={g3}>
-          {ps.map((p,i)=>(
-            <FI key={p.t} d={i*80}><div style={{...card,background:C.surface2}} onMouseEnter={e=>{e.currentTarget.style.borderColor=C.neon;}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border;}}>
-              <div style={{width:32,height:32,borderRadius:8,background:C.surface,border:`1px solid ${C.border}`,display:"flex",alignItems:"center",justifyContent:"center",color:C.inkSoft,marginBottom:16}}><p.I/></div>
-              <h3 style={{...T.h4,fontSize:15,color:C.ink,marginBottom:7}}>{p.t}</h3>
-              <p style={{fontSize:13,color:C.inkSoft,lineHeight:1.72}}>{p.b}</p>
-            </div></FI>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Solution(){
-  const layers=[
-    {tag:"LAYER 1 · GUEST-FACING",cl:C.accent,tb:C.tealSoft,tc:C.accent,title:"Guest App",desc:"Guests scan a QR code when they arrive. No app to download, no account needed. They can request things, check in, and find everything about your space in seconds.",feats:[["QR scan entry","No download, no account — guests are in on arrival"],["Digital check-in","Arrival details + house info delivered instantly"],["Requests & incidents","Guest request → staff task queue, automatically"],["Activity calendar","Events and community activities, always live"]]},
-    {tag:"LAYER 2 · TEAM-FACING",cl:"#0077b6",tb:"#e0f0fa",tc:"#0077b6",title:"Staff App",desc:"Your team sees their tasks in one place — no more WhatsApp groups. They can check off shifts, log incidents, and hand over context to the next person automatically.",feats:[["Shift task checklist","Owner tasks + guest requests, one prioritised list"],["Incident reporting","Any issue logged in seconds, straight to manager"],["Shift handover memory","Context carries forward automatically. Nothing lost"],["Works from any browser","No app to install. Any phone, from day one"]]},
-    {tag:"LAYER 3 · OWNER-FACING",cl:"#7b5ea7",tb:"#f0ebfa",tc:"#7b5ea7",title:"Owner Dashboard",desc:"See everything happening in your property — from anywhere. Every task, every shift, every incident. Get alerts when something needs your attention.",feats:[["Live operations view","Every task, every shift, from anywhere"],["Alert & escalation centre","Urgent issues surface immediately. Logged and resolved"],["Automated monthly reports","Incidents, completions, trends — no effort needed"],["White-label ready","Your brand. Your colours. Hostack stays invisible"]]},
-  ];
-  return(
-    <section id="solution" style={{...sec,background:C.surface2}}>
-      <div style={wrap}>
-        <FI><p style={{...T.eye,color:C.inkFaint,marginBottom:14}}>The product</p></FI>
-        <FI d={60}><h2 style={{...T.h2,fontSize:"clamp(1.9rem,3.5vw,2.6rem)",color:C.ink,marginBottom:16}}>Three layers. One system.</h2></FI>
-        <FI d={120}><p style={{fontSize:16,color:C.inkSoft,maxWidth:560,lineHeight:1.78,marginBottom:50}}>A Guest App, a Staff App, and an Owner Dashboard — connected in real time via QR code. Not a booking engine. Not a PMS. The human layer your space is missing.</p></FI>
-        <div style={g3}>
-          {layers.map((l,i)=>(
-            <FI key={l.tag} d={i*90}><div style={{...card,background:C.surface,borderTop:`3px solid ${l.cl}`,height:"100%"}}>
-              <div style={{display:"inline-block",background:l.tb,borderRadius:5,padding:"3px 9px",marginBottom:13}}><span style={{...T.eye,fontSize:10,color:l.tc}}>{l.tag}</span></div>
-              <h3 style={{...T.h3,fontSize:18,color:C.ink,marginBottom:11}}>{l.title}</h3>
-              <p style={{fontSize:13,color:C.inkSoft,lineHeight:1.72,marginBottom:20}}>{l.desc}</p>
-              <ul style={{listStyle:"none",padding:0}}>
-                {l.feats.map(([t,s])=>(
-                  <li key={t} style={{display:"flex",gap:9,padding:"8px 0",borderBottom:`1px solid ${C.border}`}}>
-                    <Ic.Chk c={l.cl}/>
-                    <div><div style={{...T.h4,fontSize:13,color:C.ink}}>{t}</div><div style={{fontSize:11,color:C.inkFaint,marginTop:1}}>{s}</div></div>
-                  </li>
-                ))}
-              </ul>
-            </div></FI>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function HowItWorks(){
-  const steps=[["01","Set up in under an hour","Add your property, rooms, and team. No code, no IT person needed."],["02","Print and place the QR","Put QR codes at reception and in rooms. Guests scan to get started."],["03","Requests come in","Guests send requests from their phone. Your team gets notified right away."],["04","Team logs everything","Tasks get checked off. Incidents get logged. Nothing is forgotten."],["05","You see it all","Open the dashboard from anywhere. No calls, no check-in messages."],["06","Month-end report, automatic","See what happened, what took longest, and where to improve."]];
-  return(
-    <section style={{...sec,background:C.surface}}>
-      <div style={wrap}>
-        <FI><p style={{...T.eye,color:C.inkFaint,marginBottom:14}}>How it works</p></FI>
-        <FI d={60}><h2 style={{...T.h2,fontSize:"clamp(1.9rem,3.5vw,2.6rem)",color:C.ink,marginBottom:48}}>From messy to organised<br/>in six simple steps.</h2></FI>
-        <div style={g3}>
-          {steps.map(([n,t,b],i)=>(
-            <FI key={n} d={i*60}><div style={{...card,background:C.surface2}} onMouseEnter={e=>{e.currentTarget.style.borderColor=C.neon;e.currentTarget.style.boxShadow=`0 0 0 1px ${C.neonSoft}`;}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border;e.currentTarget.style.boxShadow="none";}}>
-              <div style={{...T.mono,fontSize:10,color:C.neon,marginBottom:12,background:C.accent,display:"inline-block",padding:"2px 8px",borderRadius:4}}>{n}</div>
-              <h4 style={{...T.h4,fontSize:14,color:C.ink,marginBottom:6}}>{t}</h4>
-              <p style={{fontSize:13,color:C.inkSoft,lineHeight:1.7}}>{b}</p>
-            </div></FI>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Results(){
-  const stats=[["2h","Saved per day\nper manager"],["98%","Tasks completed\nin first week"],["<30s","Average request\nresponse time"],["0","Missed incidents\nsince launch"]];
-  return(
-    <section id="results" style={{...sec,background:C.surface2}}>
-      <div style={wrap}>
-        <FI><span style={{display:"inline-block",background:C.tealSoft,color:C.accent,...T.eye,fontSize:10,padding:"3px 10px",borderRadius:5,marginBottom:14}}>Live since 2025</span></FI>
-        <div style={{background:C.surface,borderRadius:16,border:`1px solid ${C.border}`,padding:"38px",display:"grid",gridTemplateColumns:"1.2fr 1fr",gap:"2.5rem"}}>
-          <FI d={60}><div>
-            <h3 style={{...T.h2,fontSize:"clamp(1.5rem,2.5vw,1.9rem)",color:C.ink,marginBottom:3}}>Torridonia</h3>
-            <p style={{fontSize:13,color:C.inkSoft,marginBottom:18}}>Loch Torridon, Scottish Highlands · 23 beds · 8–11 team members</p>
-            <blockquote style={{fontSize:14,fontStyle:"italic",color:C.inkMid,lineHeight:1.82,borderLeft:`2px solid ${C.neon}`,paddingLeft:16,marginBottom:12}}>"Before Hostack, I was forwarding messages and chasing updates all morning. Now I open the dashboard and I know exactly what's happening across every room before I've had coffee."</blockquote>
-            <p style={{fontSize:12,color:C.inkFaint,...T.mono}}>— Felix, Owner · Torridonia</p>
-            <div style={{marginTop:18,paddingTop:18,borderTop:`1px solid ${C.border}`,fontSize:13,color:C.inkSoft,lineHeight:1.78}}><strong style={{color:C.ink,fontWeight:500}}>Before:</strong> 3 WhatsApp groups, paper checklists, no incident log. Felix needed to be on-site to know what was happening. Jorge, the manager, spent most of his morning answering the same questions every shift.</div>
-          </div></FI>
-          <FI d={120}><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:9}}>
-            {stats.map(([v,l])=>(
-              <div key={v} style={{background:C.surface2,borderRadius:12,padding:"20px 14px",textAlign:"center",border:`1px solid ${C.border}`}}>
-                <div style={{fontSize:"1.9rem",fontWeight:300,letterSpacing:"0.02em",color:C.accent,lineHeight:1,marginBottom:7}}>{v}</div>
-                <div style={{fontSize:11,color:C.inkSoft,lineHeight:1.4,whiteSpace:"pre-line"}}>{l}</div>
+  return (
+    <section style={{ ...section, background: P.surface }}>
+      <div style={container(bp)}>
+        <Fade>
+          <span style={{ display: 'inline-block', background: P.tealSoft, color: P.accent, ...T.eye, fontSize: 10, padding: '3px 10px', borderRadius: 5, marginBottom: 14 }}>{i.problemEye}</span>
+        </Fade>
+        <Fade delay={60}>
+          <h2 style={{ ...T.h2, fontSize: isMobile ? 'clamp(1.8rem,6vw,2.4rem)' : 'clamp(2.85rem,5.25vw,3.9rem)', color: P.ink, maxWidth: 620, marginBottom: 12 }}>{i.problemH2}</h2>
+        </Fade>
+        <Fade delay={100}>
+          <p style={{ fontSize: 16, color: P.inkSoft, marginBottom: 40 }}>{i.problemSub}</p>
+        </Fade>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2,1fr)', gap: 16 }}>
+          {issues.map(([title, sub], idx) => (
+            <Fade key={title} delay={idx * 60}>
+              <div style={{ background: P.surface2, border: `1px solid ${P.border}`, borderRadius: 12, padding: '20px 22px' }}>
+                <div style={{ ...T.h4, fontSize: 14, color: P.ink, marginBottom: 5 }}>{title}</div>
+                <div style={{ fontSize: 13, color: P.inkSoft, lineHeight: 1.6 }}>{sub}</div>
               </div>
-            ))}
-          </div></FI>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Features(){
-  const fs=[[Ic.QR,"QR check-in","One QR code. Guests scan and they're in. No app, no friction."],[Ic.Bell,"Instant notifications","Your team gets notified the moment a guest sends a request."],[Ic.Lay,"Shift checklists","Build your checklists once. Your team follows them every shift."],[Ic.Shi,"Incident log","Any team member can report an issue from their phone. You see it immediately."],[Ic.Usr,"Team onboarding","New staff get access, training tasks, and their checklist from day one."],[Ic.Tag,"White-label ready","Your brand, your colours. Guests never see the Hostack name."]];
-  return(
-    <section style={{...sec,background:C.surface}}>
-      <div style={wrap}>
-        <FI><p style={{...T.eye,color:C.inkFaint,marginBottom:14}}>What's included</p></FI>
-        <FI d={60}><h2 style={{...T.h2,fontSize:"clamp(1.9rem,3.5vw,2.6rem)",color:C.ink,marginBottom:16}}>Simple tools. Real results.</h2></FI>
-        <FI d={120}><p style={{fontSize:16,color:C.inkSoft,maxWidth:460,lineHeight:1.78,marginBottom:48}}>Everything your team needs to run a shift well. Nothing that gets in the way.</p></FI>
-        <div style={g3}>
-          {fs.map(([Icon,t,b],i)=>(
-            <FI key={t} d={i*60}><div style={{...card,background:C.surface2}} onMouseEnter={e=>{e.currentTarget.style.borderColor=C.neon;}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border;}}>
-              <div style={{width:34,height:34,borderRadius:8,background:C.surface,border:`1px solid ${C.border}`,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:14,color:C.accent}}><Icon/></div>
-              <h3 style={{...T.h4,fontSize:15,color:C.ink,marginBottom:7}}>{t}</h3>
-              <p style={{fontSize:13,color:C.inkSoft,lineHeight:1.7}}>{b}</p>
-            </div></FI>
+            </Fade>
           ))}
         </div>
       </div>
@@ -257,145 +404,299 @@ function Features(){
   );
 }
 
-function Pricing(){
-  return(
-    <section id="pricing" style={{...sec,background:C.surface2}}>
-      <div style={wrap}>
-        <FI><p style={{...T.eye,color:C.inkFaint,marginBottom:14}}>Pricing</p></FI>
-        <FI d={60}><h2 style={{...T.h2,fontSize:"clamp(1.9rem,3.5vw,2.6rem)",color:C.ink,marginBottom:16}}>Start free. Upgrade when you're ready.</h2></FI>
-        <FI d={120}><div style={{background:C.tealSoft,border:`1px solid ${C.tealMid}`,borderRadius:12,padding:"18px 22px",display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:14,marginBottom:24}}>
-          <div><h3 style={{...T.h4,fontSize:14,color:C.accentDark,marginBottom:3}}>Founding Member Programme — 3 spots left</h3><p style={{fontSize:13,color:C.accent}}>Skip the setup fee. Lock in the best price. Shape what we build next.</p></div>
-          <div style={{display:"flex",gap:6,alignItems:"center"}}>
-            {["T","S","3","4","5"].map((s,i)=><div key={i} style={{width:29,height:29,borderRadius:"50%",background:i<2?C.accent:"transparent",color:i<2?C.neon:C.inkFaint,border:i<2?"none":`1.5px dashed ${C.borderStrong}`,fontSize:10,fontWeight:500,...T.mono,display:"flex",alignItems:"center",justifyContent:"center"}}>{s}</div>)}
-            <span style={{fontSize:12,color:C.accent,marginLeft:4}}>2 of 5 taken</span>
-          </div>
-        </div></FI>
-        <div style={{...g3,alignItems:"start"}}>
-          <FI d={80}><div style={{...card,display:"flex",flexDirection:"column"}}>
-            <div style={{...T.eye,fontSize:11,color:C.inkFaint,marginBottom:9}}>Free</div>
-            <div style={{fontSize:"2.3rem",fontWeight:300,letterSpacing:"0.02em",lineHeight:1,marginBottom:3}}>€0<span style={{fontSize:14,fontWeight:400,color:C.inkSoft}}>/mo</span></div>
-            <div style={{...T.mono,fontSize:12,color:C.inkSoft,paddingBottom:14,borderBottom:`1px solid ${C.border}`,marginBottom:14}}>No credit card. No time limit.</div>
-            <p style={{fontSize:13,color:C.inkSoft,marginBottom:16,lineHeight:1.68,flex:1}}>Try everything for up to 20 beds. See if it works before you pay anything.</p>
-            <ul style={{listStyle:"none",padding:0,marginBottom:20}}>{["1 property · up to 20 beds","5 staff accounts","QR guest check-in","Incident log (view only)"].map(f=><li key={f} style={{display:"flex",gap:7,marginBottom:7,fontSize:13,color:C.ink,alignItems:"flex-start"}}><Ic.Chk/>{f}</li>)}</ul>
-            <a href="#cta" style={{display:"block",textAlign:"center",padding:"11px",borderRadius:9,fontSize:14,fontWeight:500,textDecoration:"none",background:"transparent",color:C.ink,border:`1px solid ${C.borderStrong}`,letterSpacing:"0.04em",transition:"background 0.15s"}} onMouseEnter={e=>e.currentTarget.style.background=C.surface2} onMouseLeave={e=>e.currentTarget.style.background="transparent"}>Get started free →</a>
-          </div></FI>
-
-          <FI d={160}><div style={{...card,border:`1.5px solid ${C.accent}`,boxShadow:`0 0 0 1px ${C.accentSoft},0 8px 40px rgba(8,78,89,0.1)`,display:"flex",flexDirection:"column",position:"relative"}}>
-            <div style={{position:"absolute",top:-12,left:"50%",transform:"translateX(-50%)",background:C.accent,color:C.neon,...T.mono,fontSize:10,fontWeight:500,padding:"3px 14px",borderRadius:999,whiteSpace:"nowrap"}}>Founding Member</div>
-            <div style={{...T.eye,fontSize:11,color:C.inkFaint,marginBottom:9}}>Operator</div>
-            <div style={{fontSize:"2.3rem",fontWeight:300,letterSpacing:"0.02em",lineHeight:1,marginBottom:3}}>€99<span style={{fontSize:14,fontWeight:400,color:C.inkSoft}}>/mo</span></div>
-            <div style={{background:C.tealSoft,borderRadius:9,padding:"11px 13px",marginBottom:11,border:`1px solid ${C.tealMid}`}}>
-              <div style={{...T.h4,fontSize:12,color:C.accentDark,marginBottom:7}}>Founding Member deal</div>
-              <div style={{display:"flex",justifyContent:"space-between",fontSize:13,color:C.inkSoft,marginBottom:4}}><span>Setup fee</span><span style={{textDecoration:"line-through",color:C.inkFaint}}>€300</span></div>
-              <div style={{display:"flex",justifyContent:"space-between",fontSize:13,color:C.inkSoft,marginBottom:4}}><span>6 months × €99</span><span>€594</span></div>
-              <div style={{height:1,background:C.tealMid,margin:"7px 0"}}/>
-              <div style={{display:"flex",justifyContent:"space-between",fontSize:13,fontWeight:500,color:C.accentDark}}><span>You get 12 months</span><span style={{color:C.accent}}>Save €894</span></div>
-            </div>
-            <div style={{...T.mono,fontSize:12,color:C.accent,paddingBottom:14,borderBottom:`1px solid ${C.border}`,marginBottom:14}}>Pay 6 months · Get 12 · Setup fee waived</div>
-            <p style={{fontSize:13,color:C.inkSoft,marginBottom:16,lineHeight:1.68,flex:1}}>The full system. Your whole team. Unlimited beds. Connected to your booking tools.</p>
-            <ul style={{listStyle:"none",padding:0,marginBottom:20}}>{["Everything in Free — unlimited beds","Connect to your booking system","WhatsApp + push notifications","Staff scheduling","Monthly operations report","Priority support"].map(f=><li key={f} style={{display:"flex",gap:7,marginBottom:7,fontSize:13,color:C.ink,alignItems:"flex-start"}}><Ic.Chk/>{f}</li>)}</ul>
-            <a href="#cta" style={{display:"block",textAlign:"center",padding:"12px",borderRadius:9,fontSize:14,fontWeight:500,textDecoration:"none",background:C.accent,color:C.neon,letterSpacing:"0.05em",transition:"background 0.2s,box-shadow 0.2s"}} onMouseEnter={e=>{e.currentTarget.style.background=C.accentDeep;e.currentTarget.style.boxShadow=`0 0 0 2px ${C.neon}`;}} onMouseLeave={e=>{e.currentTarget.style.background=C.accent;e.currentTarget.style.boxShadow="none";}}>Claim your spot →</a>
-          </div></FI>
-
-          <FI d={240}><div style={{...card,display:"flex",flexDirection:"column"}}>
-            <div style={{...T.eye,fontSize:11,color:C.inkFaint,marginBottom:9}}>Full Service</div>
-            <div style={{fontSize:"1.1rem",fontWeight:400,color:C.ink,letterSpacing:"0.05em",padding:"8px 0 4px",lineHeight:1.3,marginBottom:4}}>Built around<br/>your operation.</div>
-            <div style={{...T.mono,fontSize:12,color:C.inkSoft,paddingBottom:14,borderBottom:`1px solid ${C.border}`,marginBottom:14}}>Operator + add-ons</div>
-            <p style={{fontSize:13,color:C.inkSoft,marginBottom:16,lineHeight:1.68,flex:1}}>For spaces that want more — direct bookings, loyalty programmes, analytics. We scope it with you.</p>
-            <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:20}}>{["Business analytics","Loyalty programme","Direct booking","Partner payments","Process manual"].map(m=><span key={m} style={{fontSize:11,padding:"3px 9px",borderRadius:999,background:C.surface2,border:`1px solid ${C.border}`,color:C.inkSoft}}>{m}</span>)}</div>
-            <a href="#cta" style={{display:"block",textAlign:"center",padding:"11px",borderRadius:9,fontSize:14,fontWeight:500,textDecoration:"none",background:"transparent",color:C.ink,border:`1px solid ${C.borderStrong}`,letterSpacing:"0.04em"}}>Book a call →</a>
-          </div></FI>
-        </div>
-        <FI d={280}><p style={{marginTop:18,textAlign:"center",fontSize:12,color:C.inkFaint,...T.mono}}>30-day trial on all paid plans. Cancel any time.</p></FI>
-      </div>
-    </section>
-  );
-}
-
-function CTA(){
-  const[email,setEmail]=useState("");
-  const[sent,setSent]=useState(false);
-  return(
-    <section id="cta" style={{...sec,background:C.accentDeep,textAlign:"center",position:"relative",overflow:"hidden"}}>
-      <div style={{position:"absolute",left:"50%",top:"50%",transform:"translate(-50%,-50%)",width:600,height:500,background:`radial-gradient(ellipse,${C.neonSoft} 0%,transparent 70%)`,pointerEvents:"none"}}/>
-      <div style={{position:"absolute",top:0,left:0,right:0,height:2,background:C.neon,opacity:0.6}}/>
-      <div style={{...wrap,maxWidth:580,position:"relative",zIndex:1}}>
-        <FI><div style={{display:"inline-flex",alignItems:"center",gap:7,background:"rgba(255,255,255,0.07)",border:"1px solid rgba(255,255,255,0.12)",borderRadius:999,padding:"5px 14px",marginBottom:22}}>
-          <div style={{width:6,height:6,borderRadius:"50%",background:C.neon,animation:"hs-pulse 2s infinite"}}/>
-          <span style={{...T.eye,fontSize:11,color:"rgba(255,255,255,0.55)"}}>Founding Member Programme — 3 spots left</span>
-        </div></FI>
-        <FI d={60}><h2 style={{...T.h1,fontSize:"clamp(1.9rem,4vw,2.9rem)",color:"#fff",marginBottom:14}}>Join before the<br/>5 spots are gone.</h2></FI>
-        <FI d={120}><p style={{fontSize:16,color:"rgba(255,255,255,0.45)",marginBottom:30,lineHeight:1.78}}>Pay for 6 months. Get 12. No setup fee. Lock in your price before we open to the public.</p></FI>
-        <FI d={180}><div style={{display:"flex",justifyContent:"center",gap:6,alignItems:"center",marginBottom:28}}>
-          {["T","S","3","4","5"].map((s,i)=><div key={i} style={{width:32,height:32,borderRadius:"50%",background:i<2?"rgba(255,255,255,0.12)":"transparent",color:i<2?C.neon:"rgba(255,255,255,0.22)",border:i<2?"1px solid rgba(255,255,255,0.15)":"1.5px dashed rgba(255,255,255,0.18)",fontSize:10,fontWeight:500,...T.mono,display:"flex",alignItems:"center",justifyContent:"center"}}>{s}</div>)}
-          <span style={{fontSize:13,color:"rgba(255,255,255,0.32)",marginLeft:6}}>2 of 5 taken</span>
-        </div></FI>
-        <FI d={240}>
-          {sent?<div style={{fontSize:15,color:C.neon,...T.mono,padding:"14px 0"}}>Got it — we'll reach out within 24 hours. ✓</div>:
-          <form onSubmit={e=>{e.preventDefault();if(email)setSent(true);}} style={{display:"flex",gap:9,justifyContent:"center",flexWrap:"wrap",maxWidth:450,margin:"0 auto 18px"}}>
-            <input type="email" placeholder="your@email.com" value={email} onChange={e=>setEmail(e.target.value)} required style={{flex:1,minWidth:190,padding:"12px 16px",background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.14)",borderRadius:9,color:"#fff",fontSize:15,fontFamily:"'DM Sans',sans-serif",outline:"none"}}/>
-            <button type="submit" style={{display:"inline-flex",alignItems:"center",gap:6,background:C.neon,color:C.accentDeep,padding:"12px 22px",borderRadius:9,fontSize:14,fontWeight:600,border:"none",cursor:"pointer",fontFamily:"'DM Sans',sans-serif",letterSpacing:"0.04em",transition:"box-shadow 0.2s,transform 0.12s"}} onMouseEnter={e=>{e.currentTarget.style.boxShadow=`0 0 24px ${C.neonMid}`;e.currentTarget.style.transform="translateY(-1px)";}} onMouseLeave={e=>{e.currentTarget.style.boxShadow="none";e.currentTarget.style.transform="none";}}>Claim my spot <Ic.Arr/></button>
-          </form>}
-        </FI>
-        <FI d={300}><div style={{display:"flex",justifyContent:"center",gap:"2rem",flexWrap:"wrap",fontSize:12,color:"rgba(255,255,255,0.25)",letterSpacing:"0.04em"}}>
-          {["No credit card needed","30-day trial","Cancel any time","Reply within 24h"].map(t=><span key={t}>{t}</span>)}
-        </div></FI>
-      </div>
-    </section>
-  );
-}
-
-function Footer(){
-  const cols=[
-    {title:"Product",links:[["Guest App","#solution"],["Staff App","#solution"],["Owner Dashboard","#solution"],["Pricing","#pricing"]]},
-    {title:"Company",links:[["Results","#results"],["Early Adopters","#cta"]]},
-    {title:"Get in touch",links:[["Claim your spot →","#cta"],["Book a call →","#cta"]]},
+// ─── SOLUTION ────────────────────────────────────────────────────────────────
+function Solution({ bp, i }) {
+  const isMobile = bp === 'mobile';
+  const layers = [
+    {
+      label: i.guestApp, color: P.neon,
+      features: [
+        ['QR code access — no app download', 'Guests scan and submit requests in seconds'],
+        ['Request tracking', 'Guests see status. Staff get notified.'],
+        ['Community feed', 'Local tips and property updates in one place'],
+      ],
+    },
+    {
+      label: i.staffApp, color: P.accentDark,
+      features: [
+        ['Shift checklists', 'Room-by-room, role-specific. Auto-generated each shift.'],
+        ['Incident reporting', 'Log issues with photo + location. Routed instantly.'],
+        ['Real-time notifications', 'New request? Staff knows in seconds.'],
+      ],
+    },
+    {
+      label: i.ownerDash, color: P.accentDeep,
+      features: [
+        ['Live activity stream', 'Every request, every task — in one view.'],
+        ['Automated monthly reports', 'Incidents, completions, trends — no effort needed'],
+        ['White-label ready', 'Your brand. Your colours. Hostack stays invisible'],
+      ],
+    },
   ];
-  return(
-    <footer style={{background:C.accentDeep,borderTop:`1px solid rgba(74,248,212,0.08)`,padding:"44px 2rem 28px"}}>
-      <div style={wrap}>
-        <div style={{display:"grid",gridTemplateColumns:"2fr 1fr 1fr 1fr",gap:"2rem",marginBottom:32}}>
-          <div>
-            <div style={{display:"flex",alignItems:"center",gap:9,marginBottom:13}}>
-              <div style={{width:27,height:27,background:C.accent,borderRadius:7,display:"flex",alignItems:"center",justifyContent:"center"}}><Ic.Logo l/></div>
-              <span style={{...T.h4,fontSize:15,color:"#fff"}}>hostack</span>
-            </div>
-            <p style={{fontSize:13,color:"rgba(255,255,255,0.28)",lineHeight:1.7,maxWidth:270,marginBottom:10}}>The system that runs ops — so the manager builds community.</p>
-            <div style={{display:"inline-flex",alignItems:"center",gap:5,fontSize:12,color:"rgba(255,255,255,0.22)",letterSpacing:"0.03em"}}><Ic.Glb/><span>Available in Europe & UK</span></div>
-          </div>
-          {cols.map(col=>(
-            <div key={col.title}>
-              <h4 style={{...T.eye,fontSize:10,color:"rgba(255,255,255,0.26)",marginBottom:13}}>{col.title}</h4>
-              <ul style={{listStyle:"none",padding:0}}>
-                {col.links.map(([l,h])=><li key={l} style={{marginBottom:8}}><a href={h} style={{fontSize:13,color:"rgba(255,255,255,0.38)",textDecoration:"none",letterSpacing:"0.02em",transition:"color 0.15s"}} onMouseEnter={e=>e.currentTarget.style.color=C.neon} onMouseLeave={e=>e.currentTarget.style.color="rgba(255,255,255,0.38)"}>{l}</a></li>)}
-              </ul>
-            </div>
+  return (
+    <section id="solution" style={{ ...section, background: P.surface2 }}>
+      <div style={container(bp)}>
+        <Fade>
+          <span style={{ display: 'inline-block', background: P.tealSoft, color: P.accent, ...T.eye, fontSize: 10, padding: '3px 10px', borderRadius: 5, marginBottom: 14 }}>{i.solutionEye}</span>
+        </Fade>
+        <Fade delay={60}>
+          <h2 style={{ ...T.h2, fontSize: isMobile ? 'clamp(1.8rem,6vw,2.4rem)' : 'clamp(2.85rem,5.25vw,3.9rem)', color: P.ink, marginBottom: 8 }}>{i.solutionH2}</h2>
+        </Fade>
+        <Fade delay={100}>
+          <p style={{ fontSize: 15, color: P.inkSoft, marginBottom: 44 }}>{i.solutionSub}</p>
+        </Fade>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3,1fr)', gap: 20 }}>
+          {layers.map((layer, li) => (
+            <Fade key={layer.label} delay={li * 80}>
+              <div style={{ background: P.surface, border: `1px solid ${P.border}`, borderRadius: 14, padding: '26px 24px', borderTop: `3px solid ${layer.color}` }}>
+                <div style={{ ...T.eye, fontSize: 10, color: P.accent, marginBottom: 16 }}>{layer.label}</div>
+                {layer.features.map(([title, sub]) => (
+                  <div key={title} style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
+                    <Icons.Chk />
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 500, color: P.ink, marginBottom: 2 }}>{title}</div>
+                      <div style={{ fontSize: 12, color: P.inkSoft, lineHeight: 1.6 }}>{sub}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Fade>
           ))}
         </div>
-        <div style={{borderTop:"1px solid rgba(255,255,255,0.06)",paddingTop:20,display:"flex",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
-          <p style={{fontSize:12,color:"rgba(255,255,255,0.18)",letterSpacing:"0.03em"}}>© 2026 Hostack. Available in Europe & UK.</p>
-          <p style={{fontSize:12,color:"rgba(255,255,255,0.18)"}}>Built for operators who care about the experience, not just the booking.</p>
+      </div>
+    </section>
+  );
+}
+
+// ─── RESULTS ──────────────────────────────────────────────────────────────────
+function Results({ bp, i }) {
+  const isMobile = bp === 'mobile';
+  const stats = [
+    ['70%', isMobile ? 'less time on\noperational tasks' : 'less time on operational tasks'],
+    ['100%', 'requests tracked\nsince launch'],
+  ];
+  return (
+    <section id="results" style={{ ...section, background: P.surface2 }}>
+      <div style={container(bp)}>
+        <Fade>
+          <span style={{ display: 'inline-block', background: P.tealSoft, color: P.accent, ...T.eye, fontSize: 10, padding: '3px 10px', borderRadius: 5, marginBottom: 14 }}>{i.resultsEye}</span>
+        </Fade>
+        <div style={{ background: P.surface, borderRadius: 16, border: `1px solid ${P.border}`, padding: isMobile ? '28px 20px' : 38, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.2fr 1fr', gap: '2.5rem' }}>
+          <Fade delay={60}>
+            <div>
+              <h3 style={{ ...T.h2, fontSize: isMobile ? 'clamp(1.5rem,5vw,1.9rem)' : 'clamp(1.5rem,2.5vw,1.9rem)', color: P.ink, marginBottom: 3 }}>{i.resultsH3}</h3>
+              <p style={{ fontSize: 13, color: P.inkSoft, marginBottom: 18 }}>{i.resultsSub}</p>
+              <blockquote style={{ fontSize: 14, fontStyle: 'italic', color: P.inkMid, lineHeight: 1.82, borderLeft: `2px solid ${P.neon}`, paddingLeft: 16, marginBottom: 12 }}>
+                {i.quote}
+              </blockquote>
+              <p style={{ fontSize: 12, color: P.inkFaint, ...T.mono }}>{i.quoteBy}</p>
+              <div style={{ marginTop: 18, paddingTop: 18, borderTop: `1px solid ${P.border}`, fontSize: 13, color: P.inkSoft, lineHeight: 1.78 }}>
+                <strong style={{ color: P.ink, fontWeight: 500 }}>{i.before}</strong> {i.beforeText}<br />
+                <strong style={{ color: P.ink, fontWeight: 500 }}>{i.after}</strong> {i.afterText}
+              </div>
+            </div>
+          </Fade>
+          <Fade delay={120}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 20, justifyContent: 'center' }}>
+              {stats.map(([num, label]) => (
+                <div key={num} style={{ background: P.surface2, borderRadius: 12, padding: '22px 24px', border: `1px solid ${P.border}` }}>
+                  <div style={{ ...T.h1, fontSize: isMobile ? '2.6rem' : '3.2rem', color: P.accent, lineHeight: 1 }}>{num}</div>
+                  <div style={{ fontSize: 13, color: P.inkSoft, marginTop: 6, lineHeight: 1.5 }}>{label}</div>
+                </div>
+              ))}
+            </div>
+          </Fade>
         </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── PRICING ─────────────────────────────────────────────────────────────────
+function Pricing({ bp, i }) {
+  const isMobile = bp === 'mobile';
+  const features = [
+    'Guest request system', 'Staff shift checklists', 'Incident reporting',
+    'Owner real-time dashboard', 'WhatsApp notifications', 'Monthly reports',
+    'QR onboarding — live in < 1 hour', 'Dedicated onboarding call',
+  ];
+  return (
+    <section id="pricing" style={{ ...section, background: P.surface }}>
+      <div style={container(bp)}>
+        {/* Founding banner */}
+        <Fade>
+          <div style={{ background: P.accentDeep, borderRadius: 14, padding: isMobile ? '22px 18px' : '26px 32px', marginBottom: 52, display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'flex-start' : 'center', justifyContent: 'space-between', gap: 16 }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+                <span style={{ ...T.h4, fontSize: 15, color: '#fff' }}>{i.foundingTitle}</span>
+                <span style={{ background: P.neon, color: P.accentDeep, ...T.eye, fontSize: 9, padding: '2px 8px', borderRadius: 4 }}>{i.foundingTag}</span>
+              </div>
+              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', margin: 0 }}>{i.foundingSub}</p>
+            </div>
+            <a href="#cta" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: P.neon, color: P.accentDeep, padding: '9px 20px', borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap', letterSpacing: '0.04em' }}>
+              {i.foundingCta} <Icons.Arr />
+            </a>
+          </div>
+        </Fade>
+
+        <Fade delay={40}>
+          <span style={{ display: 'inline-block', background: P.tealSoft, color: P.accent, ...T.eye, fontSize: 10, padding: '3px 10px', borderRadius: 5, marginBottom: 14 }}>{i.pricingTag}</span>
+        </Fade>
+        <Fade delay={80}>
+          <h2 style={{ ...T.h2, fontSize: isMobile ? 'clamp(1.8rem,6vw,2.4rem)' : 'clamp(2.85rem,5.25vw,3.9rem)', color: P.ink, marginBottom: 8 }}>{i.pricingH2}</h2>
+        </Fade>
+        <Fade delay={100}>
+          <p style={{ fontSize: 15, color: P.inkSoft, marginBottom: 44 }}>{i.pricingEye}</p>
+        </Fade>
+
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3,1fr)', gap: 20, marginBottom: 28 }}>
+          {/* Free */}
+          <Fade delay={120}>
+            <div style={{ background: P.surface2, border: `1px solid ${P.border}`, borderRadius: 14, padding: '28px 24px' }}>
+              <div style={{ ...T.eye, fontSize: 10, color: P.inkSoft, marginBottom: 10 }}>{i.freePlan}</div>
+              <div style={{ ...T.h1, fontSize: '2.6rem', lineHeight: 1, marginBottom: 3 }}>€0<span style={{ fontSize: 14, fontWeight: 400, color: P.inkSoft }}>/mo</span></div>
+              <div style={{ ...T.mono, fontSize: 12, color: P.inkSoft, paddingBottom: 14, borderBottom: `1px solid ${P.border}`, marginBottom: 16 }}>{i.freeSub}</div>
+              <p style={{ fontSize: 13, color: P.inkSoft, lineHeight: 1.65, marginBottom: 20 }}>{i.freeTagline}</p>
+              {features.slice(0, 4).map(f => (
+                <div key={f} style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
+                  <Icons.Chk color={P.inkFaint} />
+                  <span style={{ fontSize: 13, color: P.inkSoft }}>{f}</span>
+                </div>
+              ))}
+              <a href="#cta" style={{ display: 'block', marginTop: 22, textAlign: 'center', background: P.accent, color: '#fff', padding: '10px 0', borderRadius: 8, fontSize: 13, fontWeight: 500, textDecoration: 'none', letterSpacing: '0.04em' }}>
+                {i.freeCta}
+              </a>
+            </div>
+          </Fade>
+
+          {/* Founding Member */}
+          <Fade delay={160}>
+            <div style={{ background: P.accentDeep, border: `2px solid ${P.neon}`, borderRadius: 14, padding: '28px 24px', position: 'relative', boxShadow: `0 0 0 4px ${P.neonSoft}` }}>
+              <div style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', background: P.neon, color: P.accentDeep, ...T.eye, fontSize: 9, padding: '3px 12px', borderRadius: 999, whiteSpace: 'nowrap' }}>{i.foundingDeal}</div>
+              <div style={{ ...T.eye, fontSize: 10, color: 'rgba(255,255,255,0.55)', marginBottom: 10, marginTop: 8 }}>{i.foundingPlan}</div>
+              <div style={{ ...T.h1, fontSize: '1.5rem', lineHeight: 1, color: '#fff', marginBottom: 2 }}>{i.foundingPrice}</div>
+              <div style={{ fontSize: 13, color: P.neon, marginBottom: 4 }}>{i.foundingGet}</div>
+              <div style={{ ...T.mono, fontSize: 12, color: 'rgba(255,255,255,0.45)', paddingBottom: 14, borderBottom: '1px solid rgba(255,255,255,0.1)', marginBottom: 16 }}>{i.foundingDetail}</div>
+              {features.map(f => (
+                <div key={f} style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
+                  <Icons.Chk color={P.neon} />
+                  <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)' }}>{f}</span>
+                </div>
+              ))}
+              <a href="#cta" style={{ display: 'block', marginTop: 22, textAlign: 'center', background: P.neon, color: P.accentDeep, padding: '10px 0', borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: 'none', letterSpacing: '0.04em' }}>
+                {i.foundingCta}
+              </a>
+            </div>
+          </Fade>
+
+          {/* Full Service */}
+          <Fade delay={200}>
+            <div style={{ background: P.surface2, border: `1px solid ${P.border}`, borderRadius: 14, padding: '28px 24px' }}>
+              <div style={{ ...T.eye, fontSize: 10, color: P.inkSoft, marginBottom: 10 }}>{i.fullPlan}</div>
+              <div style={{ fontSize: 18, fontWeight: 500, color: P.ink, marginBottom: 4 }}>Custom</div>
+              <div style={{ ...T.mono, fontSize: 12, color: P.inkSoft, paddingBottom: 14, borderBottom: `1px solid ${P.border}`, marginBottom: 16 }}>{i.fullSub}</div>
+              {features.map(f => (
+                <div key={f} style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
+                  <Icons.Chk />
+                  <span style={{ fontSize: 13, color: P.inkSoft }}>{f}</span>
+                </div>
+              ))}
+              <a href="#cta" style={{ display: 'block', marginTop: 22, textAlign: 'center', background: 'transparent', color: P.accent, padding: '10px 0', borderRadius: 8, fontSize: 13, fontWeight: 500, textDecoration: 'none', border: `1px solid ${P.border}`, letterSpacing: '0.04em' }}>
+                {i.fullCta}
+              </a>
+            </div>
+          </Fade>
+        </div>
+        <p style={{ textAlign: 'center', fontSize: 12, color: P.inkFaint }}>{i.trial}</p>
+      </div>
+    </section>
+  );
+}
+
+// ─── CTA ─────────────────────────────────────────────────────────────────────
+function CTA({ bp, i }) {
+  const isMobile = bp === 'mobile';
+  const [email, setEmail] = useState('');
+  const [sent, setSent] = useState(false);
+  return (
+    <section id="cta" style={{ ...section, background: P.accentDeep }}>
+      <div style={{ ...container(bp), textAlign: 'center' }}>
+        <Fade>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(74,248,212,0.15)', border: '1px solid rgba(74,248,212,0.3)', borderRadius: 999, padding: '4px 14px', marginBottom: 24 }}>
+            <span style={{ ...T.eye, fontSize: 9, color: P.neon }}>{i.ctaTag}</span>
+          </div>
+        </Fade>
+        <Fade delay={60}>
+          <h2 style={{ ...T.h2, fontSize: isMobile ? 'clamp(1.8rem,6vw,2.4rem)' : 'clamp(2.85rem,5.25vw,3.9rem)', color: '#fff', maxWidth: 600, margin: '0 auto 16px' }}>{i.ctaH2}</h2>
+        </Fade>
+        <Fade delay={140}>
+          {sent ? (
+            <p style={{ fontSize: 16, color: P.neon, marginTop: 20 }}>{i.ctaConfirm}</p>
+          ) : (
+            <form onSubmit={e => { e.preventDefault(); setSent(true); }}
+              style={{ display: 'flex', gap: 10, justifyContent: 'center', flexDirection: isMobile ? 'column' : 'row', maxWidth: 460, margin: '0 auto' }}>
+              <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
+                placeholder={i.ctaPlaceholder}
+                style={{ flex: 1, padding: '11px 16px', borderRadius: 8, border: 'none', fontSize: 14, fontFamily: "'DM Sans',sans-serif", outline: 'none', color: P.ink }} />
+              <button type="submit"
+                style={{ background: P.neon, color: P.accentDeep, padding: '11px 22px', borderRadius: 8, border: 'none', fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: "'DM Sans',sans-serif", letterSpacing: '0.04em', whiteSpace: 'nowrap', width: isMobile ? '100%' : 'auto' }}>
+                {i.ctaButton}
+              </button>
+            </form>
+          )}
+        </Fade>
+      </div>
+    </section>
+  );
+}
+
+// ─── FOOTER ───────────────────────────────────────────────────────────────────
+function Footer({ bp, i }) {
+  const isMobile = bp === 'mobile';
+  return (
+    <footer style={{ background: P.accentDeep, borderTop: '1px solid rgba(255,255,255,0.07)', padding: isMobile ? '32px 0 24px' : '44px 0 32px' }}>
+      <div style={{ ...container(bp), display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'flex-start' : 'center', justifyContent: 'space-between', gap: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ width: 26, height: 26, background: 'rgba(255,255,255,0.12)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Icons.Logo light />
+          </div>
+          <span style={{ ...T.h4, fontSize: 14, color: 'rgba(255,255,255,0.7)' }}>hostack</span>
+        </div>
+        <div style={{ textAlign: isMobile ? 'left' : 'center' }}>
+          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', margin: '0 0 4px' }}>{i.footerCopy}</p>
+          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)', margin: 0 }}>{i.footerSub}</p>
+        </div>
+        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>{i.footerAvailable}</div>
       </div>
     </footer>
   );
 }
 
-export default function App(){
-  return(
+// ─── APP ─────────────────────────────────────────────────────────────────────
+export default function App() {
+  const bp = useBreakpoint();
+  const [lang, setLang] = useLang();
+  const i = TRANSLATIONS[lang];
+
+  return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap');
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-        html{scroll-behavior:smooth;}
-        body{font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;background:#f4f8f8;}
-        @keyframes hs-pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
-        @media(max-width:768px){
-          .hs-hero-grid,.hs-g3,.hs-case-grid,.hs-footer-grid{grid-template-columns:1fr!important;}
-          .hs-nav-d{display:none!important;}
-        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'DM Sans', sans-serif; background: ${P.surface}; color: ${P.ink}; -webkit-font-smoothing: antialiased; }
+        ::selection { background: ${P.neonMid}; }
       `}</style>
-      <Header/><main><Hero/><Problem/><Solution/><HowItWorks/><Results/><Features/><Pricing/><CTA/></main><Footer/>
+      <Nav bp={bp} lang={lang} setLang={setLang} i={i} />
+      <main style={{ paddingTop: 56 }}>
+        <Hero bp={bp} i={i} />
+        <Problem bp={bp} i={i} />
+        <Solution bp={bp} i={i} />
+        <Results bp={bp} i={i} />
+        <Pricing bp={bp} i={i} />
+        <CTA bp={bp} i={i} />
+      </main>
+      <Footer bp={bp} i={i} />
     </>
   );
 }
