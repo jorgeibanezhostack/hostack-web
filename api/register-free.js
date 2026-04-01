@@ -8,10 +8,10 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email, propertyName, propertyType, beds, country, phone, language } = req.body || {};
+  const { email, contactName, propertyName, propertyType, beds, country, language } = req.body || {};
 
   // Validation
-  if (!email || !propertyName || !propertyType || !beds || !country) {
+  if (!email || !contactName || !propertyName || !propertyType || !beds || !country) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
@@ -27,16 +27,16 @@ export default async function handler(req, res) {
       en: {
         subject: `New free trial signup: ${propertyName}`,
         adminNotif: `<p><strong>New Free Trial Registration</strong></p>
-          <p><strong>Property:</strong> ${propertyName}<br/>
+          <p><strong>Contact:</strong> ${contactName}<br/>
+          <strong>Email:</strong> ${email}<br/>
+          <strong>Property:</strong> ${propertyName}<br/>
           <strong>Type:</strong> ${propertyType}<br/>
           <strong>Beds:</strong> ${beds}<br/>
-          <strong>Country:</strong> ${country}<br/>
-          <strong>Email:</strong> ${email}<br/>
-          ${phone ? `<strong>Phone:</strong> ${phone}<br/>` : ''}
+          <strong>Country:</strong> ${country}
           </p>`,
         welcomeSubject: 'Welcome to Hostack — Your free trial is ready',
         welcomeHtml: `<div style="font-family:'DM Sans',sans-serif;max-width:560px;margin:0 auto;padding:32px 24px;color:#0d1f22">
-          <h2 style="color:#019179">Welcome, ${propertyName}! 🎉</h2>
+          <h2 style="color:#019179">Welcome, ${contactName}! 🎉</h2>
           <p>Your free trial is ready to set up.</p>
           <p>We've created your account and you can now access the Hostack dashboard.</p>
           <p><strong>What's next:</strong></p>
@@ -53,16 +53,16 @@ export default async function handler(req, res) {
       es: {
         subject: `Nuevo registro de prueba gratuita: ${propertyName}`,
         adminNotif: `<p><strong>Nuevo Registro de Prueba Gratuita</strong></p>
-          <p><strong>Propiedad:</strong> ${propertyName}<br/>
+          <p><strong>Contacto:</strong> ${contactName}<br/>
+          <strong>Email:</strong> ${email}<br/>
+          <strong>Propiedad:</strong> ${propertyName}<br/>
           <strong>Tipo:</strong> ${propertyType}<br/>
           <strong>Camas:</strong> ${beds}<br/>
-          <strong>País:</strong> ${country}<br/>
-          <strong>Email:</strong> ${email}<br/>
-          ${phone ? `<strong>Teléfono:</strong> ${phone}<br/>` : ''}
+          <strong>País:</strong> ${country}
           </p>`,
         welcomeSubject: 'Bienvenido a Hostack — Tu prueba gratuita está lista',
         welcomeHtml: `<div style="font-family:'DM Sans',sans-serif;max-width:560px;margin:0 auto;padding:32px 24px;color:#0d1f22">
-          <h2 style="color:#019179">¡Bienvenido, ${propertyName}! 🎉</h2>
+          <h2 style="color:#019179">¡Bienvenido, ${contactName}! 🎉</h2>
           <p>Tu prueba gratuita está lista para configurar.</p>
           <p>Hemos creado tu cuenta y ahora puedes acceder al dashboard de Hostack.</p>
           <p><strong>Próximos pasos:</strong></p>

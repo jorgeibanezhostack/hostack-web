@@ -662,11 +662,11 @@ function CTA({ bp, i }) {
 
     // Free trial form
     const [freeEmail, setFreeEmail] = useState('');
+    const [contactName, setContactName] = useState('');
     const [propertyName, setPropertyName] = useState('');
     const [propertyType, setPropertyType] = useState('hostel');
     const [beds, setBeds] = useState('');
     const [country, setCountry] = useState('');
-    const [phone, setPhone] = useState('');
 
     const handleAdopterSubmit = async (e) => {
         e.preventDefault();
@@ -690,7 +690,7 @@ function CTA({ bp, i }) {
     const handleFreeSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        if (!freeEmail || !propertyName || !beds || !country) {
+        if (!freeEmail || !contactName || !propertyName || !beds || !country) {
             setError('Please fill all required fields');
             return;
         }
@@ -701,11 +701,11 @@ function CTA({ bp, i }) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     email: freeEmail,
+                    contactName,
                     propertyName,
                     propertyType,
-                    beds: parseInt(beds),
-                    country,
-                    phone: phone || null
+                    beds,
+                    country
                 })
             });
             if (!res.ok) throw new Error('Registration failed');
@@ -846,6 +846,21 @@ function CTA({ bp, i }) {
                                             />
                                         </div>
 
+                                        {/* Contact Name */}
+                                        <div>
+                                            <label style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: 6 }}>Your Name</label>
+                                            <input
+                                                type="text"
+                                                required
+                                                value={contactName}
+                                                onChange={e => setContactName(e.target.value)}
+                                                placeholder="Your full name"
+                                                style={{ width: '100%', padding: '11px 14px', border: '1px solid rgba(74,248,212,0.2)', background: 'rgba(255,255,255,0.03)', borderRadius: 6, fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#fff', boxSizing: 'border-box', outline: 'none' }}
+                                                onFocus={e => { e.target.style.borderColor = '#4af8d4'; e.target.style.background = 'rgba(74,248,212,0.05)'; }}
+                                                onBlur={e => { e.target.style.borderColor = 'rgba(74,248,212,0.2)'; e.target.style.background = 'rgba(255,255,255,0.03)'; }}
+                                            />
+                                        </div>
+
                                         {/* Property Name */}
                                         <div>
                                             <label style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: 6 }}>Property Name</label>
@@ -873,54 +888,38 @@ function CTA({ bp, i }) {
                                                     <option value="hostel">Hostel</option>
                                                     <option value="coliving">Coliving</option>
                                                     <option value="hotel">Hotel</option>
-                                                    <option value="apartment">Apartment</option>
-                                                    <option value="other">Other</option>
                                                 </select>
                                             </div>
                                             <div>
                                                 <label style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: 6 }}>Beds</label>
-                                                <input
-                                                    type="number"
+                                                <select
                                                     required
-                                                    min="1"
-                                                    max="500"
                                                     value={beds}
                                                     onChange={e => setBeds(e.target.value)}
-                                                    placeholder="e.g., 20"
-                                                    style={{ width: '100%', padding: '11px 14px', border: '1px solid rgba(74,248,212,0.2)', background: 'rgba(255,255,255,0.03)', borderRadius: 6, fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#fff', boxSizing: 'border-box', outline: 'none' }}
-                                                    onFocus={e => { e.target.style.borderColor = '#4af8d4'; e.target.style.background = 'rgba(74,248,212,0.05)'; }}
-                                                    onBlur={e => { e.target.style.borderColor = 'rgba(74,248,212,0.2)'; e.target.style.background = 'rgba(255,255,255,0.03)'; }}
-                                                />
+                                                    style={{ width: '100%', padding: '11px 14px', border: '1px solid rgba(74,248,212,0.2)', background: 'rgba(255,255,255,0.03)', borderRadius: 6, fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#fff', boxSizing: 'border-box', outline: 'none', cursor: 'pointer', appearance: 'none' }}
+                                                >
+                                                    <option value="">Select range...</option>
+                                                    <option value="5-10">5 to 10 beds</option>
+                                                    <option value="10-20">10 to 20 beds</option>
+                                                    <option value="20-30">20 to 30 beds</option>
+                                                    <option value="30+">More than 30 beds</option>
+                                                </select>
                                             </div>
                                         </div>
 
-                                        {/* Country & Phone */}
-                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                                            <div>
-                                                <label style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: 6 }}>Country</label>
-                                                <input
-                                                    type="text"
-                                                    required
-                                                    value={country}
-                                                    onChange={e => setCountry(e.target.value)}
-                                                    placeholder="e.g., Spain"
-                                                    style={{ width: '100%', padding: '11px 14px', border: '1px solid rgba(74,248,212,0.2)', background: 'rgba(255,255,255,0.03)', borderRadius: 6, fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#fff', boxSizing: 'border-box', outline: 'none' }}
-                                                    onFocus={e => { e.target.style.borderColor = '#4af8d4'; e.target.style.background = 'rgba(74,248,212,0.05)'; }}
-                                                    onBlur={e => { e.target.style.borderColor = 'rgba(74,248,212,0.2)'; e.target.style.background = 'rgba(255,255,255,0.03)'; }}
-                                                />
-                                            </div>
-                                            <div>
-                                                <label style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: 6 }}>Phone (Optional)</label>
-                                                <input
-                                                    type="tel"
-                                                    value={phone}
-                                                    onChange={e => setPhone(e.target.value)}
-                                                    placeholder="+34 123 456"
-                                                    style={{ width: '100%', padding: '11px 14px', border: '1px solid rgba(74,248,212,0.2)', background: 'rgba(255,255,255,0.03)', borderRadius: 6, fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#fff', boxSizing: 'border-box', outline: 'none' }}
-                                                    onFocus={e => { e.target.style.borderColor = '#4af8d4'; e.target.style.background = 'rgba(74,248,212,0.05)'; }}
-                                                    onBlur={e => { e.target.style.borderColor = 'rgba(74,248,212,0.2)'; e.target.style.background = 'rgba(255,255,255,0.03)'; }}
-                                                />
-                                            </div>
+                                        {/* Country */}
+                                        <div>
+                                            <label style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: 6 }}>Country</label>
+                                            <input
+                                                type="text"
+                                                required
+                                                value={country}
+                                                onChange={e => setCountry(e.target.value)}
+                                                placeholder="e.g., Spain"
+                                                style={{ width: '100%', padding: '11px 14px', border: '1px solid rgba(74,248,212,0.2)', background: 'rgba(255,255,255,0.03)', borderRadius: 6, fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#fff', boxSizing: 'border-box', outline: 'none' }}
+                                                onFocus={e => { e.target.style.borderColor = '#4af8d4'; e.target.style.background = 'rgba(74,248,212,0.05)'; }}
+                                                onBlur={e => { e.target.style.borderColor = 'rgba(74,248,212,0.2)'; e.target.style.background = 'rgba(255,255,255,0.03)'; }}
+                                            />
                                         </div>
 
                                         {/* Submit Button */}
