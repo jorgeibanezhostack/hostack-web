@@ -652,9 +652,70 @@ function Pricing({ bp, i }) {
 
 function CTA({ bp, i }) {
     const isMobile = bp === 'mobile';
-    const [email, setEmail] = useState('');
+    const [mode, setMode] = useState('adopter'); // 'adopter' | 'free'
     const [sent, setSent] = useState(false);
+    const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+
+    // Early adopter form
+    const [email, setEmail] = useState('');
+
+    // Free trial form
+    const [freeEmail, setFreeEmail] = useState('');
+    const [propertyName, setPropertyName] = useState('');
+    const [propertyType, setPropertyType] = useState('hostel');
+    const [beds, setBeds] = useState('');
+    const [country, setCountry] = useState('');
+    const [phone, setPhone] = useState('');
+
+    const handleAdopterSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+        setLoading(true);
+        try {
+            const res = await fetch('/api/subscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+            if (!res.ok) throw new Error('Submit failed');
+            setSent(true);
+        } catch(err) {
+            setError('Failed to submit. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleFreeSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+        if (!freeEmail || !propertyName || !beds || !country) {
+            setError('Please fill all required fields');
+            return;
+        }
+        setLoading(true);
+        try {
+            const res = await fetch('/api/register-free', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: freeEmail,
+                    propertyName,
+                    propertyType,
+                    beds: parseInt(beds),
+                    country,
+                    phone: phone || null
+                })
+            });
+            if (!res.ok) throw new Error('Registration failed');
+            setSent(true);
+        } catch(err) {
+            setError('Registration failed. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <section id="cta" style={{ ...section, background: P.accentDeep }}>
@@ -667,16 +728,228 @@ function CTA({ bp, i }) {
                 <Fade delay={60}>
                     <h2 style={{ ...T.h2, fontSize: isMobile ? 'clamp(1.6rem,5vw,2rem)' : 'clamp(2rem,4vw,2.8rem)', color: '#fff', maxWidth: 600, margin: '0 auto 16px' }}>{i.ctaH2}</h2>
                 </Fade>
-                <Fade delay={140}>
-                    {sent ? (
-                        <p style={{ fontSize: isMobile ? '14px' : '16px', color: P.neon, marginTop: 20 }}>{i.ctaConfirm}</p>
-                    ) : (
-                        <form onSubmit={async e => { e.preventDefault(); setLoading(true); try { await fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) }); } catch(_) {} setSent(true); setLoading(false); }} style={{ display: 'flex', gap: 10, justifyContent: 'center', flexDirection: isMobile ? 'column' : 'row', maxWidth: 460, margin: '0 auto' }}>
-                            <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder={i.ctaPlaceholder} style={{ flex: 1, padding: isMobile ? '10px 14px' : '11px 16px', borderRadius: 8, border: 'none', fontSize: isMobile ? '13px' : '14px', fontFamily: "'DM Sans',sans-serif", outline: 'none', color: P.ink, boxSizing: 'border-box' }} />
-                            <button type="submit" style={{ background: P.neon, color: P.accentDeep, padding: isMobile ? '10px 18px' : '11px 22px', borderRadius: 8, border: 'none', fontSize: isMobile ? '13px' : '14px', fontWeight: 600, cursor: 'pointer', fontFamily: "'DM Sans',sans-serif", whiteSpace: 'nowrap' }}> {i.ctaButton} </button>
-                        </form>
-                    )}
-                </Fade>
+
+                {sent ? (
+                    <Fade delay={140}>
+                        <div style={{ textAlign: 'center', padding: '32px 24px', color: P.neon }}>
+                            <div style={{ fontSize: 48, marginBottom: 16 }}>✅</div>
+                            <p style={{ fontSize: isMobile ? '14px' : '16px', marginBottom: 8 }}>{i.ctaConfirm}</p>
+                            <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)' }}>Check your email for next steps</p>
+                        </div>
+                    </Fade>
+                ) : (
+                    <Fade delay={140}>
+                        <div>
+                            {/* Tabs */}
+                            <div style={{ display: 'flex', gap: 12, marginBottom: 24, justifyContent: 'center', flexWrap: 'wrap' }}>
+                                <button
+                                    onClick={() => { setMode('adopter'); setError(''); }}
+                                    style={{
+                                        padding: isMobile ? '7px 14px' : '8px 18px',
+                                        border: '1px solid rgba(74,248,212,0.3)',
+                                        background: mode === 'adopter' ? '#4af8d4' : 'transparent',
+                                        color: mode === 'adopter' ? '#031e23' : 'rgba(255,255,255,0.7)',
+                                        borderRadius: 8,
+                                        cursor: 'pointer',
+                                        fontFamily: "'DM Sans',sans-serif",
+                                        fontSize: isMobile ? '12px' : '13px',
+                                        fontWeight: 500,
+                                        transition: 'all 0.3s ease'
+                                    }}
+                                >
+                                    Founding Member
+                                </button>
+                                <button
+                                    onClick={() => { setMode('free'); setError(''); }}
+                                    style={{
+                                        padding: isMobile ? '7px 14px' : '8px 18px',
+                                        border: '1px solid rgba(74,248,212,0.3)',
+                                        background: mode === 'free' ? '#4af8d4' : 'transparent',
+                                        color: mode === 'free' ? '#031e23' : 'rgba(255,255,255,0.7)',
+                                        borderRadius: 8,
+                                        cursor: 'pointer',
+                                        fontFamily: "'DM Sans',sans-serif",
+                                        fontSize: isMobile ? '12px' : '13px',
+                                        fontWeight: 500,
+                                        transition: 'all 0.3s ease'
+                                    }}
+                                >
+                                    Free Trial
+                                </button>
+                            </div>
+
+                            {error && (
+                                <div style={{ padding: '10px 12px', background: 'rgba(231,76,60,0.15)', border: '1px solid rgba(231,76,60,0.3)', borderRadius: 6, fontSize: 12, color: '#ff9999', marginBottom: 16, maxWidth: 560, margin: '0 auto 16px' }}>
+                                    {error}
+                                </div>
+                            )}
+
+                            {/* Adopter Form */}
+                            {mode === 'adopter' && (
+                                <form onSubmit={handleAdopterSubmit} style={{ maxWidth: 460, margin: '0 auto', display: 'flex', gap: 10, justifyContent: 'center', flexDirection: isMobile ? 'column' : 'row' }}>
+                                    <input
+                                        type="email"
+                                        required
+                                        value={email}
+                                        onChange={e => setEmail(e.target.value)}
+                                        placeholder={i.ctaPlaceholder}
+                                        style={{
+                                            flex: 1,
+                                            padding: isMobile ? '10px 14px' : '11px 16px',
+                                            borderRadius: 8,
+                                            border: 'none',
+                                            fontSize: isMobile ? '13px' : '14px',
+                                            fontFamily: "'DM Sans',sans-serif",
+                                            outline: 'none',
+                                            color: P.ink,
+                                            boxSizing: 'border-box'
+                                        }}
+                                    />
+                                    <button
+                                        type="submit"
+                                        disabled={loading}
+                                        style={{
+                                            background: P.neon,
+                                            color: P.accentDeep,
+                                            padding: isMobile ? '10px 18px' : '11px 22px',
+                                            borderRadius: 8,
+                                            border: 'none',
+                                            fontSize: isMobile ? '13px' : '14px',
+                                            fontWeight: 600,
+                                            cursor: loading ? 'not-allowed' : 'pointer',
+                                            fontFamily: "'DM Sans',sans-serif",
+                                            whiteSpace: 'nowrap',
+                                            opacity: loading ? 0.7 : 1
+                                        }}
+                                    >
+                                        {loading ? 'Submitting...' : i.ctaButton}
+                                    </button>
+                                </form>
+                            )}
+
+                            {/* Free Trial Form */}
+                            {mode === 'free' && (
+                                <form onSubmit={handleFreeSubmit} style={{ maxWidth: 560, margin: '0 auto', background: 'rgba(3,30,35,0.4)', border: '1px solid rgba(74,248,212,0.15)', borderRadius: 12, padding: isMobile ? '24px 16px' : '32px 24px' }}>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16 }}>
+                                        {/* Email */}
+                                        <div>
+                                            <label style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: 6 }}>Email</label>
+                                            <input
+                                                type="email"
+                                                required
+                                                value={freeEmail}
+                                                onChange={e => setFreeEmail(e.target.value)}
+                                                placeholder="your@email.com"
+                                                style={{ width: '100%', padding: '11px 14px', border: '1px solid rgba(74,248,212,0.2)', background: 'rgba(255,255,255,0.03)', borderRadius: 6, fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#fff', boxSizing: 'border-box', outline: 'none' }}
+                                                onFocus={e => { e.target.style.borderColor = '#4af8d4'; e.target.style.background = 'rgba(74,248,212,0.05)'; }}
+                                                onBlur={e => { e.target.style.borderColor = 'rgba(74,248,212,0.2)'; e.target.style.background = 'rgba(255,255,255,0.03)'; }}
+                                            />
+                                        </div>
+
+                                        {/* Property Name */}
+                                        <div>
+                                            <label style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: 6 }}>Property Name</label>
+                                            <input
+                                                type="text"
+                                                required
+                                                value={propertyName}
+                                                onChange={e => setPropertyName(e.target.value)}
+                                                placeholder="e.g., Sunny Hostel"
+                                                style={{ width: '100%', padding: '11px 14px', border: '1px solid rgba(74,248,212,0.2)', background: 'rgba(255,255,255,0.03)', borderRadius: 6, fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#fff', boxSizing: 'border-box', outline: 'none' }}
+                                                onFocus={e => { e.target.style.borderColor = '#4af8d4'; e.target.style.background = 'rgba(74,248,212,0.05)'; }}
+                                                onBlur={e => { e.target.style.borderColor = 'rgba(74,248,212,0.2)'; e.target.style.background = 'rgba(255,255,255,0.03)'; }}
+                                            />
+                                        </div>
+
+                                        {/* Property Type & Beds */}
+                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                                            <div>
+                                                <label style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: 6 }}>Type</label>
+                                                <select
+                                                    value={propertyType}
+                                                    onChange={e => setPropertyType(e.target.value)}
+                                                    style={{ width: '100%', padding: '11px 14px', border: '1px solid rgba(74,248,212,0.2)', background: 'rgba(255,255,255,0.03)', borderRadius: 6, fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#fff', boxSizing: 'border-box', outline: 'none', cursor: 'pointer', appearance: 'none' }}
+                                                >
+                                                    <option value="hostel">Hostel</option>
+                                                    <option value="coliving">Coliving</option>
+                                                    <option value="hotel">Hotel</option>
+                                                    <option value="apartment">Apartment</option>
+                                                    <option value="other">Other</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: 6 }}>Beds</label>
+                                                <input
+                                                    type="number"
+                                                    required
+                                                    min="1"
+                                                    max="500"
+                                                    value={beds}
+                                                    onChange={e => setBeds(e.target.value)}
+                                                    placeholder="e.g., 20"
+                                                    style={{ width: '100%', padding: '11px 14px', border: '1px solid rgba(74,248,212,0.2)', background: 'rgba(255,255,255,0.03)', borderRadius: 6, fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#fff', boxSizing: 'border-box', outline: 'none' }}
+                                                    onFocus={e => { e.target.style.borderColor = '#4af8d4'; e.target.style.background = 'rgba(74,248,212,0.05)'; }}
+                                                    onBlur={e => { e.target.style.borderColor = 'rgba(74,248,212,0.2)'; e.target.style.background = 'rgba(255,255,255,0.03)'; }}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Country & Phone */}
+                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                                            <div>
+                                                <label style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: 6 }}>Country</label>
+                                                <input
+                                                    type="text"
+                                                    required
+                                                    value={country}
+                                                    onChange={e => setCountry(e.target.value)}
+                                                    placeholder="e.g., Spain"
+                                                    style={{ width: '100%', padding: '11px 14px', border: '1px solid rgba(74,248,212,0.2)', background: 'rgba(255,255,255,0.03)', borderRadius: 6, fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#fff', boxSizing: 'border-box', outline: 'none' }}
+                                                    onFocus={e => { e.target.style.borderColor = '#4af8d4'; e.target.style.background = 'rgba(74,248,212,0.05)'; }}
+                                                    onBlur={e => { e.target.style.borderColor = 'rgba(74,248,212,0.2)'; e.target.style.background = 'rgba(255,255,255,0.03)'; }}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: 6 }}>Phone (Optional)</label>
+                                                <input
+                                                    type="tel"
+                                                    value={phone}
+                                                    onChange={e => setPhone(e.target.value)}
+                                                    placeholder="+34 123 456"
+                                                    style={{ width: '100%', padding: '11px 14px', border: '1px solid rgba(74,248,212,0.2)', background: 'rgba(255,255,255,0.03)', borderRadius: 6, fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#fff', boxSizing: 'border-box', outline: 'none' }}
+                                                    onFocus={e => { e.target.style.borderColor = '#4af8d4'; e.target.style.background = 'rgba(74,248,212,0.05)'; }}
+                                                    onBlur={e => { e.target.style.borderColor = 'rgba(74,248,212,0.2)'; e.target.style.background = 'rgba(255,255,255,0.03)'; }}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Submit Button */}
+                                        <button
+                                            type="submit"
+                                            disabled={loading}
+                                            style={{
+                                                padding: '11px 22px',
+                                                background: P.neon,
+                                                color: P.accentDeep,
+                                                border: 'none',
+                                                borderRadius: 8,
+                                                fontFamily: "'DM Sans',sans-serif",
+                                                fontSize: 14,
+                                                fontWeight: 600,
+                                                cursor: loading ? 'not-allowed' : 'pointer',
+                                                marginTop: 8,
+                                                opacity: loading ? 0.7 : 1,
+                                                transition: 'all 0.3s ease'
+                                            }}
+                                        >
+                                            {loading ? 'Creating account...' : 'Start Free Trial →'}
+                                        </button>
+                                    </div>
+                                </form>
+                            )}
+                        </div>
+                    </Fade>
+                )}
             </div>
         </section>
     );
