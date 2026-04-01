@@ -654,6 +654,7 @@ function CTA({ bp, i }) {
     const isMobile = bp === 'mobile';
     const [email, setEmail] = useState('');
     const [sent, setSent] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     return (
         <section id="cta" style={{ ...section, background: P.accentDeep }}>
@@ -670,7 +671,7 @@ function CTA({ bp, i }) {
                     {sent ? (
                         <p style={{ fontSize: isMobile ? '14px' : '16px', color: P.neon, marginTop: 20 }}>{i.ctaConfirm}</p>
                     ) : (
-                        <form onSubmit={e => { e.preventDefault(); setSent(true); }} style={{ display: 'flex', gap: 10, justifyContent: 'center', flexDirection: isMobile ? 'column' : 'row', maxWidth: 460, margin: '0 auto' }}>
+                        <form onSubmit={async e => { e.preventDefault(); setLoading(true); try { await fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) }); } catch(_) {} setSent(true); setLoading(false); }} style={{ display: 'flex', gap: 10, justifyContent: 'center', flexDirection: isMobile ? 'column' : 'row', maxWidth: 460, margin: '0 auto' }}>
                             <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder={i.ctaPlaceholder} style={{ flex: 1, padding: isMobile ? '10px 14px' : '11px 16px', borderRadius: 8, border: 'none', fontSize: isMobile ? '13px' : '14px', fontFamily: "'DM Sans',sans-serif", outline: 'none', color: P.ink, boxSizing: 'border-box' }} />
                             <button type="submit" style={{ background: P.neon, color: P.accentDeep, padding: isMobile ? '10px 18px' : '11px 22px', borderRadius: 8, border: 'none', fontSize: isMobile ? '13px' : '14px', fontWeight: 600, cursor: 'pointer', fontFamily: "'DM Sans',sans-serif", whiteSpace: 'nowrap' }}> {i.ctaButton} </button>
                         </form>
