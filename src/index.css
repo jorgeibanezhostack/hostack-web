@@ -1,2 +1,25 @@
-/* Hostack V3 — reset only, all styles in App.jsx */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0F172A;
+  --color-accent: #3B82F6;
+  --color-success: #10B981;
+  --color-error: #EF4444;
+  --color-light: #F8FAFC;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #0F172A;
+  color: #F8FAFC;
+  margin: 0;
+  padding: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
