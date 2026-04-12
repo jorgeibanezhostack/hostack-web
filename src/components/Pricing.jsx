@@ -1,319 +1,162 @@
-import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { Check } from 'lucide-react';
 
-function Check({ color = '#60a5fa' }) {
+const scrollToFounder = () => {
+  document.getElementById('founder-form')?.scrollIntoView({ behavior: 'smooth' });
+};
+
+export function Pricing({ onWaitlist }) {
   return (
-    <svg
-      width="15"
-      height="15"
-      viewBox="0 0 15 15"
-      fill="none"
-      className="shrink-0 mt-0.5"
-      aria-hidden="true"
-    >
-      <path
-        d="M2.5 7.5L5.5 10.5L12.5 3.5"
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
-const FREE_FEATURES = [
-  'Up to 5 staff members',
-  'Manual setup & onboarding',
-  'Guest App (basic)',
-  'Staff App (basic)',
-  'Community support',
-]
-
-const PRO_FEATURES = [
-  'Unlimited staff members',
-  'Full onboarding support',
-  'Guest App (complete)',
-  'Staff App (complete)',
-  'Owner Dashboard access',
-  'Analytics & reporting',
-  'Event calendar & automation',
-  'Priority email support',
-]
-
-const FOUNDER_FEATURES = [
-  '12 months Pro included',
-  'Direct WhatsApp access to Jorge',
-  'Monthly strategy calls',
-  'Custom onboarding session',
-  'Feature request priority',
-  'Forever discount on renewal',
-]
-
-export default function Pricing({ onWaitlist }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
-
-  return (
-    <section
-      id="pricing"
-      ref={ref}
-      className="py-24 border-t"
-      style={{ background: '#080f1e', borderColor: 'rgba(15,23,42,1)' }}
-    >
-      <div className="max-w-6xl mx-auto px-6">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <span
-            className="text-xs font-semibold uppercase tracking-widest"
-            style={{ color: '#60a5fa', letterSpacing: '0.16em' }}
-          >
-            Pricing
-          </span>
-          <h2
-            className="text-4xl md:text-5xl font-light text-white mt-3 mb-4"
-            style={{ fontFamily: "'DM Sans', sans-serif" }}
-          >
-            Simple, transparent pricing
-          </h2>
-          <p className="text-lg" style={{ color: '#94a3b8' }}>
-            Start free. Scale when you're ready.
+    <section id="pricing" className="py-24 px-4 bg-gray-50">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold mb-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>Choose Your Plan</h2>
+          <p className="text-gray-600 text-lg">
+            Start free. Upgrade when you're ready. Or partner with us from day one.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Plans grid */}
-        <div className="grid md:grid-cols-3 gap-5 items-start">
-          {/* FREE */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="rounded-2xl p-6 border"
-            style={{ background: 'rgba(30,41,59,0.4)', borderColor: 'rgba(51,65,85,0.5)' }}
-          >
-            <div className="mb-6">
-              <span
-                className="text-xs font-semibold uppercase tracking-widest"
-                style={{ color: '#64748b', letterSpacing: '0.14em' }}
-              >
-                Free
-              </span>
-              <div className="flex items-end gap-1.5 mt-3 mb-1">
-                <span className="text-4xl font-light text-white">€0</span>
-                <span className="text-sm mb-1.5" style={{ color: '#64748b' }}>/month</span>
-              </div>
-              <p className="text-sm" style={{ color: '#94a3b8' }}>
-                5 staff max. Manual setup.
-              </p>
-            </div>
+        <div className="grid md:grid-cols-3 gap-8">
+          {/* FREE TIER */}
+          <div className="bg-white rounded-lg p-8 border border-gray-200">
+            <h3 className="text-2xl font-bold mb-2">FREE</h3>
+            <p className="text-gray-600 mb-6">Start managing smarter</p>
+
+            <p className="text-3xl font-bold mb-6">€0<span className="text-lg text-gray-600">/month</span></p>
 
             <ul className="space-y-3 mb-8">
-              {FREE_FEATURES.map(f => (
-                <li key={f} className="flex items-start gap-2.5 text-sm" style={{ color: '#94a3b8' }}>
-                  <Check color="#475569" />
-                  {f}
-                </li>
-              ))}
+              <li className="flex gap-3">
+                <Check size={20} className="text-green-600 flex-shrink-0" />
+                <span>Guest App (core)</span>
+              </li>
+              <li className="flex gap-3">
+                <Check size={20} className="text-green-600 flex-shrink-0" />
+                <span>Staff App (core)</span>
+              </li>
+              <li className="flex gap-3">
+                <Check size={20} className="text-green-600 flex-shrink-0" />
+                <span>Up to 5 team members</span>
+              </li>
+              <li className="flex gap-3">
+                <Check size={20} className="text-green-600 flex-shrink-0" />
+                <span>Email support</span>
+              </li>
             </ul>
 
             <button
               onClick={() => onWaitlist('Free')}
-              className="w-full py-3 rounded-xl text-sm font-medium border transition-all duration-200"
-              style={{ borderColor: 'rgba(51,65,85,0.8)', color: '#94a3b8' }}
-              onMouseEnter={e => {
-                e.currentTarget.style.borderColor = '#3B82F6'
-                e.currentTarget.style.color = '#fff'
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.borderColor = 'rgba(51,65,85,0.8)'
-                e.currentTarget.style.color = '#94a3b8'
-              }}
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-semibold transition-colors"
             >
               Join the Waiting List
             </button>
-          </motion.div>
+          </div>
 
-          {/* PRO (highlighted) */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative rounded-2xl p-6 border-2"
-            style={{
-              background: 'rgba(59,130,246,0.06)',
-              borderColor: '#3B82F6',
-              boxShadow: '0 0 40px rgba(59,130,246,0.12)',
-            }}
-          >
-            {/* Badge */}
-            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-              <span
-                className="text-xs font-semibold px-3 py-1 rounded-full text-white"
-                style={{ background: '#3B82F6' }}
-              >
-                Most Popular
-              </span>
+          {/* PRO TIER (Highlighted) */}
+          <div className="bg-white rounded-lg p-8 border-2 border-blue-500 shadow-lg relative">
+            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+              RECOMMENDED
             </div>
 
-            <div className="mb-6">
-              <span
-                className="text-xs font-semibold uppercase tracking-widest"
-                style={{ color: '#60a5fa', letterSpacing: '0.14em' }}
-              >
-                Pro
-              </span>
-              <div className="flex items-end gap-1.5 mt-3 mb-1">
-                <span className="text-4xl font-light text-white">€99</span>
-                <span className="text-sm mb-1.5" style={{ color: '#94a3b8' }}>/month</span>
-              </div>
-              <p className="text-sm mb-3" style={{ color: '#64748b' }}>
-                + €300 one-time activation fee
-              </p>
-              {/* Special deal */}
-              <div
-                className="rounded-xl px-4 py-3 text-sm border"
-                style={{
-                  background: 'rgba(16,185,129,0.07)',
-                  borderColor: 'rgba(16,185,129,0.2)',
-                  color: '#34d399',
-                }}
-              >
-                🎁 Pay 6 months → Get 12 months + free activation
-              </div>
+            <h3 className="text-2xl font-bold mb-2">PRO ✨</h3>
+            <p className="text-gray-600 mb-6">Everything you need to scale + automate</p>
+
+            <p className="text-3xl font-bold mb-2">€99<span className="text-lg text-gray-600">/month</span></p>
+            <p className="text-sm text-gray-600 mb-6">+ €300 activation fee (one-time)</p>
+
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+              <p className="text-sm text-blue-900"><strong>Special offer:</strong> Pay 6 months → Get 12 months + free activation</p>
             </div>
 
             <ul className="space-y-3 mb-8">
-              {PRO_FEATURES.map(f => (
-                <li key={f} className="flex items-start gap-2.5 text-sm" style={{ color: '#e2e8f0' }}>
-                  <Check color="#60a5fa" />
-                  {f}
-                </li>
-              ))}
+              <li className="flex gap-3">
+                <Check size={20} className="text-green-600 flex-shrink-0" />
+                <span>All Free features</span>
+              </li>
+              <li className="flex gap-3">
+                <Check size={20} className="text-green-600 flex-shrink-0" />
+                <span>Unlimited team members</span>
+              </li>
+              <li className="flex gap-3">
+                <Check size={20} className="text-green-600 flex-shrink-0" />
+                <span>CRM integration</span>
+              </li>
+              <li className="flex gap-3">
+                <Check size={20} className="text-green-600 flex-shrink-0" />
+                <span>Task automation</span>
+              </li>
+              <li className="flex gap-3">
+                <Check size={20} className="text-green-600 flex-shrink-0" />
+                <span>Advanced reporting</span>
+              </li>
+              <li className="flex gap-3">
+                <Check size={20} className="text-green-600 flex-shrink-0" />
+                <span>Priority support</span>
+              </li>
             </ul>
 
-            <div className="space-y-3">
-              <button
-                onClick={() => onWaitlist('Pro')}
-                className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-all duration-200"
-                style={{ background: '#3B82F6' }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = '#2563eb'
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(59,130,246,0.35)'
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = '#3B82F6'
-                  e.currentTarget.style.boxShadow = 'none'
-                }}
-              >
-                Join the Waiting List
-              </button>
-              <a
-                href="#founder-form"
-                className="w-full block text-center py-3 rounded-xl text-sm font-medium border transition-all duration-200"
-                style={{ borderColor: 'rgba(59,130,246,0.3)', color: '#60a5fa' }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = 'rgba(59,130,246,0.7)'
-                  e.currentTarget.style.color = '#93c5fd'
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)'
-                  e.currentTarget.style.color = '#60a5fa'
-                }}
-              >
-                Apply to Founder Program →
-              </a>
-            </div>
-          </motion.div>
+            <button
+              onClick={() => onWaitlist('Pro')}
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-semibold transition-colors mb-3"
+            >
+              Join the Waiting List
+            </button>
+            <button
+              onClick={scrollToFounder}
+              className="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 py-2 rounded-lg font-semibold transition-colors"
+            >
+              Apply to Founder Program →
+            </button>
+          </div>
 
           {/* FOUNDER MEMBER */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="relative rounded-2xl p-6 border"
-            style={{
-              background: 'rgba(245,158,11,0.04)',
-              borderColor: 'rgba(245,158,11,0.3)',
-            }}
-          >
-            {/* Badge */}
-            <div className="absolute -top-3.5 right-6">
-              <span
-                className="text-xs font-semibold px-3 py-1 rounded-full border"
-                style={{
-                  background: 'rgba(245,158,11,0.1)',
-                  borderColor: 'rgba(245,158,11,0.3)',
-                  color: '#fbbf24',
-                }}
-              >
-                3 spots only
-              </span>
+          <div className="bg-slate-900 text-white rounded-lg p-8 border border-blue-500">
+            <h3 className="text-2xl font-bold mb-2">FOUNDER MEMBER</h3>
+            <p className="text-blue-300 mb-6">Partner with us. Shape the future.</p>
+
+            <p className="text-3xl font-bold mb-2">€300</p>
+            <p className="text-sm text-gray-300 mb-6">one-time activation fee + 12 months Pro</p>
+
+            <div className="bg-blue-900 rounded-lg p-3 mb-6">
+              <p className="text-xs text-blue-200"><strong>Only 3 spots available</strong></p>
             </div>
 
-            <div className="mb-6">
-              <span
-                className="text-xs font-semibold uppercase tracking-widest"
-                style={{ color: '#fbbf24', letterSpacing: '0.14em' }}
-              >
-                Founder Member
-              </span>
-              <div className="flex items-end gap-1.5 mt-3 mb-1">
-                <span className="text-4xl font-light text-white">€300</span>
-                <span className="text-sm mb-1.5" style={{ color: '#94a3b8' }}>one-time</span>
-              </div>
-              <p className="text-sm" style={{ color: '#94a3b8' }}>
-                12 months Pro included. Shape the product.
-              </p>
-            </div>
-
-            <ul className="space-y-3 mb-6">
-              {FOUNDER_FEATURES.map(f => (
-                <li key={f} className="flex items-start gap-2.5 text-sm" style={{ color: '#e2e8f0' }}>
-                  <Check color="#fbbf24" />
-                  {f}
-                </li>
-              ))}
+            <ul className="space-y-3 mb-8">
+              <li className="flex gap-3">
+                <Check size={20} className="text-green-400 flex-shrink-0" />
+                <span>Everything Pro includes</span>
+              </li>
+              <li className="flex gap-3">
+                <Check size={20} className="text-green-400 flex-shrink-0" />
+                <span>Direct access to Jorge</span>
+              </li>
+              <li className="flex gap-3">
+                <Check size={20} className="text-green-400 flex-shrink-0" />
+                <span>Monthly 1:1 strategy calls</span>
+              </li>
+              <li className="flex gap-3">
+                <Check size={20} className="text-green-400 flex-shrink-0" />
+                <span>Custom onboarding</span>
+              </li>
+              <li className="flex gap-3">
+                <Check size={20} className="text-green-400 flex-shrink-0" />
+                <span>Beta testing rights</span>
+              </li>
             </ul>
 
-            <div
-              className="rounded-xl p-3 mb-6 text-xs border"
-              style={{
-                background: 'rgba(30,41,59,0.6)',
-                borderColor: 'rgba(51,65,85,0.4)',
-                color: '#64748b',
-                lineHeight: '1.6',
-              }}
-            >
-              Direct WhatsApp access to Jorge. Monthly calls to co-create the product. For people who want to shape Hostack's future.
-            </div>
+            <p className="text-sm text-gray-300 italic mb-6">
+              "We're building this WITH our first partners, not FOR them."
+            </p>
 
-            <a
-              href="#founder-form"
-              className="w-full block text-center py-3 rounded-xl text-sm font-semibold border transition-all duration-200"
-              style={{
-                background: 'rgba(245,158,11,0.08)',
-                borderColor: 'rgba(245,158,11,0.3)',
-                color: '#fbbf24',
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.background = 'rgba(245,158,11,0.15)'
-                e.currentTarget.style.borderColor = 'rgba(245,158,11,0.5)'
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.background = 'rgba(245,158,11,0.08)'
-                e.currentTarget.style.borderColor = 'rgba(245,158,11,0.3)'
-              }}
+            <button
+              onClick={scrollToFounder}
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-semibold transition-colors"
             >
               Apply Now
-            </a>
-          </motion.div>
+            </button>
+          </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
+
+export default Pricing;
