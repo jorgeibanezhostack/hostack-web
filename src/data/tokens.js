@@ -252,6 +252,7 @@ export const CONTENT = {
     available: 'Currently accepting Founding Members',
     links: [
       { label: 'How it works',    href: '#product' },
+      { label: 'Results',         href: '#results' },
       { label: 'Pricing',         href: '#pricing' },
       { label: 'Founder Program', href: '#founding-member' },
       { label: 'Contact',         href: 'mailto:jorge@hostack.io' },

@@ -17,7 +17,13 @@ export default function Footer({ bp }) {
     </svg>
   );
 
-  const navLinks = ['How it works', 'Results', 'Pricing', 'Founder Program', 'Contact'];
+  const handleLinkClick = (e, href) => {
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      const el = document.querySelector(href);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <footer
@@ -34,109 +40,44 @@ export default function Footer({ bp }) {
         <div style={{ marginBottom: '48px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
             {logoSvg}
-            <span
-              style={{
-                fontSize: '24px',
-                fontWeight: '700',
-                fontFamily: FONTS.sans,
-                letterSpacing: '-0.01em',
-              }}
-            >
+            <span style={{ fontSize: '24px', fontWeight: '700', fontFamily: FONTS.sans, letterSpacing: '-0.01em' }}>
               hostack
             </span>
           </div>
-          <p
-            style={{
-              fontSize: '14px',
-              lineHeight: '1.6',
-              color: 'rgba(255, 255, 255, 0.7)',
-              fontFamily: FONTS.sans,
-              margin: '8px 0 0 0',
-            }}
-          >
-            Operations OS for hostels & colivings.
+          <p style={{ fontSize: '14px', lineHeight: '1.6', color: 'rgba(255,255,255,0.7)', fontFamily: FONTS.sans, margin: '8px 0 0 0' }}>
+            {CONTENT.footer.tagline}
           </p>
-          <p
-            style={{
-              fontSize: '14px',
-              lineHeight: '1.6',
-              color: 'rgba(255, 255, 255, 0.7)',
-              fontFamily: FONTS.sans,
-              margin: '4px 0 0 0',
-            }}
-          >
-            Made by operators, for operators.
+          <p style={{ fontSize: '14px', lineHeight: '1.6', color: 'rgba(255,255,255,0.7)', fontFamily: FONTS.sans, margin: '4px 0 0 0' }}>
+            {CONTENT.footer.sub}
           </p>
         </div>
 
         {/* Nav Links */}
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: bp === 'mobile' ? '16px 24px' : '32px',
-            marginBottom: '32px',
-            fontSize: '14px',
-            fontFamily: FONTS.sans,
-          }}
-        >
-          {navLinks.map((link, idx) => (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: bp === 'mobile' ? '16px 24px' : '32px', marginBottom: '32px', fontSize: '14px', fontFamily: FONTS.sans }}>
+          {CONTENT.footer.links.map((link, idx) => (
             <a
               key={idx}
-              href="#"
-              style={{
-                color: 'rgba(255, 255, 255, 0.8)',
-                textDecoration: 'none',
-                transition: 'color 0.2s',
-              }}
+              href={link.href}
+              onClick={(e) => handleLinkClick(e, link.href)}
+              style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', transition: 'color 0.2s' }}
               onMouseEnter={(e) => (e.target.style.color = COLORS.neon)}
-              onMouseLeave={(e) => (e.target.style.color = 'rgba(255, 255, 255, 0.8)')}
+              onMouseLeave={(e) => (e.target.style.color = 'rgba(255,255,255,0.8)')}
             >
-              {link}
+              {link.label}
             </a>
           ))}
         </div>
 
         {/* Divider */}
-        <div
-          style={{
-            width: '100%',
-            height: '1px',
-            backgroundColor: `rgba(74, 248, 212, 0.2)`,
-            marginBottom: '32px',
-          }}
-        />
+        <div style={{ width: '100%', height: '1px', backgroundColor: 'rgba(74,248,212,0.2)', marginBottom: '32px' }} />
 
-        {/* Copyright + Small Text */}
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: bp === 'mobile' ? 'column' : 'row',
-            justifyContent: 'space-between',
-            alignItems: bp === 'mobile' ? 'flex-start' : 'center',
-            gap: bp === 'mobile' ? '16px' : '0',
-          }}
-        >
-          <p
-            style={{
-              fontSize: '13px',
-              color: 'rgba(255, 255, 255, 0.6)',
-              fontFamily: FONTS.sans,
-              margin: 0,
-            }}
-          >
-            © 2025 Hostack. All rights reserved.
+        {/* Copyright */}
+        <div style={{ display: 'flex', flexDirection: bp === 'mobile' ? 'column' : 'row', justifyContent: 'space-between', alignItems: bp === 'mobile' ? 'flex-start' : 'center', gap: bp === 'mobile' ? '16px' : '0' }}>
+          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)', fontFamily: FONTS.sans, margin: 0 }}>
+            {CONTENT.footer.copyright}
           </p>
-          <p
-            style={{
-              fontSize: '13px',
-              color: COLORS.neon,
-              fontFamily: FONTS.sans,
-              margin: 0,
-              fontWeight: '500',
-            }}
-          >
-            Currently accepting Founding Members
+          <p style={{ fontSize: '13px', color: COLORS.neon, fontFamily: FONTS.sans, margin: 0, fontWeight: '500' }}>
+            {CONTENT.footer.available}
           </p>
         </div>
       </div>
