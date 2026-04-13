@@ -146,77 +146,92 @@ export default function Product({ bp }) {
           {CONTENT.product.phase.label} · {CONTENT.product.phase.status} · {CONTENT.product.phase.note}
         </div>
 
-        {/* 3 App Cards */}
-        <div style={cardsWrapStyle}>
-          {CONTENT.product.apps.map((app, i) => {
-            const Icon = ICON_MAP[app.icon] || SmartphoneIcon;
-            const isHighlight = !!app.highlight;
-            return (
-              <div key={app.id} style={{
-                background: isHighlight ? 'rgba(74,248,212,0.06)' : 'rgba(4,78,89,0.38)',
-                border: isHighlight ? `1.5px solid ${COLORS.neon}` : `1px solid rgba(74,248,212,0.14)`,
-                borderRadius: 16,
-                padding: isMobile ? 24 : 28,
-                backdropFilter: 'blur(14px)',
-                boxShadow: isHighlight ? `0 0 32px rgba(74,248,212,0.10)` : 'none',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 16,
-                position: 'relative',
-              }}>
-                {isHighlight && (
-                  <div style={{
-                    position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)',
-                    backgroundColor: COLORS.neon, color: COLORS.tealDeep,
-                    fontSize: 10, fontWeight: 700, letterSpacing: '0.12em',
-                    padding: '3px 12px', borderRadius: 20, whiteSpace: 'nowrap',
-                  }}>YOUR COMMAND CENTER</div>
-                )}
+        {/* Wave-flow connected ecosystem visual */}
+        <div style={{
+          position: 'relative',
+          marginBottom: 80,
+          background: 'rgba(4,78,89,0.25)',
+          border: '1px solid rgba(74,248,212,0.12)',
+          borderRadius: 24,
+          padding: isMobile ? '40px 24px' : '56px 48px',
+          backdropFilter: 'blur(16px)',
+          overflow: 'hidden',
+        }}>
+          {/* Background wave SVG */}
+          <svg
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', opacity: 0.5 }}
+            viewBox="0 0 1160 320" preserveAspectRatio="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M0 160 C200 80, 400 240, 580 160 S900 80, 1160 160" stroke="#4af8d4" strokeWidth="1.5" fill="none" opacity="0.4"/>
+            <path d="M0 160 C200 100, 400 220, 580 160 S900 100, 1160 160" stroke="#4af8d4" strokeWidth="1" fill="none" opacity="0.25"/>
+            <path d="M0 160 C200 120, 400 200, 580 160 S900 120, 1160 160" stroke="#4af8d4" strokeWidth="0.8" fill="none" opacity="0.15"/>
+            {/* Floating glow dots */}
+            <circle cx="290" cy="130" r="3" fill="#4af8d4" opacity="0.6"/>
+            <circle cx="580" cy="160" r="4" fill="#4af8d4" opacity="0.8"/>
+            <circle cx="870" cy="130" r="3" fill="#4af8d4" opacity="0.6"/>
+          </svg>
 
-                {/* Icon */}
-                <div style={{
-                  width: 52, height: 52, borderRadius: 12,
-                  backgroundColor: isHighlight ? 'rgba(74,248,212,0.18)' : 'rgba(0,191,179,0.18)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: isHighlight ? COLORS.neon : COLORS.turquoise,
+          {/* Three app nodes */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr',
+            gap: isMobile ? 32 : 0,
+            alignItems: 'center',
+            position: 'relative',
+            zIndex: 2,
+          }}>
+            {CONTENT.product.apps.map((app, i) => {
+              const Icon = ICON_MAP[app.icon] || SmartphoneIcon;
+              const isHighlight = !!app.highlight;
+              return (
+                <div key={app.id} style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  gap: 16,
+                  padding: isMobile ? 0 : '0 24px',
+                  borderRight: (!isMobile && i < 2) ? '1px solid rgba(74,248,212,0.10)' : 'none',
                 }}>
-                  <Icon />
-                </div>
-
-                <div>
-                  <div style={{ fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 4 }}>{app.name}</div>
-                  <div style={{ fontSize: 13, color: isHighlight ? COLORS.neon : COLORS.turquoise, fontWeight: 500 }}>{app.tagline}</div>
-                </div>
-
-                <p style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.72)', lineHeight: 1.55, margin: 0 }}>{app.description}</p>
-
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  {app.features.map((f, fi) => (
-                    <li key={fi} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: 'rgba(255,255,255,0.68)', lineHeight: 1.45 }}>
-                      <span style={{ color: isHighlight ? COLORS.neon : COLORS.turquoise, marginTop: 2, flexShrink: 0 }}><CheckIcon /></span>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-
-                {/* Connection labels */}
-                {!isMobile && i < 2 && (
+                  {/* Icon circle */}
                   <div style={{
-                    position: 'absolute', right: -40, top: '50%', transform: 'translateY(-50%)',
-                    zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
+                    width: isMobile ? 72 : 88,
+                    height: isMobile ? 72 : 88,
+                    borderRadius: '50%',
+                    background: isHighlight
+                      ? 'rgba(74,248,212,0.22)'
+                      : 'rgba(0,191,179,0.18)',
+                    border: isHighlight
+                      ? '2px solid rgba(74,248,212,0.70)'
+                      : '1.5px solid rgba(0,191,179,0.40)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: isHighlight ? COLORS.neon : COLORS.turquoise,
+                    boxShadow: isHighlight ? '0 0 28px rgba(74,248,212,0.25)' : 'none',
+                    flexShrink: 0,
                   }}>
-                    <svg width="40" height="24" viewBox="0 0 40 24">
-                      <path d="M2 12 Q20 4 38 12" stroke={COLORS.neon} strokeWidth="1.5" fill="none" strokeDasharray="4 3" opacity="0.7"/>
-                      <polygon points="34,9 38,12 34,15" fill={COLORS.neon} opacity="0.7"/>
-                    </svg>
-                    <span style={{ fontSize: 9, color: COLORS.neon, fontWeight: 600, letterSpacing: '0.1em', opacity: 0.8 }}>
-                      {i === 0 ? 'REQUESTS' : 'TASKS'}
-                    </span>
+                    <Icon />
                   </div>
-                )}
-              </div>
-            );
-          })}
+
+                  <div>
+                    <div style={{ fontSize: isMobile ? 16 : 18, fontWeight: 700, color: '#fff', marginBottom: 6 }}>{app.name}</div>
+                    <div style={{ fontSize: 12, color: isHighlight ? COLORS.neon : 'rgba(255,255,255,0.55)', fontWeight: 500, lineHeight: 1.5 }}>{app.tagline}</div>
+                  </div>
+
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 6, textAlign: 'left', width: '100%', maxWidth: 220 }}>
+                    {app.features.map((f, fi) => (
+                      <li key={fi} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 12.5, color: 'rgba(255,255,255,0.62)', lineHeight: 1.45 }}>
+                        <span style={{ color: isHighlight ? COLORS.neon : COLORS.turquoise, marginTop: 2, flexShrink: 0 }}><CheckIcon /></span>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Roadmap */}

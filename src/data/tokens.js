@@ -135,14 +135,13 @@ export const CONTENT = {
       },
     ],
     roadmap: {
-      title: 'Road map — early stage',
+      title: 'Road map',
       steps: [
-        { label: 'Apply for Founder Member Program', status: 'now' },
-        { label: 'Discovery call',                   status: 'now' },
-        { label: 'Action plan',                      status: 'next' },
-        { label: 'Start using Hostack',              status: 'next' },
-        { label: 'Learn, share, change and grow',    status: 'future' },
-        { label: 'Grow your business, community-centered', status: 'future' },
+        { label: 'Live at Torridonia',              status: 'now' },
+        { label: 'Founding members applications',   status: 'now' },
+        { label: 'Iteration, reshape',              status: 'next' },
+        { label: 'Full launching',                  status: 'future' },
+        { label: 'Growth',                          status: 'future' },
       ],
     },
   },
@@ -172,7 +171,7 @@ export const CONTENT = {
       {
         id: 'free',
         name: 'Free',
-        price: '0',
+        price: '€0',
         period: 'forever',
         tagline: 'For operators who want to explore Hostack',
         features: [
@@ -189,9 +188,9 @@ export const CONTENT = {
       {
         id: 'pro',
         name: 'Pro',
-        price: '99',
+        price: '€99',
         period: '/month',
-        setup: '300 setup fee',
+        setup: '€300 setup fee',
         promo: 'Pay 6 months, get 12. Setup fee waived.',
         tagline: 'For operators ready to run ops on autopilot',
         features: [

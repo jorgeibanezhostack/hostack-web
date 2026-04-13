@@ -4,13 +4,18 @@ import { COLORS, FONTS } from '../data/tokens'
 const NavLogo = () => (
   <svg width="32" height="32" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id="navLogoGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <linearGradient id="navLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stopColor="#004F59" />
         <stop offset="100%" stopColor="#00BFB3" />
       </linearGradient>
     </defs>
+    {/* Rounded square background */}
     <rect x="0" y="0" width="256" height="256" rx="51.2" ry="51.2" fill="url(#navLogoGrad)"/>
-    <text x="128" y="185" textAnchor="middle" fontSize="180" fontWeight="700" fill="white" fontFamily="Arial, sans-serif">H</text>
+    {/* 2×2 grid mosaic — matches Hostack brand icon */}
+    <rect x="38"  y="38"  width="82" height="82" rx="14" fill="rgba(255,255,255,0.90)"/>
+    <rect x="136" y="38"  width="82" height="82" rx="14" fill="rgba(255,255,255,0.55)"/>
+    <rect x="38"  y="136" width="82" height="82" rx="14" fill="rgba(255,255,255,0.55)"/>
+    <rect x="136" y="136" width="82" height="82" rx="14" fill="rgba(255,255,255,0.25)"/>
   </svg>
 )
 
