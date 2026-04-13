@@ -91,7 +91,7 @@ export default function Results({ bp }) {
             fontSize: bp === 'mobile' ? '32px' : '48px',
             fontWeight: '700',
             lineHeight: '1.2',
-            color: COLORS.deep,
+            color: COLORS.tealDeep,
             marginBottom: '16px',
             fontFamily: FONTS.heading,
             letterSpacing: '-0.02em',

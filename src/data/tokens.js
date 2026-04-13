@@ -3,199 +3,208 @@
 // ============================================================
 
 export const COLORS = {
-  // Brand
-  teal:        '#004F59',   // Primary brand — headers, CTAs
-  tealDark:    '#052f36',   // Deeper teal — hover states
-  tealDeep:    '#031e23',   // Darkest — footer bg
-  tealMid:     '#084e59',   // Mid teal — interactive elements
-  turquoise:   '#00BFB3',   // Secondary accent — highlights
-  neon:        '#4af8d4',   // Neon mint — CTA buttons, accents
+  teal:        '#004F59',
+  tealDark:    '#052f36',
+  tealDeep:    '#031e23',
+  tealMid:     '#084e59',
+  turquoise:   '#00BFB3',
+  neon:        '#4af8d4',
   neonSoft:    'rgba(74,248,212,0.12)',
   neonMid:     'rgba(74,248,212,0.25)',
-
-  // Surfaces
+  glass:       'rgba(4,78,89,0.45)',
+  glassDark:   'rgba(3,30,35,0.65)',
+  glassLight:  'rgba(74,248,212,0.06)',
+  glassBorder: 'rgba(74,248,212,0.15)',
   surface:     '#ffffff',
   surface2:    '#f4f8f8',
   surface3:    '#e6f0f1',
-  tealSoft:    '#ddf4f1',
-  tealMidBg:   '#b0e8e2',
-
-  // Ink / Text
   ink:         '#0d1f22',
   inkMid:      '#1e3a3f',
   inkSoft:     '#4a6e74',
   inkFaint:    '#7a9ea4',
-
-  // Borders
   border:      'rgba(8,78,89,0.10)',
   borderStrong:'rgba(8,78,89,0.20)',
-
-  // Semantic
   success:     '#10B981',
   warning:     '#F59E0B',
   error:       '#EF4444',
 };
 
 export const FONTS = {
-  sans:  "'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-  mono:  "'DM Mono', 'JetBrains Mono', monospace",
+  sans: "'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+  mono: "'DM Mono', 'JetBrains Mono', monospace",
 };
 
 export const TYPOGRAPHY = {
-  h1:   { fontFamily: FONTS.sans, fontWeight: 300, letterSpacing: '0.04em', lineHeight: 1.08 },
-  h2:   { fontFamily: FONTS.sans, fontWeight: 300, letterSpacing: '0.06em', lineHeight: 1.1 },
-  h3:   { fontFamily: FONTS.sans, fontWeight: 400, letterSpacing: '0.07em' },
-  h4:   { fontFamily: FONTS.sans, fontWeight: 500, letterSpacing: '0.08em' },
-  eye:  { fontSize: 11, fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', fontFamily: FONTS.sans },
-  mono: { fontFamily: FONTS.mono, letterSpacing: '0.05em' },
+  h1:  { fontFamily: "'DM Sans', sans-serif", fontWeight: 300, letterSpacing: '0.04em', lineHeight: 1.08 },
+  h2:  { fontFamily: "'DM Sans', sans-serif", fontWeight: 300, letterSpacing: '0.06em', lineHeight: 1.1 },
+  h3:  { fontFamily: "'DM Sans', sans-serif", fontWeight: 400, letterSpacing: '0.07em' },
+  h4:  { fontFamily: "'DM Sans', sans-serif", fontWeight: 500, letterSpacing: '0.08em' },
+  eye: { fontSize: 11, fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', fontFamily: "'DM Sans', sans-serif" },
+  mono:{ fontFamily: "'DM Mono', monospace", letterSpacing: '0.05em' },
 };
 
-// ============================================================
-// CONTENT — Edit copy here without touching components
-// ============================================================
 export const CONTENT = {
-  // NAV
+
   nav: {
-    logo: 'hostack',
     links: ['How it works', 'Results', 'Pricing'],
-    cta: 'Join Founder Program →',
+    cta: 'Join Founder Program',
   },
 
-  // HERO
   hero: {
-    badge: '⚡ Beta · Live at Torridonia · 23 beds',
+    badge: 'Beta · Live at Torridon Estate · 23 beds',
     h1a: 'The system that runs ops —',
-    h1b: 'so you can build community.',
-    sub: 'Hostack is the operations OS for hostels & colivings. Guest requests, staff tasks, incident reports — all connected in real time via QR. One dashboard. Set up in under 1 hour.',
-    cta: 'Join the Founder Program →',
-    ctaSub: 'See how it works ↓',
+    h1b: 'so you can build the community you dream.',
+    sub: "Hostack is the ops platform built for hostels and colivings by people who've actually run one. Guest requests, staff tasks, incidents — all connected in real time. Set up in under 1 hour.",
+    cta: 'Join the Founder Program',
+    ctaSub: 'See how it works',
     stats: [
-      { value: '60%', label: 'Less manager time on ops' },
-      { value: '2×',  label: 'Staff tasks per shift' },
+      { value: '60%',  label: 'Less time on daily ops' },
+      { value: '2x',   label: 'Tasks done per shift' },
       { value: '100%', label: 'Team adoption' },
     ],
   },
 
-  // PROBLEM
   problem: {
     eyebrow: 'The Problem',
-    headline: 'You built a community. Ops is drowning it.',
-    sub: 'Most hostel and coliving managers spend 6+ hours daily on chaos that should run itself.',
+    headline: 'You love the people. Ops is getting in the way.',
+    sub: 'Most hostel and coliving managers spend 6+ hours daily on chaos that should just run itself. Sound familiar?',
     pains: [
-      { icon: '👥', title: 'Staff training never sticks', body: 'New volunteers repeat the same mistakes. SOPs live in a WhatsApp thread nobody reads.' },
-      { icon: '🔔', title: 'Guest requests slip through', body: 'Late check-ins, room issues, noise complaints — handled reactively, never proactively.' },
-      { icon: '📊', title: 'Spreadsheets don\'t scale', body: 'Rotas, incidents, inventory — scattered across tabs, DMs, and sticky notes.' },
-      { icon: '🎯', title: 'No real-time visibility', body: 'You only know what\'s wrong when guests complain or staff escalate. By then, damage is done.' },
+      { icon: 'users', title: 'Training never sticks',        body: 'New team members repeat the same mistakes. SOPs live in a WhatsApp thread nobody reads.' },
+      { icon: 'bell',  title: 'Guest requests slip through',  body: 'Late check-ins, room issues, noise — handled reactively, never proactively. Guests feel it.' },
+      { icon: 'table', title: 'Spreadsheets everywhere',      body: 'Rotas, incidents, inventory — scattered across tabs, DMs, and sticky notes. No single view.' },
+      { icon: 'eye',   title: 'You find out too late',        body: 'You only know something went wrong when a guest complains. By then, damage is done.' },
     ],
     differentiator: {
-      headline: 'This Isn\'t a CRM, POS, or OTA Tool',
-      body: 'Hostack is purpose-built for the unique operational reality of hostels and colivings — volunteer-heavy teams, rotating guests, community-first culture. No bloat. No irrelevant features. Just what you actually need.',
+      headline: 'Not a CRM. Not a POS. Not an OTA.',
+      body: "Hostack is built specifically for the real operational challenges of hostels and colivings — volunteer-heavy teams, rotating guests, community-first culture. No bloat, no irrelevant features. Just what you actually need, from people who get it.",
     },
   },
 
-  // PRODUCT
   product: {
     eyebrow: 'The Product',
-    headline: 'One ecosystem. Three connected apps.',
-    sub: 'Guest experience, staff operations, and owner control — all talking to each other in real time.',
+    headline: 'Three apps. One connected ecosystem.',
+    sub: 'Guest experience, staff operations, and owner insight — all talking to each other, all the time.',
     phase: {
-      label: 'Phase 1',
+      label: 'Early Stage',
       status: 'Building in public',
-      note: 'Launched at Torridonia. Expanding Q3 2025.',
+      note: 'Live at Torridon Estate, Scotland. Expanding Q3 2025.',
     },
     apps: [
       {
         id: 'guest',
+        icon: 'smartphone',
         name: 'Guest App',
-        emoji: '📱',
         color: '#00BFB3',
-        tagline: 'What guests see',
-        features: ['Submit requests via QR', 'House rules & FAQ', 'Community board', 'Activity feed'],
+        tagline: "Your guest's pocket companion",
+        description: 'Guests scan a QR at check-in and instantly have everything they need. Requests go directly to your team — no WhatsApp, no front desk queue.',
+        features: [
+          'Submit requests via QR — no app download needed',
+          'House rules, FAQ, and local tips always up to date',
+          'Community board for guests to connect',
+          'Activity feed for events and announcements',
+        ],
       },
       {
         id: 'owner',
+        icon: 'monitor',
         name: 'Owner Dashboard',
-        emoji: '🎯',
         color: '#4af8d4',
         tagline: 'Your command center',
-        features: ['Real-time incident feed', 'Staff task manager', 'Analytics & trends', 'SOP library'],
+        description: 'See everything happening across your property in one place. Incidents, tasks, team performance — all real-time, all in context.',
+        features: [
+          'Live incident and request feed — nothing slips',
+          'Staff task manager with progress tracking',
+          'Analytics and trends over time',
+          'SOP library to keep standards consistent',
+        ],
         highlight: true,
       },
       {
         id: 'staff',
+        icon: 'zap',
         name: 'Staff App',
-        emoji: '⚡',
         color: '#00BFB3',
-        tagline: 'What staff see',
-        features: ['Daily task checklist', 'Training modules', 'Incident reports', 'Handover notes'],
+        tagline: 'Built for your team',
+        description: 'Your team starts every shift knowing exactly what to do. Tasks from guests or the owner land here automatically — clear, prioritized, trackable.',
+        features: [
+          'Daily task checklist — auto-filled from guest requests',
+          'Training modules to onboard volunteers fast',
+          'Incident reports that reach the owner instantly',
+          'Handover notes so nothing is lost between shifts',
+        ],
       },
     ],
-    roadmap: [
-      { phase: 'Phase 1', status: 'now',    label: 'Core Ops Loop', note: 'Guest requests → Staff tasks → Owner visibility' },
-      { phase: 'Phase 2', status: 'next',   label: 'Smart Automation', note: 'Auto-assign tasks, predictive alerts, AI summaries' },
-      { phase: 'Phase 3', status: 'future', label: 'Network Effects',  note: 'Multi-property, staff marketplace, benchmarks' },
-    ],
-  },
-
-  // RESULTS
-  results: {
-    eyebrow: 'Results',
-    headline: 'Numbers from the ground.',
-    sub: 'Live data from Torridonia, a 23-bed coliving in Madrid. Real ops. Real team. Real results.',
-    metrics: [
-      { value: '60%', label: 'Reduction in manager time on daily ops', icon: '⏱' },
-      { value: '2×',  label: 'Tasks completed per volunteer shift',     icon: '⚡' },
-      { value: '<1h', label: 'Full team onboarding time',               icon: '🚀' },
-      { value: '100%', label: 'Team adoption rate (zero churn)',        icon: '✅' },
-    ],
-    quote: {
-      text: '"The dashboard is the first thing I check every morning. It tells me exactly what happened overnight and what needs attention today."',
-      author: 'Jorge Ibáñez',
-      role: 'Founder · Torridonia Madrid',
+    roadmap: {
+      title: 'Road map — early stage',
+      steps: [
+        { label: 'Apply for Founder Member Program', status: 'now' },
+        { label: 'Discovery call',                   status: 'now' },
+        { label: 'Action plan',                      status: 'next' },
+        { label: 'Start using Hostack',              status: 'next' },
+        { label: 'Learn, share, change and grow',    status: 'future' },
+        { label: 'Grow your business, community-centered', status: 'future' },
+      ],
     },
   },
 
-  // PRICING
+  results: {
+    eyebrow: 'Results',
+    headline: 'Real numbers. Real place. Real team.',
+    sub: 'Live data from Torridon Estate — a B&B and cottages in the Scottish Highlands. No demos, no simulations.',
+    metrics: [
+      { value: '60%',  label: 'Less manager time on daily ops',      icon: 'clock' },
+      { value: '2x',   label: 'Tasks completed per team shift',      icon: 'zap' },
+      { value: '<1h',  label: 'Full team onboarding time',           icon: 'rocket' },
+      { value: '100%', label: 'Team adoption — nobody dropped off',  icon: 'check' },
+    ],
+    quote: {
+      text: '"The dashboard is the first thing I check every morning. It tells me exactly what happened overnight and what needs my attention today."',
+      author: 'Felix',
+      role: 'Owner · Torridon Estate, Scottish Highlands',
+    },
+  },
+
   pricing: {
     eyebrow: 'Pricing',
-    headline: 'Start free. Grow on your terms.',
-    sub: 'No surprise fees. No lock-in. Built for operators who need results, not contracts.',
+    headline: "Start free. Grow when you're ready.",
+    sub: 'No surprises. No lock-in. Built for operators who care about results — not contracts.',
     plans: [
       {
         id: 'free',
         name: 'Free',
-        price: '€0',
+        price: '0',
         period: 'forever',
-        tagline: 'For operators exploring Hostack',
+        tagline: 'For operators who want to explore Hostack',
         features: [
           'Guest App (QR requests)',
           'Staff App (basic tasks)',
-          'Owner Dashboard (read-only)',
-          'Up to 2 staff accounts',
+          'Owner Dashboard (manual setup)',
+          'Up to 10 staff accounts',
           'Community support',
         ],
-        cta: 'Start Free',
+        cta: 'Join the waiting list',
         ctaStyle: 'outline',
-        anchor: '#register',
+        anchor: '#founding-member',
       },
       {
         id: 'pro',
         name: 'Pro',
-        price: '€99',
+        price: '99',
         period: '/month',
-        setup: '€300 setup fee',
-        promo: '🎁 Pay 6 months → get 12. Setup fee waived.',
-        tagline: 'For operators ready to reclaim their time',
+        setup: '300 setup fee',
+        promo: 'Pay 6 months, get 12. Setup fee waived.',
+        tagline: 'For operators ready to run ops on autopilot',
         features: [
-          'Everything in Free',
-          'Unlimited staff accounts',
+          'Everything in Free — automatized',
+          'Up to 50 staff accounts',
           'Full analytics dashboard',
           'SOP library & training',
           'Priority incident routing',
           'Slack/WhatsApp alerts',
           'Dedicated onboarding call',
         ],
-        cta: 'Apply for Pro →',
+        cta: 'Join the waiting list',
+        ctaSecondary: 'Apply to Founding Member Program',
         ctaStyle: 'primary',
         highlight: true,
         anchor: '#founding-member',
@@ -205,7 +214,7 @@ export const CONTENT = {
         name: 'Custom',
         price: 'Talk to us',
         period: '',
-        tagline: 'Multi-property or enterprise needs',
+        tagline: 'Multi-property or larger teams',
         features: [
           'Everything in Pro',
           'Multi-property management',
@@ -213,41 +222,40 @@ export const CONTENT = {
           'White-label option',
           'Dedicated account manager',
         ],
-        cta: 'Book a call →',
+        cta: 'Book a call',
         ctaStyle: 'outline',
         href: 'https://calendly.com/jorgebtco/cobu',
       },
     ],
   },
 
-  // FOUNDER PROGRAM
   founder: {
     eyebrow: 'Founder Member Program',
-    headline: 'Get 1 year free. Shape the product.',
-    sub: 'We\'re selecting 10 founding properties to co-build Hostack with us. You get free access, direct line to the founder, and your fingerprints on the roadmap.',
+    headline: 'Help us build it. Get a year for almost free.',
+    sub: "We're selecting 5 founding properties to co-build Hostack with us. You only cover the implementation fee and get free access for a full year, a fixed rate for life, a direct line to the founder team, and your fingerprints on the roadmap.",
     benefits: [
-      { icon: '🎁', title: '1 Year Pro — Free', body: '€1,188 value. Zero cost for founding members.' },
-      { icon: '🤝', title: 'Direct access to Jorge', body: 'WhatsApp line. Monthly calls. Real co-building.' },
-      { icon: '🗺', title: 'Shape the roadmap', body: 'Your use case influences what we build next.' },
-      { icon: '⚡', title: 'Setup fee waived', body: '€300 activation fee — completely free for you.' },
-      { icon: '🏆', title: 'Founding Member badge', body: 'Recognized as an early builder of Hostack.' },
+      { icon: 'gift',   title: '1 Year Pro — Free',                body: "1,188 EUR value. Yours at zero cost once you're a founding member." },
+      { icon: 'users',  title: 'Direct access to the founder team', body: 'WhatsApp line, monthly calls, real co-building — not a support ticket.' },
+      { icon: 'map',    title: 'Shape the roadmap',                 body: 'Your real use cases influence what we build next. No guessing.' },
+      { icon: 'wallet', title: 'Only pay the setup fee',            body: '300 EUR activation — and you get a full year of Pro services plus a fixed rate for life.' },
+      { icon: 'star',   title: 'Founding Member badge',             body: 'Recognized publicly as one of the people who helped build Hostack.' },
     ],
-    spotsLeft: 7,
-    totalSpots: 10,
+    spotsLeft: 3,
+    totalSpots: 5,
     formTitle: 'Apply to be a Founding Member',
     formSub: 'Takes 3 minutes. We review all applications personally.',
+    formButtonLabel: 'Apply to Founder Member Program',
   },
 
-  // FOOTER
   footer: {
     tagline: 'Operations OS for hostels & colivings.',
-    sub: 'Built in Madrid. Deployed in Europe.',
+    sub: 'Made by operators, for operators.',
     available: 'Currently accepting Founding Members',
     links: [
-      { label: 'How it works', href: '#product' },
-      { label: 'Pricing', href: '#pricing' },
+      { label: 'How it works',    href: '#product' },
+      { label: 'Pricing',         href: '#pricing' },
       { label: 'Founder Program', href: '#founding-member' },
-      { label: 'Contact', href: 'mailto:jorge@hostack.io' },
+      { label: 'Contact',         href: 'mailto:jorge@hostack.io' },
     ],
     copyright: `© ${new Date().getFullYear()} Hostack. All rights reserved.`,
   },

@@ -23,7 +23,7 @@ export default function Footer({ bp }) {
       id="footer"
       style={{
         width: '100%',
-        backgroundColor: COLORS.deep,
+        backgroundColor: COLORS.tealDeep,
         color: COLORS.white,
         padding: bp === 'mobile' ? '48px 20px' : '64px 40px',
       }}

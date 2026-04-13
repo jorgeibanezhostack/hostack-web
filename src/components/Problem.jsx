@@ -43,7 +43,7 @@ const PainPointCard = ({ icon: Icon, title }) => {
       borderRadius: '8px',
       boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
       borderLeft: `4px solid ${COLORS.teal}`,
-      fontFamily: FONTS.primary,
+      fontFamily: FONTS.sans,
       display: 'flex',
       flexDirection: 'column',
       gap: '16px',
@@ -62,7 +62,7 @@ const PainPointCard = ({ icon: Icon, title }) => {
     title: {
       fontSize: '16px',
       fontWeight: '600',
-      color: COLORS.deep,
+      color: COLORS.tealDeep,
       margin: '0',
     },
   };
@@ -87,7 +87,7 @@ export default function Problem({ bp }) {
       width: '100%',
       backgroundColor: '#f4f8f8',
       padding: isMobile ? '48px 24px' : isTablet ? '64px 40px' : '80px 60px',
-      fontFamily: FONTS.primary,
+      fontFamily: FONTS.sans,
     },
     container: {
       maxWidth: '1200px',
@@ -105,7 +105,7 @@ export default function Problem({ bp }) {
     headline: {
       fontSize: isMobile ? '32px' : isTablet ? '40px' : '48px',
       fontWeight: '700',
-      color: COLORS.deep,
+      color: COLORS.tealDeep,
       lineHeight: '1.2',
       marginBottom: '16px',
       margin: '0 0 16px 0',
@@ -126,12 +126,12 @@ export default function Problem({ bp }) {
       marginBottom: '48px',
     },
     differentiatorBox: {
-      backgroundColor: COLORS.deep,
+      backgroundColor: COLORS.tealDeep,
       color: '#ffffff',
       padding: isMobile ? '32px 24px' : isTablet ? '40px 32px' : '48px 40px',
       borderRadius: '8px',
       marginTop: '32px',
-      fontFamily: FONTS.primary,
+      fontFamily: FONTS.sans,
     },
     differentiatorHeadline: {
       fontSize: isMobile ? '18px' : '20px',

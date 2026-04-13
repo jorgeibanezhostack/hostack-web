@@ -1,472 +1,272 @@
 import { COLORS, FONTS, CONTENT } from '../data/tokens';
 
-// SVG Icon Components
+// SVG Icons
 const SmartphoneIcon = () => (
   <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="6" y="3" width="20" height="26" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" />
-    <circle cx="16" cy="27" r="1.5" fill="currentColor" />
+    <rect x="7" y="2" width="18" height="28" rx="3" stroke="currentColor" strokeWidth="1.8" fill="none"/>
+    <circle cx="16" cy="26" r="1.5" fill="currentColor"/>
+    <line x1="13" y1="6" x2="19" y2="6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
   </svg>
 );
 
 const MonitorIcon = () => (
   <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="4" y="4" width="24" height="16" rx="1" fill="none" stroke="currentColor" strokeWidth="1.5" />
-    <path d="M10 22h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    <path d="M14 22v2M18 22v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    <rect x="3" y="4" width="26" height="18" rx="2" stroke="currentColor" strokeWidth="1.8" fill="none"/>
+    <path d="M10 26h12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+    <path d="M16 22v4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+    <rect x="7" y="8" width="18" height="10" rx="1" fill="currentColor" opacity="0.2"/>
   </svg>
 );
 
 const ZapIcon = () => (
   <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M13 2l8 14h-6l-2 14-8-14h6l2-14z" fill="currentColor" />
+    <path d="M18 3L7 18h9l-2 11 14-16h-9l2-10z" fill="currentColor" opacity="0.9"/>
   </svg>
 );
 
-// Animated Connection Lines
-const AnimatedConnections = ({ isMobile }) => {
-  if (isMobile) return null;
+const CheckIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+    <path d="M2 7l3.5 3.5L12 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
 
-  const keyframes = `
-    @keyframes flowDash {
-      0% {
-        stroke-dashoffset: 20;
-      }
-      100% {
-        stroke-dashoffset: 0;
-      }
-    }
-    
-    @keyframes flowFloat {
-      0%, 100% {
-        opacity: 0.6;
-      }
-      50% {
-        opacity: 1;
-      }
-    }
-  `;
+const ICON_MAP = { smartphone: SmartphoneIcon, monitor: MonitorIcon, zap: ZapIcon };
 
-  return (
-    <>
-      <style>{keyframes}</style>
-      <svg
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '400px',
-          pointerEvents: 'none',
-          zIndex: 1,
-        }}
-        preserveAspectRatio="xMidYMid slice"
-        viewBox="0 0 1000 400"
-      >
-        <defs>
-          <marker
-            id="arrowhead"
-            markerWidth="10"
-            markerHeight="10"
-            refX="9"
-            refY="3"
-            orient="auto"
-          >
-            <polygon points="0 0, 10 3, 0 6" fill={COLORS.neon} />
-          </marker>
-        </defs>
-
-        <path
-          d="M 250 150 Q 375 100 500 150"
-          stroke={COLORS.neon}
-          strokeWidth="2"
-          fill="none"
-          strokeDasharray="8,4"
-          style={{
-            animation: 'flowDash 2s linear infinite',
-          }}
-          markerEnd="url(#arrowhead)"
-        />
-        <text
-          x="375"
-          y="85"
-          fontSize="12"
-          fill={COLORS.neon}
-          textAnchor="middle"
-          style={{
-            animation: 'flowFloat 3s ease-in-out infinite',
-          }}
-        >
-          requests
-        </text>
-
-        <path
-          d="M 500 150 Q 625 100 750 150"
-          stroke={COLORS.neon}
-          strokeWidth="2"
-          fill="none"
-          strokeDasharray="8,4"
-          style={{
-            animation: 'flowDash 2s linear infinite 0.5s',
-          }}
-          markerEnd="url(#arrowhead)"
-        />
-        <text
-          x="625"
-          y="85"
-          fontSize="12"
-          fill={COLORS.neon}
-          textAnchor="middle"
-          style={{
-            animation: 'flowFloat 3s ease-in-out infinite 0.5s',
-          }}
-        >
-          tasks
-        </text>
-
-        <path
-          d="M 750 150 Q 625 250 500 180 Q 375 210 250 150"
-          stroke={COLORS.neon}
-          strokeWidth="2"
-          fill="none"
-          strokeDasharray="8,4"
-          style={{
-            animation: 'flowDash 2s linear infinite 1s',
-          }}
-          markerEnd="url(#arrowhead)"
-        />
-        <text
-          x="500"
-          y="280"
-          fontSize="12"
-          fill={COLORS.neon}
-          textAnchor="middle"
-          style={{
-            animation: 'flowFloat 3s ease-in-out infinite 1s',
-          }}
-        >
-          updates
-        </text>
-      </svg>
-    </>
-  );
-};
-
-// App Card Component
-const AppCard = ({ icon: Icon, title, description, features, isHighlighted, accentColor }) => {
-  const styles = {
-    card: {
-      position: 'relative',
-      backgroundColor: isHighlighted ? 'rgba(4, 159, 148, 0.1)' : 'rgba(255, 255, 255, 0.05)',
-      backdropFilter: 'blur(10px)',
-      border: isHighlighted
-        ? `2px solid ${COLORS.neon}`
-        : '1px solid rgba(255, 255, 255, 0.1)',
-      borderRadius: '12px',
-      padding: '32px',
-      fontFamily: FONTS.primary,
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '16px',
-      boxShadow: isHighlighted
-        ? `0 0 20px rgba(74, 248, 212, 0.2), inset 0 0 20px rgba(74, 248, 212, 0.05)`
-        : 'none',
-      transition: 'all 0.3s ease',
-      zIndex: isHighlighted ? 10 : 5,
-    },
-    iconContainer: {
-      width: '56px',
-      height: '56px',
-      borderRadius: '12px',
-      backgroundColor: isHighlighted
-        ? 'rgba(74, 248, 212, 0.15)'
-        : 'rgba(0, 191, 179, 0.15)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: accentColor,
-      flexShrink: 0,
-    },
-    title: {
-      fontSize: '18px',
-      fontWeight: '700',
-      color: '#ffffff',
-      margin: '0',
-    },
-    description: {
-      fontSize: '14px',
-      color: 'rgba(255, 255, 255, 0.8)',
-      margin: '0',
-      lineHeight: '1.5',
-    },
-    featuresList: {
-      listStyle: 'none',
-      padding: '0',
-      margin: '0',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '8px',
-    },
-    featureItem: {
-      fontSize: '13px',
-      color: 'rgba(255, 255, 255, 0.7)',
-      margin: '0',
-      paddingLeft: '16px',
-      position: 'relative',
-    },
-    featureBullet: {
-      position: 'absolute',
-      left: '0',
-      color: accentColor,
-      fontWeight: 'bold',
-    },
-  };
-
-  return (
-    <div style={styles.card}>
-      <div style={styles.iconContainer}>
-        <Icon />
-      </div>
-      <h3 style={styles.title}>{title}</h3>
-      <p style={styles.description}>{description}</p>
-      <ul style={styles.featuresList}>
-        {features.map((feature, idx) => (
-          <li key={idx} style={styles.featureItem}>
-            <span style={styles.featureBullet}>+</span>
-            {feature}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-// Roadmap Step Component
-const RoadmapStep = ({ number, title, status, isLast, isMobile }) => {
-  const getStatusStyle = () => {
-    switch (status) {
-      case 'now':
-        return {
-          backgroundColor: COLORS.neon,
-          border: `2px solid ${COLORS.neon}`,
-        };
-      case 'next':
-        return {
-          backgroundColor: 'transparent',
-          border: `2px solid ${COLORS.teal}`,
-        };
-      case 'future':
-        return {
-          backgroundColor: 'transparent',
-          border: `2px solid rgba(0, 79, 89, 0.3)`,
-        };
-      default:
-        return {};
-    }
-  };
-
-  const getStatusTextColor = () => {
-    switch (status) {
-      case 'now':
-        return COLORS.deep;
-      case 'next':
-        return COLORS.teal;
-      case 'future':
-        return 'rgba(255, 255, 255, 0.4)';
-      default:
-        return '#ffffff';
-    }
-  };
-
-  const styles = {
-    container: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '16px',
-      flex: isMobile ? '1 1 100%' : '1 1 auto',
-      flexDirection: isMobile ? 'column' : 'row',
-      width: isMobile ? '100%' : 'auto',
-    },
-    circle: {
-      width: '32px',
-      height: '32px',
-      borderRadius: '50%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontSize: '14px',
-      fontWeight: '700',
-      color: getStatusTextColor(),
-      flexShrink: 0,
-      ...getStatusStyle(),
-    },
-    content: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '4px',
-    },
-    label: {
-      fontSize: '11px',
-      fontWeight: '700',
-      textTransform: 'uppercase',
-      letterSpacing: '0.5px',
-      color: getStatusTextColor(),
-    },
-    title: {
-      fontSize: '14px',
-      fontWeight: '600',
-      color: status === 'future' ? 'rgba(255, 255, 255, 0.5)' : '#ffffff',
-      margin: '0',
-    },
-    connector: {
-      flex: '1',
-      height: isMobile ? '2px' : '2px',
-      backgroundColor:
-        status === 'future' ? 'rgba(0, 79, 89, 0.2)' : COLORS.teal,
-      opacity: isLast ? 0 : 1,
-    },
-  };
-
-  return (
-    <div style={styles.container}>
-      <div style={styles.circle}>{number}</div>
-      <div style={styles.content}>
-        <div style={styles.label}>{status}</div>
-        <p style={styles.title}>{title}</p>
-      </div>
-      {!isLast && <div style={styles.connector} />}
-    </div>
-  );
-};
-
-// Product Section Component
 export default function Product({ bp }) {
   const isMobile = bp === 'mobile';
   const isTablet = bp === 'tablet';
 
-  const styles = {
-    section: {
-      width: '100%',
-      backgroundColor: COLORS.deep,
-      padding: isMobile ? '48px 24px' : isTablet ? '64px 40px' : '80px 60px',
-      fontFamily: FONTS.primary,
-      color: '#ffffff',
-      position: 'relative',
-    },
-    container: {
-      maxWidth: '1200px',
-      margin: '0 auto',
-    },
-    eyebrow: {
-      fontSize: '12px',
-      fontWeight: '700',
-      letterSpacing: '0.5px',
-      textTransform: 'uppercase',
-      color: COLORS.neon,
-      margin: '0 0 12px 0',
-    },
-    headline: {
-      fontSize: isMobile ? '32px' : isTablet ? '40px' : '48px',
-      fontWeight: '700',
-      color: '#ffffff',
-      lineHeight: '1.2',
-      margin: '0 0 16px 0',
-      maxWidth: '700px',
-    },
-    subheading: {
-      fontSize: isMobile ? '16px' : '18px',
-      color: 'rgba(255, 255, 255, 0.8)',
-      lineHeight: '1.6',
-      margin: '0 0 48px 0',
-      maxWidth: '700px',
-    },
-    cardsContainer: {
-      position: 'relative',
-      display: 'grid',
-      gridTemplateColumns: isMobile ? '1fr' : isTablet ? '1fr 1fr' : '1fr 1fr 1fr',
-      gap: isMobile ? '24px' : isTablet ? '32px' : '40px',
-      marginBottom: '80px',
-      zIndex: 2,
-    },
-    roadmapSection: {
-      marginTop: '80px',
-      paddingTop: '60px',
-      borderTop: '1px solid rgba(74, 248, 212, 0.1)',
-    },
-    roadmapEyebrow: {
-      fontSize: '12px',
-      fontWeight: '700',
-      letterSpacing: '0.5px',
-      textTransform: 'uppercase',
-      color: COLORS.neon,
-      margin: '0 0 12px 0',
-    },
-    roadmapHeadline: {
-      fontSize: isMobile ? '28px' : isTablet ? '36px' : '40px',
-      fontWeight: '700',
-      color: '#ffffff',
-      lineHeight: '1.2',
-      margin: '0 0 48px 0',
-    },
-    roadmapGrid: {
-      display: 'flex',
-      flexDirection: isMobile ? 'column' : 'row',
-      gap: isMobile ? '32px' : '24px',
-      alignItems: isMobile ? 'stretch' : 'center',
-      justifyContent: 'space-between',
-    },
+  const sectionStyle = {
+    width: '100%',
+    backgroundColor: COLORS.tealDeep,
+    padding: isMobile ? '64px 24px' : isTablet ? '80px 40px' : '100px 64px',
+    fontFamily: FONTS.sans,
+    color: '#ffffff',
+    position: 'relative',
+    overflow: 'hidden',
   };
 
+  const innerStyle = {
+    maxWidth: 1160,
+    margin: '0 auto',
+  };
+
+  const eyebrowStyle = {
+    fontSize: 11,
+    fontWeight: 600,
+    letterSpacing: '0.18em',
+    textTransform: 'uppercase',
+    color: COLORS.neon,
+    marginBottom: 16,
+  };
+
+  const headlineStyle = {
+    fontSize: isMobile ? 30 : isTablet ? 38 : 46,
+    fontWeight: 300,
+    color: '#fff',
+    lineHeight: 1.12,
+    marginBottom: 16,
+    maxWidth: 700,
+    letterSpacing: '0.04em',
+  };
+
+  const subStyle = {
+    fontSize: isMobile ? 15 : 17,
+    color: 'rgba(255,255,255,0.70)',
+    lineHeight: 1.65,
+    marginBottom: 56,
+    maxWidth: 640,
+  };
+
+  const phaseBadgeStyle = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: 8,
+    padding: '6px 14px',
+    backgroundColor: COLORS.neonSoft,
+    border: `1px solid ${COLORS.glassBorder}`,
+    borderRadius: 20,
+    fontSize: 12,
+    fontWeight: 600,
+    color: COLORS.neon,
+    marginBottom: 40,
+    letterSpacing: '0.06em',
+  };
+
+  const cardsWrapStyle = {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? '1fr' : isTablet ? '1fr 1fr' : '1fr 1fr 1fr',
+    gap: isMobile ? 20 : 24,
+    marginBottom: 80,
+    position: 'relative',
+  };
+
+  // Roadmap
+  const roadmapStyle = {
+    borderTop: `1px solid rgba(74,248,212,0.12)`,
+    paddingTop: 64,
+    marginTop: 20,
+  };
+
+  const roadmapTitleStyle = {
+    fontSize: isMobile ? 20 : 24,
+    fontWeight: 600,
+    color: COLORS.neon,
+    marginBottom: 40,
+    letterSpacing: '0.04em',
+  };
+
+  const stepsStyle = {
+    display: 'flex',
+    flexDirection: isMobile ? 'column' : 'row',
+    gap: isMobile ? 0 : 0,
+    alignItems: isMobile ? 'flex-start' : 'flex-start',
+    position: 'relative',
+  };
+
+  const roadmap = CONTENT.product.roadmap;
+
   return (
-    <section id="product" style={styles.section}>
-      <div style={styles.container}>
-        <p style={styles.eyebrow}>{CONTENT.product.eyebrow}</p>
-        <h2 style={styles.headline}>{CONTENT.product.headline}</h2>
-        <p style={styles.subheading}>{CONTENT.product.sub}</p>
+    <section id="product" style={sectionStyle}>
+      {/* Subtle bg glow */}
+      <div style={{
+        position: 'absolute', top: '20%', left: '50%', transform: 'translateX(-50%)',
+        width: 800, height: 400,
+        background: 'radial-gradient(ellipse, rgba(74,248,212,0.05) 0%, transparent 70%)',
+        pointerEvents: 'none',
+      }}/>
 
-        <div style={styles.cardsContainer}>
-          <AnimatedConnections isMobile={isMobile} />
+      <div style={innerStyle}>
+        <div style={eyebrowStyle}>{CONTENT.product.eyebrow}</div>
+        <h2 style={headlineStyle}>{CONTENT.product.headline}</h2>
+        <p style={subStyle}>{CONTENT.product.sub}</p>
 
-          <AppCard
-            icon={SmartphoneIcon}
-            title={CONTENT.product.apps[0].title}
-            description={CONTENT.product.apps[0].description}
-            features={CONTENT.product.apps[0].features}
-            accentColor={COLORS.teal}
-          />
-
-          <AppCard
-            icon={MonitorIcon}
-            title={CONTENT.product.apps[1].title}
-            description={CONTENT.product.apps[1].description}
-            features={CONTENT.product.apps[1].features}
-            isHighlighted
-            accentColor={COLORS.neon}
-          />
-
-          <AppCard
-            icon={ZapIcon}
-            title={CONTENT.product.apps[2].title}
-            description={CONTENT.product.apps[2].description}
-            features={CONTENT.product.apps[2].features}
-            accentColor={COLORS.teal}
-          />
+        <div style={phaseBadgeStyle}>
+          <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: COLORS.neon, display: 'inline-block' }}/>
+          {CONTENT.product.phase.label} · {CONTENT.product.phase.status} · {CONTENT.product.phase.note}
         </div>
 
-        <div style={styles.roadmapSection}>
-          <p style={styles.roadmapEyebrow}>{CONTENT.roadmap.eyebrow}</p>
-          <h2 style={styles.roadmapHeadline}>{CONTENT.roadmap.headline}</h2>
+        {/* 3 App Cards */}
+        <div style={cardsWrapStyle}>
+          {CONTENT.product.apps.map((app, i) => {
+            const Icon = ICON_MAP[app.icon] || SmartphoneIcon;
+            const isHighlight = !!app.highlight;
+            return (
+              <div key={app.id} style={{
+                background: isHighlight ? 'rgba(74,248,212,0.06)' : 'rgba(4,78,89,0.38)',
+                border: isHighlight ? `1.5px solid ${COLORS.neon}` : `1px solid rgba(74,248,212,0.14)`,
+                borderRadius: 16,
+                padding: isMobile ? 24 : 28,
+                backdropFilter: 'blur(14px)',
+                boxShadow: isHighlight ? `0 0 32px rgba(74,248,212,0.10)` : 'none',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 16,
+                position: 'relative',
+              }}>
+                {isHighlight && (
+                  <div style={{
+                    position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)',
+                    backgroundColor: COLORS.neon, color: COLORS.tealDeep,
+                    fontSize: 10, fontWeight: 700, letterSpacing: '0.12em',
+                    padding: '3px 12px', borderRadius: 20, whiteSpace: 'nowrap',
+                  }}>YOUR COMMAND CENTER</div>
+                )}
 
-          <div style={styles.roadmapGrid}>
-            {CONTENT.roadmap.steps.map((step, idx) => (
-              <RoadmapStep
-                key={idx}
-                number={idx + 1}
-                title={step.title}
-                status={step.status}
-                isLast={idx === CONTENT.roadmap.steps.length - 1}
-                isMobile={isMobile}
-              />
-            ))}
+                {/* Icon */}
+                <div style={{
+                  width: 52, height: 52, borderRadius: 12,
+                  backgroundColor: isHighlight ? 'rgba(74,248,212,0.18)' : 'rgba(0,191,179,0.18)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: isHighlight ? COLORS.neon : COLORS.turquoise,
+                }}>
+                  <Icon />
+                </div>
+
+                <div>
+                  <div style={{ fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 4 }}>{app.name}</div>
+                  <div style={{ fontSize: 13, color: isHighlight ? COLORS.neon : COLORS.turquoise, fontWeight: 500 }}>{app.tagline}</div>
+                </div>
+
+                <p style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.72)', lineHeight: 1.55, margin: 0 }}>{app.description}</p>
+
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {app.features.map((f, fi) => (
+                    <li key={fi} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: 'rgba(255,255,255,0.68)', lineHeight: 1.45 }}>
+                      <span style={{ color: isHighlight ? COLORS.neon : COLORS.turquoise, marginTop: 2, flexShrink: 0 }}><CheckIcon /></span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Connection labels */}
+                {!isMobile && i < 2 && (
+                  <div style={{
+                    position: 'absolute', right: -40, top: '50%', transform: 'translateY(-50%)',
+                    zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
+                  }}>
+                    <svg width="40" height="24" viewBox="0 0 40 24">
+                      <path d="M2 12 Q20 4 38 12" stroke={COLORS.neon} strokeWidth="1.5" fill="none" strokeDasharray="4 3" opacity="0.7"/>
+                      <polygon points="34,9 38,12 34,15" fill={COLORS.neon} opacity="0.7"/>
+                    </svg>
+                    <span style={{ fontSize: 9, color: COLORS.neon, fontWeight: 600, letterSpacing: '0.1em', opacity: 0.8 }}>
+                      {i === 0 ? 'REQUESTS' : 'TASKS'}
+                    </span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Roadmap */}
+        <div style={roadmapStyle} id="roadmap">
+          <div style={roadmapTitleStyle}>{roadmap.title}</div>
+          <div style={stepsStyle}>
+            {roadmap.steps.map((step, idx) => {
+              const isNow = step.status === 'now';
+              const isNext = step.status === 'next';
+              const isLast = idx === roadmap.steps.length - 1;
+              const circleColor = isNow ? COLORS.neon : isNext ? 'transparent' : 'transparent';
+              const circleBorder = isNow ? COLORS.neon : isNext ? COLORS.teal : 'rgba(74,248,212,0.2)';
+              const textColor = isNow ? '#fff' : isNext ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.35)';
+              const numColor = isNow ? COLORS.tealDeep : isNext ? COLORS.teal : 'rgba(74,248,212,0.25)';
+
+              return (
+                <div key={idx} style={{ display: 'flex', alignItems: isMobile ? 'flex-start' : 'flex-start', flex: 1, flexDirection: isMobile ? 'row' : 'column', gap: isMobile ? 12 : 0 }}>
+                  {/* Step indicator + connector line */}
+                  <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: 'center', marginBottom: isMobile ? 0 : 16 }}>
+                    <div style={{
+                      width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
+                      backgroundColor: circleColor, border: `2px solid ${circleBorder}`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: 13, fontWeight: 700, color: numColor,
+                      zIndex: 1,
+                    }}>
+                      {idx + 1}
+                    </div>
+                    {!isLast && (
+                      <div style={{
+                        width: isMobile ? 2 : '100%',
+                        height: isMobile ? 24 : 2,
+                        backgroundColor: isNow ? COLORS.neon : 'rgba(74,248,212,0.15)',
+                        margin: isMobile ? '4px auto' : '0',
+                        flex: isMobile ? 'none' : 1,
+                        minWidth: isMobile ? undefined : 8,
+                      }}/>
+                    )}
+                  </div>
+                  <div style={{ paddingRight: isMobile ? 0 : 8, paddingBottom: isMobile ? 16 : 0 }}>
+                    <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: isNow ? COLORS.neon : isNext ? COLORS.turquoise : 'rgba(255,255,255,0.3)', marginBottom: 4 }}>
+                      {step.status}
+                    </div>
+                    <div style={{ fontSize: isMobile ? 13 : 13.5, fontWeight: 500, color: textColor, lineHeight: 1.4 }}>
+                      {step.label}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
