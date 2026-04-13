@@ -1,10 +1,11 @@
 import { useState } from 'react'
+import './App.css'
 import Navbar from './components/Navbar'
 import { Hero } from './components/Hero'
 import { Product } from './components/Product'
 import { Pricing } from './components/Pricing'
 import { WaitlistForm } from './components/WaitlistForm'
-import FounderForm from './components/FounderForm'
+import { FoundingMember } from './components/FoundingMember'
 import Footer from './components/Footer'
 
 export default function App() {
@@ -19,7 +20,7 @@ export default function App() {
       <Hero />
       <Product />
       <Pricing onWaitlist={openWaitlist} />
-      <FounderForm />
+      <FoundingMember />
       <Footer />
 
       <WaitlistForm

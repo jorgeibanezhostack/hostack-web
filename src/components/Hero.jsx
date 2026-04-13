@@ -1,9 +1,8 @@
-import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 
 export function Hero() {
   const scroll = () => {
-    document.getElementById('product')?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('founding-member')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -38,7 +37,7 @@ export function Hero() {
           onClick={scroll}
           className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 inline-flex items-center gap-2"
         >
-          See How It Works
+          Join the Founder Member program →
           <ChevronDown size={20} />
         </button>
       </div>
