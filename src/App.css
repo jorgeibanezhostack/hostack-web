@@ -182,3 +182,27 @@
     border-right-color: var(--border);
   }
 }
+
+/* Founding Member section */
+#founding-member {
+  scroll-margin-top: 60px;
+}
+
+#founding-member input,
+#founding-member select,
+#founding-member textarea {
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#founding-member input:focus,
+#founding-member select:focus,
+#founding-member textarea:focus {
+  outline: none;
+  border-color: #084e59;
+  box-shadow: 0 0 0 3px rgba(74, 248, 212, 0.15);
+}
+
+#founding-member button[type="submit"]:hover:not(:disabled) {
+  background: #052f36 !important;
+  box-shadow: 0 0 0 3px rgba(74, 248, 212, 0.25);
+}

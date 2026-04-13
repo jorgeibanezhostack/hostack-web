@@ -40,8 +40,8 @@ const TRANSLATIONS = {
         heroBadge: 'Live at Torridonia · 23 beds',
         heroH1a: 'The system that runs ops —',
         heroH1b: 'so you can build community.',
-        heroSub: 'Guest requests go to your team automatically. Your team logs everything. You see it all — from anywhere. No WhatsApp groups. No paper checklists.',
-        heroCta: 'Get started free →',
+        heroSub: 'Hostack is the operations OS for hostels & colivings. Guest requests, staff tasks, incident reports — all connected in real time via QR. One dashboard. Set up in under 1 hour.',
+        heroCta: 'Join the Founder Member program →',
         heroSee: 'See how it works',
         heroFlowLabel: 'Live data flow',
         heroFlowGuest: 'Guest App',
@@ -64,6 +64,32 @@ const TRANSLATIONS = {
         solutionEye: 'The product',
         solutionH2: 'Three layers. One system.',
         solutionSub: 'How it works',
+        solutionToggleFree: 'Free',
+        solutionTogglePro: 'Pro',
+        guestFeature4: 'Multi-language support',
+        guestFeature4Sub: 'Guest app in EN, ES, FR and more',
+        staffFeature4: 'Shift handover reports',
+        staffFeature4Sub: 'Auto-generated summaries sent at end of every shift',
+        ownerFeature4: 'Multi-property view',
+        ownerFeature4Sub: 'One dashboard for all your locations',
+        founderEye: 'Limited spots — 3 remaining',
+        founderH2: 'Become a Founding Member',
+        founderSub: 'We\'re opening 5 founding member spots to operators who want to shape the product. Lock in the best price. Skip the setup fee. Get direct access to the team.',
+        founderDeal1: 'Pay 6 months',
+        founderDeal2: 'Get 12 months',
+        founderDeal3: 'Setup fee waived',
+        founderFormTitle: 'Apply for a founding spot',
+        founderFormName: 'Your name',
+        founderFormEmail: 'Email address',
+        founderFormProperty: 'Property name',
+        founderFormType: 'Property type',
+        founderFormBeds: 'Number of beds',
+        founderFormCountry: 'Country',
+        founderFormTools: 'What tools do you currently use?',
+        founderFormChallenge: 'What\'s your biggest operational challenge?',
+        founderFormHear: 'How did you hear about Hostack?',
+        founderFormSubmit: 'Apply for a founding member spot →',
+        founderFormSent: 'Application received — we\'ll be in touch within 48 hours. ✓',
         guestApp: 'Guest App',
         guestFeature1: 'QR code access — no app download',
         guestFeature1Sub: 'Guests scan and submit requests in seconds',
@@ -112,8 +138,8 @@ const TRANSLATIONS = {
         foundingGet: 'You get 12 months',
         foundingDetail: 'Pay 6 months · Get 12 · Setup fee waived',
         foundingCta: 'Claim your spot →',
-        fullPlan: 'Full Service',
-        fullSub: 'Operator + add-ons',
+        fullPlan: 'Custom Solutions',
+        fullSub: 'Operator + add-ons, tailored to your needs',
         fullCta: 'Book a call →',
         trial: '30-day trial on all paid plans. Cancel any time.',
         feature1: 'Guest request system',
@@ -142,8 +168,8 @@ const TRANSLATIONS = {
         heroBadge: 'En vivo en Torridonia · 23 camas',
         heroH1a: 'El sistema que gestiona operaciones —',
         heroH1b: 'para que construyas comunidad.',
-        heroSub: 'Las solicitudes de huéspedes llegan a tu equipo automáticamente. Tu equipo registra todo. Tú lo ves todo — desde cualquier lugar. Sin grupos de WhatsApp. Sin listas en papel.',
-        heroCta: 'Empezar gratis →',
+        heroSub: 'Hostack es el OS operacional para hostels y colivings. Solicitudes de huéspedes, tareas del personal, incidentes — todo conectado en tiempo real por QR. Un dashboard. Listo en menos de 1 hora.',
+        heroCta: 'Unirse al programa Founding Member →',
         heroSee: 'Ver cómo funciona',
         heroFlowLabel: 'Flujo de datos en vivo',
         heroFlowGuest: 'App Huésped',
@@ -166,6 +192,32 @@ const TRANSLATIONS = {
         solutionEye: 'El producto',
         solutionH2: 'Tres capas. Un sistema.',
         solutionSub: 'Cómo funciona',
+        solutionToggleFree: 'Gratis',
+        solutionTogglePro: 'Pro',
+        guestFeature4: 'Soporte multiidioma',
+        guestFeature4Sub: 'App de huésped en EN, ES, FR y más',
+        staffFeature4: 'Informes de cambio de turno',
+        staffFeature4Sub: 'Resúmenes automáticos al final de cada turno',
+        ownerFeature4: 'Vista multi-propiedad',
+        ownerFeature4Sub: 'Un dashboard para todas tus ubicaciones',
+        founderEye: 'Plazas limitadas — 3 restantes',
+        founderH2: 'Conviértete en Founding Member',
+        founderSub: 'Abrimos 5 plazas de founding member para operadores que quieren dar forma al producto. Bloquea el mejor precio. Sin tarifa de configuración. Acceso directo al equipo.',
+        founderDeal1: 'Pagas 6 meses',
+        founderDeal2: 'Recibes 12 meses',
+        founderDeal3: 'Sin tarifa de configuración',
+        founderFormTitle: 'Solicita una plaza founding',
+        founderFormName: 'Tu nombre',
+        founderFormEmail: 'Email',
+        founderFormProperty: 'Nombre del alojamiento',
+        founderFormType: 'Tipo de alojamiento',
+        founderFormBeds: 'Número de camas',
+        founderFormCountry: 'País',
+        founderFormTools: '¿Qué herramientas usas actualmente?',
+        founderFormChallenge: '¿Cuál es tu mayor reto operacional?',
+        founderFormHear: '¿Cómo te enteraste de Hostack?',
+        founderFormSubmit: 'Solicitar plaza founding →',
+        founderFormSent: 'Solicitud recibida — te contactamos en 48 horas. ✓',
         guestApp: 'App Huésped',
         guestFeature1: 'Acceso por código QR — sin descargar app',
         guestFeature1Sub: 'Los huéspedes escanean y envían solicitudes en segundos',
@@ -214,8 +266,8 @@ const TRANSLATIONS = {
         foundingGet: 'Obtienes 12 meses',
         foundingDetail: 'Pagas 6 meses · Recibes 12 · Sin tarifa de configuración',
         foundingCta: 'Reserva tu plaza →',
-        fullPlan: 'Full Service',
-        fullSub: 'Operador + complementos',
+        fullPlan: 'Custom Solutions',
+        fullSub: 'Operador + complementos, adaptado a tus necesidades',
         fullCta: 'Reservar llamada →',
         trial: 'Prueba de 30 días en todos los planes de pago. Cancela cuando quieras.',
         feature1: 'Sistema de solicitudes de huéspedes',
@@ -403,7 +455,7 @@ function Hero({ bp, i }) {
                     </Fade>
                     <Fade delay={240}>
                         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 30 }}>
-                            <a href="#cta" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: P.accent, color: '#fff', padding: isMobile ? '12px 20px' : '12px 24px', borderRadius: 9, fontSize: isMobile ? '13px' : '14px', fontWeight: 500, textDecoration: 'none', cursor: 'pointer' }} onMouseEnter={e => { e.currentTarget.style.background = P.accentDeep; e.currentTarget.style.boxShadow = `0 0 0 3px ${P.neon}`; }} onMouseLeave={e => { e.currentTarget.style.background = P.accent; e.currentTarget.style.boxShadow = 'none'; }}> {i.heroCta} <Icons.Arr /> </a>
+                            <a href="#founding-member" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: P.accent, color: '#fff', padding: isMobile ? '12px 20px' : '12px 24px', borderRadius: 9, fontSize: isMobile ? '13px' : '14px', fontWeight: 500, textDecoration: 'none', cursor: 'pointer' }} onMouseEnter={e => { e.currentTarget.style.background = P.accentDeep; e.currentTarget.style.boxShadow = `0 0 0 3px ${P.neon}`; }} onMouseLeave={e => { e.currentTarget.style.background = P.accent; e.currentTarget.style.boxShadow = 'none'; }}> {i.heroCta} <Icons.Arr /> </a>
                             <a href="#solution" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'transparent', color: P.inkMid, padding: isMobile ? '12px 20px' : '12px 20px', borderRadius: 9, fontSize: isMobile ? '13px' : '14px', fontWeight: 500, textDecoration: 'none', cursor: 'pointer' }}> {i.heroSee} </a>
                         </div>
                     </Fade>
@@ -472,7 +524,9 @@ function Problem({ bp, i }) {
 
 function Solution({ bp, i }) {
     const isMobile = bp === 'mobile';
-    const layers = [
+    const [planMode, setPlanMode] = useState('free');
+
+    const freeFeatures = [
         {
             label: i.guestApp,
             color: P.neon,
@@ -488,7 +542,36 @@ function Solution({ bp, i }) {
             features: [
                 [i.staffFeature1, i.staffFeature1Sub],
                 [i.staffFeature2, i.staffFeature2Sub],
+            ],
+        },
+        {
+            label: i.ownerDash,
+            color: P.accentDeep,
+            features: [
+                [i.ownerFeature1, i.ownerFeature1Sub],
+            ],
+        },
+    ];
+
+    const proFeatures = [
+        {
+            label: i.guestApp,
+            color: P.neon,
+            features: [
+                [i.guestFeature1, i.guestFeature1Sub],
+                [i.guestFeature2, i.guestFeature2Sub],
+                [i.guestFeature3, i.guestFeature3Sub],
+                [i.guestFeature4, i.guestFeature4Sub],
+            ],
+        },
+        {
+            label: i.staffApp,
+            color: P.accentDark,
+            features: [
+                [i.staffFeature1, i.staffFeature1Sub],
+                [i.staffFeature2, i.staffFeature2Sub],
                 [i.staffFeature3, i.staffFeature3Sub],
+                [i.staffFeature4, i.staffFeature4Sub],
             ],
         },
         {
@@ -498,9 +581,25 @@ function Solution({ bp, i }) {
                 [i.ownerFeature1, i.ownerFeature1Sub],
                 [i.ownerFeature2, i.ownerFeature2Sub],
                 [i.ownerFeature3, i.ownerFeature3Sub],
+                [i.ownerFeature4, i.ownerFeature4Sub],
             ],
         },
     ];
+
+    const layers = planMode === 'free' ? freeFeatures : proFeatures;
+
+    const toggleStyle = (active) => ({
+        padding: isMobile ? '6px 18px' : '7px 22px',
+        border: `1px solid ${active ? P.accent : P.border}`,
+        background: active ? P.accent : 'transparent',
+        color: active ? '#fff' : P.inkSoft,
+        borderRadius: 7,
+        cursor: 'pointer',
+        fontFamily: "'DM Sans',sans-serif",
+        fontSize: isMobile ? '12px' : '13px',
+        fontWeight: 500,
+        transition: 'all 0.2s ease',
+    });
 
     return (
         <section id="solution" style={{ ...section, background: P.surface2 }}>
@@ -512,18 +611,27 @@ function Solution({ bp, i }) {
                     <h2 style={{ ...T.h2, fontSize: isMobile ? 'clamp(1.6rem,5vw,2rem)' : 'clamp(2rem,4vw,2.8rem)', color: P.ink, marginBottom: 8 }}>{i.solutionH2}</h2>
                 </Fade>
                 <Fade delay={100}>
-                    <p style={{ fontSize: isMobile ? '14px' : '15px', color: P.inkSoft, marginBottom: 44 }}>{i.solutionSub}</p>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: 36 }}>
+                        <p style={{ fontSize: isMobile ? '14px' : '15px', color: P.inkSoft, margin: 0 }}>{i.solutionSub}</p>
+                        <div style={{ display: 'flex', gap: 6, background: P.surface, border: `1px solid ${P.border}`, borderRadius: 9, padding: 4 }}>
+                            <button style={toggleStyle(planMode === 'free')} onClick={() => setPlanMode('free')}>{i.solutionToggleFree}</button>
+                            <button style={toggleStyle(planMode === 'pro')} onClick={() => setPlanMode('pro')}>{i.solutionTogglePro}</button>
+                        </div>
+                    </div>
                 </Fade>
                 <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3,1fr)', gap: isMobile ? '12px' : '20px' }}>
                     {layers.map((layer, li) => (
                         <Fade key={layer.label} delay={li * 80}>
                             <div style={{ background: P.surface, border: `1px solid ${P.border}`, borderRadius: 14, padding: isMobile ? '20px 18px' : '26px 24px', borderTop: `3px solid ${layer.color}` }}>
                                 <div style={{ ...T.eye, fontSize: 10, color: P.accent, marginBottom: 16 }}>{layer.label}</div>
-                                {layer.features.map(([title, sub]) => (
-                                    <div key={title} style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
-                                        <Icons.Chk />
+                                {layer.features.map(([title, sub], fi) => (
+                                    <div key={title} style={{ display: 'flex', gap: 10, marginBottom: 16, opacity: planMode === 'pro' && fi === layer.features.length - 1 ? 1 : 1 }}>
+                                        <Icons.Chk color={planMode === 'pro' && fi === layer.features.length - 1 ? P.accent : undefined} />
                                         <div>
-                                            <div style={{ fontSize: isMobile ? '12px' : '13px', fontWeight: 500, color: P.ink, marginBottom: 2 }}>{title}</div>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+                                                <div style={{ fontSize: isMobile ? '12px' : '13px', fontWeight: 500, color: P.ink }}>{title}</div>
+                                                {planMode === 'pro' && fi === layer.features.length - 1 && <span style={{ ...T.eye, fontSize: 8, background: P.neonSoft, color: P.accent, padding: '1px 6px', borderRadius: 3 }}>PRO</span>}
+                                            </div>
                                             <div style={{ fontSize: isMobile ? '11px' : '12px', color: P.inkSoft, lineHeight: 1.6 }}>{sub}</div>
                                         </div>
                                     </div>
@@ -615,9 +723,9 @@ function Pricing({ bp, i }) {
                 </Fade>
                 <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3,1fr)', gap: isMobile ? '12px' : '20px', marginBottom: 20 }}>
                     {[
-                        { plan: i.freePlan, price: '€0', sub: i.freeSub, tagline: i.freeTagline, cta: i.freeCta, color: 'light', featured: false },
-                        { plan: i.foundingPlan, price: i.foundingPrice, sub: i.foundingDetail, get: i.foundingGet, cta: i.foundingCta, color: 'dark', featured: true },
-                        { plan: i.fullPlan, price: 'Custom', sub: i.fullSub, cta: i.fullCta, color: 'light', featured: false },
+                        { plan: i.freePlan, price: '€0', sub: i.freeSub, tagline: i.freeTagline, cta: i.freeCta, href: '#founding-member', color: 'light', featured: false },
+                        { plan: i.foundingPlan, price: i.foundingPrice, sub: i.foundingDetail, get: i.foundingGet, cta: i.foundingCta, href: '#founding-member', color: 'dark', featured: true },
+                        { plan: i.fullPlan, price: 'Custom', sub: i.fullSub, cta: i.fullCta, href: 'https://calendly.com/jorgebtco/cobu', color: 'light', featured: false },
                     ].map((card, idx) => (
                         <Fade key={card.plan} delay={120 + idx * 40}>
                             <div style={{ background: card.featured ? P.accentDeep : P.surface2, border: card.featured ? `2px solid ${P.neon}` : `1px solid ${P.border}`, borderRadius: 14, padding: isMobile ? '20px 18px' : '24px 22px', position: card.featured ? 'relative' : 'static', boxShadow: card.featured ? `0 0 0 4px ${P.neonSoft}` : 'none' }}>
@@ -639,12 +747,205 @@ function Pricing({ bp, i }) {
                                         <span style={{ fontSize: isMobile ? '12px' : '13px', color: 'rgba(255,255,255,0.8)' }}>{f}</span>
                                     </div>
                                 ))}
-                                <a href="#cta" style={{ display: 'block', marginTop: 16, textAlign: 'center', background: card.featured ? P.neon : P.accent, color: card.featured ? P.accentDeep : '#fff', padding: '10px 0', borderRadius: 8, fontSize: isMobile ? '12px' : '13px', fontWeight: 500, textDecoration: 'none', cursor: 'pointer' }}> {card.cta} </a>
+                                <a href={card.href} target={card.href.startsWith('http') ? '_blank' : undefined} rel={card.href.startsWith('http') ? 'noopener noreferrer' : undefined} style={{ display: 'block', marginTop: 16, textAlign: 'center', background: card.featured ? P.neon : P.accent, color: card.featured ? P.accentDeep : '#fff', padding: '10px 0', borderRadius: 8, fontSize: isMobile ? '12px' : '13px', fontWeight: 500, textDecoration: 'none', cursor: 'pointer' }}> {card.cta} </a>
                             </div>
                         </Fade>
                     ))}
                 </div>
                 <p style={{ textAlign: 'center', fontSize: isMobile ? '11px' : '12px', color: P.inkFaint }}>{i.trial}</p>
+            </div>
+        </section>
+    );
+}
+
+function FoundingMember({ bp, i }) {
+    const isMobile = bp === 'mobile';
+    const [sent, setSent] = useState(false);
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [form, setForm] = useState({
+        contactName: '',
+        email: '',
+        propertyName: '',
+        propertyType: 'hostel',
+        beds: '',
+        country: '',
+        currentTools: '',
+        biggestChallenge: '',
+        howHeard: '',
+    });
+
+    const set = (field) => (e) => setForm(f => ({ ...f, [field]: e.target.value }));
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+        if (!form.contactName || !form.email || !form.propertyName || !form.beds || !form.country) {
+            setError('Please fill in all required fields.');
+            return;
+        }
+        setLoading(true);
+        try {
+            const res = await fetch('/api/founder-application', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(form),
+            });
+            if (!res.ok) throw new Error('Submit failed');
+            setSent(true);
+        } catch {
+            setError('Something went wrong. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const inputStyle = {
+        width: '100%',
+        padding: '11px 14px',
+        border: '1px solid rgba(8,78,89,0.15)',
+        background: '#fff',
+        borderRadius: 7,
+        fontFamily: "'DM Sans',sans-serif",
+        fontSize: 14,
+        color: P.ink,
+        boxSizing: 'border-box',
+        outline: 'none',
+        transition: 'border-color 0.2s',
+    };
+    const labelStyle = {
+        fontSize: 11,
+        fontWeight: 500,
+        color: P.inkSoft,
+        textTransform: 'uppercase',
+        letterSpacing: '0.08em',
+        display: 'block',
+        marginBottom: 6,
+    };
+
+    const deals = [
+        { label: i.founderDeal1, icon: '📅' },
+        { label: i.founderDeal2, icon: '🎁' },
+        { label: i.founderDeal3, icon: '✓' },
+    ];
+
+    return (
+        <section id="founding-member" style={{ ...section, background: P.tealSoft }}>
+            <div style={container(bp)}>
+                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1.4fr', gap: isMobile ? '32px' : '56px', alignItems: 'flex-start' }}>
+                    {/* Left column — pitch */}
+                    <div>
+                        <Fade>
+                            <span style={{ display: 'inline-block', background: P.tealMid, color: P.accent, ...T.eye, fontSize: 10, padding: '3px 10px', borderRadius: 5, marginBottom: 16 }}>{i.founderEye}</span>
+                        </Fade>
+                        <Fade delay={60}>
+                            <h2 style={{ ...T.h2, fontSize: isMobile ? 'clamp(1.6rem,5vw,2rem)' : 'clamp(1.8rem,3vw,2.4rem)', color: P.ink, marginBottom: 16 }}>{i.founderH2}</h2>
+                        </Fade>
+                        <Fade delay={100}>
+                            <p style={{ fontSize: isMobile ? '14px' : '15px', color: P.inkSoft, lineHeight: 1.78, marginBottom: 28 }}>{i.founderSub}</p>
+                        </Fade>
+                        <Fade delay={140}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                                {deals.map((d) => (
+                                    <div key={d.label} style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#fff', border: `1px solid ${P.tealMid}`, borderRadius: 9, padding: '10px 14px' }}>
+                                        <span style={{ fontSize: 16 }}>{d.icon}</span>
+                                        <span style={{ fontSize: isMobile ? '13px' : '14px', fontWeight: 500, color: P.ink }}>{d.label}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </Fade>
+                    </div>
+
+                    {/* Right column — form */}
+                    <Fade delay={80}>
+                        <div style={{ background: '#fff', borderRadius: 16, border: `1px solid ${P.tealMid}`, padding: isMobile ? '24px 18px' : '36px 32px', boxShadow: '0 4px 24px rgba(8,78,89,0.08)' }}>
+                            <div style={{ ...T.h4, fontSize: isMobile ? '14px' : '15px', color: P.ink, marginBottom: 22 }}>{i.founderFormTitle}</div>
+
+                            {sent ? (
+                                <div style={{ textAlign: 'center', padding: '32px 0', color: P.accent }}>
+                                    <div style={{ fontSize: 40, marginBottom: 14 }}>✅</div>
+                                    <p style={{ fontSize: isMobile ? '14px' : '15px', fontWeight: 500, color: P.ink, marginBottom: 6 }}>{i.founderFormSent}</p>
+                                </div>
+                            ) : (
+                                <form onSubmit={handleSubmit}>
+                                    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 14 }}>
+                                        <div>
+                                            <label style={labelStyle}>{i.founderFormName} *</label>
+                                            <input type="text" required value={form.contactName} onChange={set('contactName')} placeholder="Alex Martin" style={inputStyle}
+                                                onFocus={e => e.target.style.borderColor = P.accent}
+                                                onBlur={e => e.target.style.borderColor = 'rgba(8,78,89,0.15)'} />
+                                        </div>
+                                        <div>
+                                            <label style={labelStyle}>{i.founderFormEmail} *</label>
+                                            <input type="email" required value={form.email} onChange={set('email')} placeholder="alex@hostel.com" style={inputStyle}
+                                                onFocus={e => e.target.style.borderColor = P.accent}
+                                                onBlur={e => e.target.style.borderColor = 'rgba(8,78,89,0.15)'} />
+                                        </div>
+                                        <div>
+                                            <label style={labelStyle}>{i.founderFormProperty} *</label>
+                                            <input type="text" required value={form.propertyName} onChange={set('propertyName')} placeholder="Sunny Hostel" style={inputStyle}
+                                                onFocus={e => e.target.style.borderColor = P.accent}
+                                                onBlur={e => e.target.style.borderColor = 'rgba(8,78,89,0.15)'} />
+                                        </div>
+                                        <div>
+                                            <label style={labelStyle}>{i.founderFormType}</label>
+                                            <select value={form.propertyType} onChange={set('propertyType')} style={{ ...inputStyle, cursor: 'pointer', appearance: 'none' }}>
+                                                <option value="hostel">Hostel</option>
+                                                <option value="coliving">Coliving</option>
+                                                <option value="hotel">Hotel</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label style={labelStyle}>{i.founderFormBeds} *</label>
+                                            <select required value={form.beds} onChange={set('beds')} style={{ ...inputStyle, cursor: 'pointer', appearance: 'none' }}>
+                                                <option value="">Select range…</option>
+                                                <option value="5-10">5–10 beds</option>
+                                                <option value="10-20">10–20 beds</option>
+                                                <option value="20-30">20–30 beds</option>
+                                                <option value="30+">30+ beds</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label style={labelStyle}>{i.founderFormCountry} *</label>
+                                            <input type="text" required value={form.country} onChange={set('country')} placeholder="Spain" style={inputStyle}
+                                                onFocus={e => e.target.style.borderColor = P.accent}
+                                                onBlur={e => e.target.style.borderColor = 'rgba(8,78,89,0.15)'} />
+                                        </div>
+                                        <div style={{ gridColumn: isMobile ? '1' : '1 / -1' }}>
+                                            <label style={labelStyle}>{i.founderFormTools}</label>
+                                            <textarea value={form.currentTools} onChange={set('currentTools')} placeholder="WhatsApp groups, paper checklists, Google Sheets…" rows={2} style={{ ...inputStyle, resize: 'vertical' }}
+                                                onFocus={e => e.target.style.borderColor = P.accent}
+                                                onBlur={e => e.target.style.borderColor = 'rgba(8,78,89,0.15)'} />
+                                        </div>
+                                        <div style={{ gridColumn: isMobile ? '1' : '1 / -1' }}>
+                                            <label style={labelStyle}>{i.founderFormChallenge}</label>
+                                            <textarea value={form.biggestChallenge} onChange={set('biggestChallenge')} placeholder="e.g. Staff don't know task priority, guests requests get lost…" rows={2} style={{ ...inputStyle, resize: 'vertical' }}
+                                                onFocus={e => e.target.style.borderColor = P.accent}
+                                                onBlur={e => e.target.style.borderColor = 'rgba(8,78,89,0.15)'} />
+                                        </div>
+                                        <div style={{ gridColumn: isMobile ? '1' : '1 / -1' }}>
+                                            <label style={labelStyle}>{i.founderFormHear}</label>
+                                            <input type="text" value={form.howHeard} onChange={set('howHeard')} placeholder="Instagram, a friend, Google…" style={inputStyle}
+                                                onFocus={e => e.target.style.borderColor = P.accent}
+                                                onBlur={e => e.target.style.borderColor = 'rgba(8,78,89,0.15)'} />
+                                        </div>
+                                    </div>
+
+                                    {error && (
+                                        <div style={{ marginTop: 14, padding: '10px 14px', background: 'rgba(231,76,60,0.08)', border: '1px solid rgba(231,76,60,0.25)', borderRadius: 6, fontSize: 13, color: '#c0392b' }}>
+                                            {error}
+                                        </div>
+                                    )}
+
+                                    <button type="submit" disabled={loading} style={{ width: '100%', marginTop: 18, padding: '13px 0', background: loading ? P.inkFaint : P.accent, color: '#fff', border: 'none', borderRadius: 8, fontFamily: "'DM Sans',sans-serif", fontSize: isMobile ? '13px' : '14px', fontWeight: 600, cursor: loading ? 'not-allowed' : 'pointer', transition: 'background 0.2s' }}>
+                                        {loading ? 'Submitting…' : i.founderFormSubmit}
+                                    </button>
+                                </form>
+                            )}
+                        </div>
+                    </Fade>
+                </div>
             </div>
         </section>
     );
@@ -990,6 +1291,7 @@ export default function App() {
                 <Solution bp={bp} i={i} />
                 <Results bp={bp} i={i} />
                 <Pricing bp={bp} i={i} />
+                <FoundingMember bp={bp} i={i} />
                 <CTA bp={bp} i={i} />
             </main>
             <Footer bp={bp} i={i} />
