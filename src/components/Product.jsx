@@ -462,6 +462,7 @@ export default function Product({ bp }) {
               const isNow = step.status === 'now';
               const isNext = step.status === 'next';
               const isLast = idx === roadmap.steps.length - 1;
+              const textColor = isNow ? '#fff' : isNext ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.35)';
               return (
                 <div key={idx} style={{ display:'flex',alignItems:'flex-start',flex:1,flexDirection:isMobile?'row':'column',gap:isMobile?12:0 }}>
                   <div style={{ display:'flex',flexDirection:isMobile?'column':'row',alignItems:'center',marginBottom:isMobile?0:16 }}>
