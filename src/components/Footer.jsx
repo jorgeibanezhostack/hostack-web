@@ -1,137 +1,144 @@
-import { COLORS, FONTS } from '../data/tokens'
-import { CONTENT } from '../data/tokens'
+import { COLORS, FONTS, CONTENT } from '../data/tokens';
 
 export default function Footer({ bp }) {
-  const isMobile = bp === 'mobile'
+  const logoSvg = (
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="logoGradient" x1="0" y1="0" x2="40" y2="40">
+          <stop offset="0%" stopColor={COLORS.teal} />
+          <stop offset="100%" stopColor={COLORS.neon} />
+        </linearGradient>
+      </defs>
+      <rect x="2" y="2" width="36" height="36" rx="8" fill="url(#logoGradient)" />
+      <text x="20" y="26" textAnchor="middle" fill="white" fontSize="24" fontWeight="700" fontFamily={FONTS.heading}>
+        H
+      </text>
+    </svg>
+  );
 
-  const containerStyle = {
-    backgroundColor: COLORS.tealDeep,
-    color: COLORS.surface,
-    padding: isMobile ? '40px 24px' : '60px 64px',
-    fontFamily: FONTS.sans,
-    borderTop: `1px solid rgba(255,255,255,0.1)`,
-  }
-
-  const gridStyle = {
-    display: 'grid',
-    gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
-    gap: isMobile ? 32 : 48,
-    marginBottom: 40,
-  }
-
-  const sectionStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 12,
-  }
-
-  const logoStyle = {
-    fontSize: 16,
-    fontWeight: 600,
-    marginBottom: 8,
-    color: COLORS.neon,
-  }
-
-  const taglineStyle = {
-    fontSize: 13,
-    color: 'rgba(255,255,255,0.7)',
-    lineHeight: 1.6,
-  }
-
-  const headingStyle = {
-    fontSize: 12,
-    fontWeight: 600,
-    textTransform: 'uppercase',
-    letterSpacing: '0.06em',
-    color: COLORS.neon,
-    marginBottom: 16,
-  }
-
-  const linkStyle = {
-    fontSize: 13,
-    color: 'rgba(255,255,255,0.7)',
-    cursor: 'pointer',
-    transition: 'color 0.2s ease',
-    textDecoration: 'none',
-  }
-
-  const dividerStyle = {
-    borderTop: `1px solid rgba(255,255,255,0.1)`,
-    paddingTop: 20,
-    marginTop: 20,
-  }
-
-  const footerBottomStyle = {
-    display: 'flex',
-    flexDirection: isMobile ? 'column' : 'row',
-    justifyContent: 'space-between',
-    alignItems: isMobile ? 'flex-start' : 'center',
-    gap: isMobile ? 16 : 0,
-    fontSize: 12,
-    color: 'rgba(255,255,255,0.6)',
-  }
-
-  const handleScroll = (id) => {
-    const el = document.querySelector(id)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
-  }
-
-  const handleNavigate = (href) => {
-    if (href.startsWith('#')) {
-      handleScroll(href)
-    } else if (href.startsWith('mailto:')) {
-      window.location.href = href
-    } else {
-      window.location.href = href
-    }
-  }
+  const navLinks = ['How it works', 'Results', 'Pricing', 'Founder Program', 'Contact'];
 
   return (
-    <footer style={containerStyle}>
-      <div style={gridStyle}>
-        <div style={sectionStyle}>
-          <div style={logoStyle}>hostack</div>
-          <p style={taglineStyle}>{CONTENT.footer.tagline}</p>
-          <p style={taglineStyle}>{CONTENT.footer.sub}</p>
+    <footer
+      id="footer"
+      style={{
+        width: '100%',
+        backgroundColor: COLORS.deep,
+        color: COLORS.white,
+        padding: bp === 'mobile' ? '48px 20px' : '64px 40px',
+      }}
+    >
+      <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+        {/* Logo + Tagline */}
+        <div style={{ marginBottom: '48px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+            {logoSvg}
+            <span
+              style={{
+                fontSize: '24px',
+                fontWeight: '700',
+                fontFamily: FONTS.heading,
+                letterSpacing: '-0.01em',
+              }}
+            >
+              hostack
+            </span>
+          </div>
+          <p
+            style={{
+              fontSize: '14px',
+              lineHeight: '1.6',
+              color: 'rgba(255, 255, 255, 0.7)',
+              fontFamily: FONTS.body,
+              margin: '8px 0 0 0',
+            }}
+          >
+            Operations OS for hostels & colivings.
+          </p>
+          <p
+            style={{
+              fontSize: '14px',
+              lineHeight: '1.6',
+              color: 'rgba(255, 255, 255, 0.7)',
+              fontFamily: FONTS.body,
+              margin: '4px 0 0 0',
+            }}
+          >
+            Made by operators, for operators.
+          </p>
         </div>
 
-        <div style={sectionStyle}>
-          <div style={headingStyle}>Product</div>
-          {CONTENT.footer.links.slice(0, 2).map((link, idx) => (
+        {/* Nav Links */}
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: bp === 'mobile' ? '16px 24px' : '32px',
+            marginBottom: '32px',
+            fontSize: '14px',
+            fontFamily: FONTS.body,
+          }}
+        >
+          {navLinks.map((link, idx) => (
             <a
               key={idx}
-              style={linkStyle}
-              onClick={() => handleNavigate(link.href)}
+              href="#"
+              style={{
+                color: 'rgba(255, 255, 255, 0.8)',
+                textDecoration: 'none',
+                transition: 'color 0.2s',
+              }}
               onMouseEnter={(e) => (e.target.style.color = COLORS.neon)}
-              onMouseLeave={(e) => (e.target.style.color = 'rgba(255,255,255,0.7)')}
+              onMouseLeave={(e) => (e.target.style.color = 'rgba(255, 255, 255, 0.8)')}
             >
-              {link.label}
+              {link}
             </a>
           ))}
         </div>
 
-        <div style={sectionStyle}>
-          <div style={headingStyle}>Company</div>
-          {CONTENT.footer.links.slice(2).map((link, idx) => (
-            <a
-              key={idx}
-              style={linkStyle}
-              onClick={() => handleNavigate(link.href)}
-              onMouseEnter={(e) => (e.target.style.color = COLORS.neon)}
-              onMouseLeave={(e) => (e.target.style.color = 'rgba(255,255,255,0.7)')}
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
-      </div>
+        {/* Divider */}
+        <div
+          style={{
+            width: '100%',
+            height: '1px',
+            backgroundColor: `rgba(74, 248, 212, 0.2)`,
+            marginBottom: '32px',
+          }}
+        />
 
-      <div style={dividerStyle}>
-        <div style={footerBottomStyle}>
-          <div>{CONTENT.footer.copyright}</div>
-          <div>{CONTENT.footer.available}</div>
+        {/* Copyright + Small Text */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: bp === 'mobile' ? 'column' : 'row',
+            justifyContent: 'space-between',
+            alignItems: bp === 'mobile' ? 'flex-start' : 'center',
+            gap: bp === 'mobile' ? '16px' : '0',
+          }}
+        >
+          <p
+            style={{
+              fontSize: '13px',
+              color: 'rgba(255, 255, 255, 0.6)',
+              fontFamily: FONTS.body,
+              margin: 0,
+            }}
+          >
+            © 2025 Hostack. All rights reserved.
+          </p>
+          <p
+            style={{
+              fontSize: '13px',
+              color: COLORS.neon,
+              fontFamily: FONTS.body,
+              margin: 0,
+              fontWeight: '500',
+            }}
+          >
+            Currently accepting Founding Members
+          </p>
         </div>
       </div>
     </footer>
-  )
+  );
 }

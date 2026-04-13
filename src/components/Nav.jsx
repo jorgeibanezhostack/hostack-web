@@ -1,6 +1,19 @@
 import { useState, useEffect } from 'react'
 import { COLORS, FONTS } from '../data/tokens'
 
+const NavLogo = () => (
+  <svg width="32" height="32" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="navLogoGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stopColor="#004F59" />
+        <stop offset="100%" stopColor="#00BFB3" />
+      </linearGradient>
+    </defs>
+    <rect x="0" y="0" width="256" height="256" rx="51.2" ry="51.2" fill="url(#navLogoGrad)"/>
+    <text x="128" y="185" textAnchor="middle" fontSize="180" fontWeight="700" fill="white" fontFamily="Arial, sans-serif">H</text>
+  </svg>
+)
+
 export default function Nav({ bp }) {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -49,14 +62,6 @@ export default function Nav({ bp }) {
     gap: 8,
     transition: 'color 0.3s ease',
     cursor: 'pointer',
-  }
-
-  const logoSquareStyle = {
-    width: 16,
-    height: 16,
-    backgroundColor: scrolled ? COLORS.neon : COLORS.teal,
-    borderRadius: 2,
-    transition: 'background-color 0.3s ease',
   }
 
   const navLinksStyle = {
@@ -141,8 +146,8 @@ export default function Nav({ bp }) {
     <>
       <nav style={navStyle}>
         <div style={logoStyle} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <NavLogo />
           <span>hostack</span>
-          <div style={logoSquareStyle} />
         </div>
 
         <div style={navLinksStyle}>
@@ -176,7 +181,7 @@ export default function Nav({ bp }) {
             onMouseLeave={(e) => (e.target.style.opacity = '1')}
             onClick={() => handleAnchorClick('#founding-member')}
           >
-            Join Founder Program →
+            Join Founder Program
           </button>
         </div>
 
@@ -214,7 +219,7 @@ export default function Nav({ bp }) {
             Pricing
           </a>
           <button style={mobileCTAButtonStyle} onClick={() => handleAnchorClick('#founding-member')}>
-            Join Founder Program →
+            Join Founder Program
           </button>
         </div>
       )}

@@ -30,6 +30,17 @@ export default function Hero({ bp }) {
     textTransform: 'uppercase',
     color: COLORS.neon,
     marginBottom: 32,
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+  }
+
+  const neonDotStyle = {
+    width: 6,
+    height: 6,
+    borderRadius: '50%',
+    backgroundColor: COLORS.neon,
+    display: 'inline-block',
   }
 
   const h1Style = {
@@ -176,15 +187,38 @@ export default function Hero({ bp }) {
     transform: 'rotate(90deg)',
   }
 
+  // SVG Icon Components
+  const SmartphoneIcon = () => (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: COLORS.teal }}>
+      <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+      <path d="M12 17h.01"></path>
+    </svg>
+  )
+
+  const MonitorIcon = () => (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: COLORS.teal }}>
+      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+    </svg>
+  )
+
+  const BoltIcon = () => (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: COLORS.teal }}>
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+    </svg>
+  )
+
   return (
     <>
       <section style={containerStyle} id="hero">
-        <div style={badgeStyle}>{CONTENT.hero.badge}</div>
+        <div style={badgeStyle}>
+          <span style={neonDotStyle}></span>
+          Beta · Live at Torridon Estate · 23 beds
+        </div>
 
         <h1 style={h1Style}>
           {CONTENT.hero.h1a}
           <br />
-          {CONTENT.hero.h1b}
+          so you can build the community you dream.
         </h1>
 
         <p style={subStyle}>{CONTENT.hero.sub}</p>
@@ -220,7 +254,9 @@ export default function Hero({ bp }) {
         <div style={diagramContainerStyle}>
           <div style={diagramStyle}>
             <div style={appNodeStyle}>
-              <div style={appCircleStyle}>📱</div>
+              <div style={appCircleStyle}>
+                <SmartphoneIcon />
+              </div>
               <div style={appLabelStyle}>Guest App</div>
             </div>
 
@@ -228,7 +264,9 @@ export default function Hero({ bp }) {
             <div style={mobileArrowStyle}>↓</div>
 
             <div style={appNodeStyle}>
-              <div style={appCircleStyle}>🎯</div>
+              <div style={appCircleStyle}>
+                <MonitorIcon />
+              </div>
               <div style={appLabelStyle}>Owner Dashboard</div>
             </div>
 
@@ -236,7 +274,9 @@ export default function Hero({ bp }) {
             <div style={mobileArrowStyle}>↓</div>
 
             <div style={appNodeStyle}>
-              <div style={appCircleStyle}>⚡</div>
+              <div style={appCircleStyle}>
+                <BoltIcon />
+              </div>
               <div style={appLabelStyle}>Staff App</div>
             </div>
           </div>

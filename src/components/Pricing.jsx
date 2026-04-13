@@ -1,6 +1,25 @@
 import { COLORS, FONTS, TYPOGRAPHY } from '../data/tokens'
 import { CONTENT } from '../data/tokens'
 
+// SVG Icon Components
+const CheckIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
+
+const GiftIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 6.667V12.667C2 13.404 2.596 14 3.333 14H12.667C13.404 14 14 13.404 14 12.667V6.667M8 2V6.667M2 6.667H14M5.333 2H10.667C11.404 2 12 2.596 12 3.333V6.667H4V3.333C4 2.596 4.596 2 5.333 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
+
+const ArrowIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6 12L11.333 6.667M11.333 6.667L6 1.333" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
+
 export default function Pricing({ bp }) {
   const isMobile = bp === 'mobile'
   const isTablet = bp === 'tablet'
@@ -106,6 +125,9 @@ export default function Pricing({ bp }) {
     padding: '8px 12px',
     backgroundColor: 'rgba(74,248,212,0.1)',
     borderRadius: 4,
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
   }
 
   const planTaglineStyle = {
@@ -143,7 +165,21 @@ export default function Pricing({ bp }) {
     backgroundColor: ctaStyle === 'primary' ? COLORS.neon : 'transparent',
     color: ctaStyle === 'primary' ? COLORS.teal : COLORS.neon,
     fontFamily: FONTS.sans,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
   })
+
+  const secondaryLinkStyle = {
+    fontSize: 12,
+    color: COLORS.neon,
+    cursor: 'pointer',
+    textDecoration: 'none',
+    marginTop: 12,
+    textAlign: 'center',
+    transition: 'opacity 0.2s ease',
+  }
 
   return (
     <section style={containerStyle} id="pricing">
@@ -161,12 +197,19 @@ export default function Pricing({ bp }) {
             <div style={planPriceStyle}>{plan.price}</div>
             {plan.period && <div style={planPeriodStyle}>{plan.period}</div>}
             {plan.setup && <div style={planSetupStyle}>{plan.setup}</div>}
-            {plan.promo && <div style={planPromoStyle}>{plan.promo}</div>}
+            {plan.promo && (
+              <div style={planPromoStyle}>
+                <GiftIcon />
+                <span>{plan.promo}</span>
+              </div>
+            )}
             <div style={planTaglineStyle}>{plan.tagline}</div>
             <div style={planFeaturesContainerStyle}>
               {plan.features.map((feature, idx) => (
                 <div key={idx} style={planFeatureStyle}>
-                  <span>✓</span>
+                  <span style={{ color: COLORS.neon, marginTop: 2 }}>
+                    <CheckIcon />
+                  </span>
                   <span>{feature}</span>
                 </div>
               ))}
@@ -184,7 +227,18 @@ export default function Pricing({ bp }) {
               }}
             >
               {plan.cta}
+              {plan.id === 'pro' && <ArrowIcon />}
             </button>
+            {plan.id === 'pro' && (
+              <button
+                style={secondaryLinkStyle}
+                onMouseEnter={(e) => (e.target.opacity = '0.8')}
+                onMouseLeave={(e) => (e.target.opacity = '1')}
+                onClick={() => handleScroll('#founding-member')}
+              >
+                Apply to Founding Member Program
+              </button>
+            )}
           </div>
         ))}
       </div>

@@ -14,9 +14,9 @@ export default function App() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
-        
-        * {
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&display=swap');
+
+        *, *::before, *::after {
           margin: 0;
           padding: 0;
           box-sizing: border-box;
@@ -24,6 +24,7 @@ export default function App() {
 
         html {
           scroll-behavior: smooth;
+          -webkit-text-size-adjust: 100%;
         }
 
         body {
@@ -31,8 +32,9 @@ export default function App() {
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
           color: #0d1f22;
-          background-color: #ffffff;
+          background-color: #031e23;
           line-height: 1.6;
+          overflow-x: hidden;
         }
 
         main {
@@ -45,6 +47,7 @@ export default function App() {
 
         h1, h2, h3, h4, h5, h6 {
           margin: 0;
+          line-height: 1.15;
         }
 
         p {
@@ -53,6 +56,7 @@ export default function App() {
 
         button {
           font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          cursor: pointer;
         }
 
         a {
@@ -66,7 +70,7 @@ export default function App() {
 
         input::placeholder,
         textarea::placeholder {
-          opacity: 0.6;
+          opacity: 0.5;
         }
 
         input:focus,
@@ -75,23 +79,49 @@ export default function App() {
           outline: none;
         }
 
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-          width: 8px;
-          height: 8px;
+        /* Global glass card effect */
+        .glass-card {
+          background: rgba(4,78,89,0.35);
+          border: 1px solid rgba(74,248,212,0.15);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border-radius: 16px;
         }
 
-        ::-webkit-scrollbar-track {
-          background: #f1f1f1;
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #031e23; }
+        ::-webkit-scrollbar-thumb { background: #004F59; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4af8d4; }
+
+        /* Global neon glow keyframe */
+        @keyframes neonPulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(74,248,212,0.4); }
+          50% { box-shadow: 0 0 20px 4px rgba(74,248,212,0.15); }
         }
 
-        ::-webkit-scrollbar-thumb {
-          background: #004F59;
-          border-radius: 4px;
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(24px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-          background: #00BFB3;
+        @keyframes flowLine {
+          0%   { stroke-dashoffset: 200; opacity: 0.4; }
+          50%  { opacity: 1; }
+          100% { stroke-dashoffset: 0; opacity: 0.4; }
+        }
+
+        @keyframes floatDot {
+          0%, 100% { transform: translateY(0px); }
+          50%       { transform: translateY(-6px); }
+        }
+
+        /* Reduce motion */
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+          }
         }
       `}</style>
 
