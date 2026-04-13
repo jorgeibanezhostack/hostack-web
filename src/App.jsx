@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import useBreakpoint from './hooks/useBreakpoint'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
@@ -7,9 +8,11 @@ import Results from './components/Results'
 import Pricing from './components/Pricing'
 import FoundingMember from './components/FoundingMember'
 import Footer from './components/Footer'
+import WaitlistModal from './components/WaitlistModal'
 
 export default function App() {
   const bp = useBreakpoint()
+  const [waitlistPlan, setWaitlistPlan] = useState(null)
 
   return (
     <>
@@ -131,10 +134,14 @@ export default function App() {
         <Problem bp={bp} />
         <Product bp={bp} />
         <Results bp={bp} />
-        <Pricing bp={bp} />
+        <Pricing bp={bp} onOpenWaitlist={(plan) => setWaitlistPlan(plan)} />
         <FoundingMember bp={bp} />
       </main>
       <Footer bp={bp} />
+
+      {waitlistPlan && (
+        <WaitlistModal plan={waitlistPlan} onClose={() => setWaitlistPlan(null)} />
+      )}
     </>
   )
 }

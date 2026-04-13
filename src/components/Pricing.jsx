@@ -20,7 +20,7 @@ const ArrowIcon = () => (
   </svg>
 )
 
-export default function Pricing({ bp }) {
+export default function Pricing({ bp, onOpenWaitlist }) {
   const isMobile = bp === 'mobile'
   const isTablet = bp === 'tablet'
 
@@ -227,7 +227,9 @@ export default function Pricing({ bp }) {
               onMouseEnter={(e) => (e.target.opacity = '0.9')}
               onMouseLeave={(e) => (e.target.opacity = '1')}
               onClick={() => {
-                if (plan.href) {
+                if (plan.id === 'free' || plan.id === 'pro') {
+                  onOpenWaitlist(plan.id)
+                } else if (plan.href) {
                   handleNavigate(plan.href)
                 } else if (plan.anchor) {
                   handleScroll(plan.anchor)
