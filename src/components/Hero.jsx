@@ -242,15 +242,6 @@ export default function Hero({ bp }) {
           </button>
         </div>
 
-        <div style={statsContainerStyle}>
-          {CONTENT.hero.stats.map((stat, idx) => (
-            <div key={idx} style={statCardStyle}>
-              <div style={statValueStyle}>{stat.value}</div>
-              <div style={statLabelStyle}>{stat.label}</div>
-            </div>
-          ))}
-        </div>
-
         <div style={diagramContainerStyle}>
           <div style={diagramStyle}>
             <div style={appNodeStyle}>

@@ -4,15 +4,16 @@ export default function Footer({ bp }) {
   const logoSvg = (
     <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="logoGradient" x1="0" y1="0" x2="40" y2="40">
-          <stop offset="0%" stopColor={COLORS.teal} />
-          <stop offset="100%" stopColor={COLORS.neon} />
+        <linearGradient id="footerLogoGrad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#004F59" />
+          <stop offset="100%" stopColor="#00BFB3" />
         </linearGradient>
       </defs>
-      <rect x="2" y="2" width="36" height="36" rx="8" fill="url(#logoGradient)" />
-      <text x="20" y="26" textAnchor="middle" fill="white" fontSize="24" fontWeight="700" fontFamily={FONTS.sans}>
-        H
-      </text>
+      <rect width="40" height="40" rx="9" fill="url(#footerLogoGrad)" />
+      <rect x="7"  y="7"  width="11" height="11" rx="2.5" fill="white" fillOpacity="0.9" />
+      <rect x="22" y="7"  width="11" height="11" rx="2.5" fill="white" fillOpacity="0.55" />
+      <rect x="7"  y="22" width="11" height="11" rx="2.5" fill="white" fillOpacity="0.35" />
+      <rect x="22" y="22" width="11" height="11" rx="2.5" fill="white" fillOpacity="0.7" />
     </svg>
   );
 

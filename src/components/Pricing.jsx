@@ -172,13 +172,21 @@ export default function Pricing({ bp }) {
   })
 
   const secondaryLinkStyle = {
-    fontSize: 12,
-    color: COLORS.neon,
-    cursor: 'pointer',
-    textDecoration: 'none',
+    display: 'block',
+    width: '100%',
+    padding: '14px 24px',
     marginTop: 12,
+    background: 'transparent',
+    border: `1.5px solid ${COLORS.neon}`,
+    borderRadius: 10,
+    color: COLORS.neon,
+    fontSize: 15,
+    fontWeight: 600,
+    fontFamily: FONTS.sans,
+    cursor: 'pointer',
     textAlign: 'center',
     transition: 'opacity 0.2s ease',
+    boxSizing: 'border-box',
   }
 
   return (

@@ -483,15 +483,13 @@ export default function Product({ bp }) {
                       }}/>
                     )}
                   </div>
-                  <div style={{ paddingRight:isMobile?0:8,paddingBottom:isMobile?16:0 }}>
-                    <div style={{
-                      fontSize:10,fontWeight:700,letterSpacing:'0.14em',textTransform:'uppercase',
-                      color:isNow?COLORS.neon:isNext?COLORS.turquoise:'rgba(255,255,255,0.3)',
-                      marginBottom:4,
-                    }}>{step.status}</div>
-                    <div style={{ fontSize:isMobile?13:13.5,fontWeight:500,lineHeight:1.4,
-                      color:isNow?'#fff':isNext?'rgba(255,255,255,0.75)':'rgba(255,255,255,0.35)',
-                    }}>{step.label}</div>
+                  <div style={{ paddingRight: isMobile ? 0 : 8, paddingBottom: isMobile ? 16 : 0 }}>
+                    <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: isNow ? COLORS.neon : isNext ? COLORS.turquoise : 'rgba(255,255,255,0.3)', marginBottom: 4 }}>
+                      {step.badge || step.status}
+                    </div>
+                    <div style={{ fontSize: isMobile ? 13 : 13.5, fontWeight: 500, color: textColor, lineHeight: 1.4 }}>
+                      {step.label}
+                    </div>
                   </div>
                 </div>
               );
