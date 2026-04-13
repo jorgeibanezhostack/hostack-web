@@ -65,7 +65,7 @@ export default function Results({ bp }) {
       id="results"
       style={{
         width: '100%',
-        backgroundColor: COLORS.lightBg,
+        backgroundColor: COLORS.surface2,
         padding: bp === 'mobile' ? '48px 20px' : '80px 40px',
         display: 'flex',
         flexDirection: 'column',
@@ -93,7 +93,7 @@ export default function Results({ bp }) {
             lineHeight: '1.2',
             color: COLORS.tealDeep,
             marginBottom: '16px',
-            fontFamily: FONTS.heading,
+            fontFamily: FONTS.sans,
             letterSpacing: '-0.02em',
           }}
         >
@@ -104,7 +104,7 @@ export default function Results({ bp }) {
             fontSize: bp === 'mobile' ? '16px' : '18px',
             lineHeight: '1.6',
             color: COLORS.inkSoft,
-            fontFamily: FONTS.body,
+            fontFamily: FONTS.sans,
           }}
         >
           Live data from Torridon Estate — a B&B and cottages in the Scottish Highlands. No demos, no simulations.
@@ -126,7 +126,7 @@ export default function Results({ bp }) {
           <div
             key={idx}
             style={{
-              backgroundColor: COLORS.white,
+              backgroundColor: '#ffffff',
               borderTop: `3px solid ${COLORS.teal}`,
               padding: '32px',
               borderRadius: '8px',
@@ -142,7 +142,7 @@ export default function Results({ bp }) {
                   fontSize: bp === 'mobile' ? '36px' : '48px',
                   fontWeight: '700',
                   color: COLORS.neon,
-                  fontFamily: FONTS.heading,
+                  fontFamily: FONTS.sans,
                   lineHeight: '1',
                 }}
               >
@@ -155,7 +155,7 @@ export default function Results({ bp }) {
                 fontSize: '14px',
                 lineHeight: '1.5',
                 color: COLORS.inkSoft,
-                fontFamily: FONTS.body,
+                fontFamily: FONTS.sans,
               }}
             >
               {metric.label}
@@ -171,7 +171,7 @@ export default function Results({ bp }) {
           margin: '0 auto',
           width: '100%',
           backgroundColor: COLORS.teal,
-          color: COLORS.white,
+          color: '#ffffff',
           padding: bp === 'mobile' ? '40px 24px' : '60px 48px',
           borderRadius: '12px',
           position: 'relative',
@@ -188,7 +188,7 @@ export default function Results({ bp }) {
             opacity: '0.15',
           }}
         >
-          <svg width="48" height="48" viewBox="0 0 48 48" fill={COLORS.white} xmlns="http://www.w3.org/2000/svg">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill={'#ffffff'} xmlns="http://www.w3.org/2000/svg">
             <path d="M12 12C7.58172 12 4 15.5817 4 20V32C4 36.4183 7.58172 40 12 40C16.4183 40 20 36.4183 20 32V20C20 15.5817 16.4183 12 12 12Z" />
             <path d="M36 12C31.5817 12 28 15.5817 28 20V32C28 36.4183 31.5817 40 36 40C40.4183 40 44 36.4183 44 32V20C44 15.5817 40.4183 12 36 12Z" />
           </svg>
@@ -199,8 +199,8 @@ export default function Results({ bp }) {
             fontSize: bp === 'mobile' ? '18px' : '24px',
             fontStyle: 'italic',
             lineHeight: '1.6',
-            color: COLORS.white,
-            fontFamily: FONTS.body,
+            color: '#ffffff',
+            fontFamily: FONTS.sans,
             marginBottom: '20px',
             position: 'relative',
             zIndex: 1,
@@ -214,7 +214,7 @@ export default function Results({ bp }) {
             fontSize: '14px',
             fontWeight: '500',
             color: 'rgba(255, 255, 255, 0.9)',
-            fontFamily: FONTS.body,
+            fontFamily: FONTS.sans,
             margin: 0,
           }}
         >

@@ -10,7 +10,7 @@ export default function Footer({ bp }) {
         </linearGradient>
       </defs>
       <rect x="2" y="2" width="36" height="36" rx="8" fill="url(#logoGradient)" />
-      <text x="20" y="26" textAnchor="middle" fill="white" fontSize="24" fontWeight="700" fontFamily={FONTS.heading}>
+      <text x="20" y="26" textAnchor="middle" fill="white" fontSize="24" fontWeight="700" fontFamily={FONTS.sans}>
         H
       </text>
     </svg>
@@ -24,7 +24,7 @@ export default function Footer({ bp }) {
       style={{
         width: '100%',
         backgroundColor: COLORS.tealDeep,
-        color: COLORS.white,
+        color: '#ffffff',
         padding: bp === 'mobile' ? '48px 20px' : '64px 40px',
       }}
     >
@@ -37,7 +37,7 @@ export default function Footer({ bp }) {
               style={{
                 fontSize: '24px',
                 fontWeight: '700',
-                fontFamily: FONTS.heading,
+                fontFamily: FONTS.sans,
                 letterSpacing: '-0.01em',
               }}
             >
@@ -49,7 +49,7 @@ export default function Footer({ bp }) {
               fontSize: '14px',
               lineHeight: '1.6',
               color: 'rgba(255, 255, 255, 0.7)',
-              fontFamily: FONTS.body,
+              fontFamily: FONTS.sans,
               margin: '8px 0 0 0',
             }}
           >
@@ -60,7 +60,7 @@ export default function Footer({ bp }) {
               fontSize: '14px',
               lineHeight: '1.6',
               color: 'rgba(255, 255, 255, 0.7)',
-              fontFamily: FONTS.body,
+              fontFamily: FONTS.sans,
               margin: '4px 0 0 0',
             }}
           >
@@ -76,7 +76,7 @@ export default function Footer({ bp }) {
             gap: bp === 'mobile' ? '16px 24px' : '32px',
             marginBottom: '32px',
             fontSize: '14px',
-            fontFamily: FONTS.body,
+            fontFamily: FONTS.sans,
           }}
         >
           {navLinks.map((link, idx) => (
@@ -120,7 +120,7 @@ export default function Footer({ bp }) {
             style={{
               fontSize: '13px',
               color: 'rgba(255, 255, 255, 0.6)',
-              fontFamily: FONTS.body,
+              fontFamily: FONTS.sans,
               margin: 0,
             }}
           >
@@ -130,7 +130,7 @@ export default function Footer({ bp }) {
             style={{
               fontSize: '13px',
               color: COLORS.neon,
-              fontFamily: FONTS.body,
+              fontFamily: FONTS.sans,
               margin: 0,
               fontWeight: '500',
             }}
