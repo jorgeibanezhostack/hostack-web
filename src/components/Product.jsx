@@ -462,6 +462,8 @@ export default function Product({ bp }) {
               const isNow = step.status === 'now';
               const isNext = step.status === 'next';
               const isLast = idx === roadmap.steps.length - 1;
+              const nextStep = roadmap.steps[idx + 1];
+              const connectorColor = isNow && nextStep?.status === 'now' ? COLORS.neon : 'rgba(74,248,212,0.15)';
               const textColor = isNow ? '#fff' : isNext ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.35)';
               return (
                 <div key={idx} style={{ display:'flex',alignItems:'flex-start',flex:1,flexDirection:isMobile?'row':'column',gap:isMobile?12:0 }}>
@@ -478,7 +480,7 @@ export default function Product({ bp }) {
                     {!isLast && (
                       <div style={{
                         width:isMobile?2:'100%',height:isMobile?24:2,
-                        backgroundColor:isNow?COLORS.neon:'rgba(74,248,212,0.15)',
+                        backgroundColor:connectorColor,
                         margin:isMobile?'4px auto':'0',
                         flex:isMobile?'none':1,minWidth:isMobile?undefined:8,
                       }}/>

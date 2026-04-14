@@ -204,7 +204,7 @@ export const CONTENT = {
         ],
         cta: 'Join the waiting list',
         ctaSecondary: 'Apply to Founding Member Program',
-        ctaStyle: 'primary',
+        ctaStyle: 'outline',
         highlight: true,
         anchor: '#founding-member',
       },

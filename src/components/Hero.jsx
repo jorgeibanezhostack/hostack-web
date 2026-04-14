@@ -242,36 +242,6 @@ export default function Hero({ bp }) {
           </button>
         </div>
 
-        <div style={diagramContainerStyle}>
-          <div style={diagramStyle}>
-            <div style={appNodeStyle}>
-              <div style={appCircleStyle}>
-                <SmartphoneIcon />
-              </div>
-              <div style={appLabelStyle}>Guest App</div>
-            </div>
-
-            <div style={arrowStyle}>→</div>
-            <div style={mobileArrowStyle}>↓</div>
-
-            <div style={appNodeStyle}>
-              <div style={appCircleStyle}>
-                <MonitorIcon />
-              </div>
-              <div style={appLabelStyle}>Owner Dashboard</div>
-            </div>
-
-            <div style={arrowStyle}>→</div>
-            <div style={mobileArrowStyle}>↓</div>
-
-            <div style={appNodeStyle}>
-              <div style={appCircleStyle}>
-                <BoltIcon />
-              </div>
-              <div style={appLabelStyle}>Staff App</div>
-            </div>
-          </div>
-        </div>
       </section>
 
       <style>{`
