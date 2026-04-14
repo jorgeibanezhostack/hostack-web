@@ -239,7 +239,7 @@ export const CONTENT = {
       { icon: 'wallet', title: 'Only pay the setup fee',            body: '300 EUR activation — and you get a full year of Pro services plus a fixed rate for life.' },
       { icon: 'star',   title: 'Founding Member badge',             body: 'Recognized publicly as one of the people who helped build Hostack.' },
     ],
-    spotsLeft: 2,
+    spotsLeft: 3,
     totalSpots: 5,
     formTitle: 'Apply to be a Founding Member',
     formSub: 'Takes 3 minutes. We review all applications personally.',

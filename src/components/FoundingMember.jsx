@@ -302,10 +302,10 @@ export default function FoundingMember({ bp }) {
         {/* Spots counter */}
         <div style={spotsRowStyle}>
           {Array.from({ length: CONTENT.founder.totalSpots }).map((_, i) => (
-            <div key={i} style={spotDotStyle(i < CONTENT.founder.spotsLeft)} />
+            <div key={i} style={spotDotStyle(i < CONTENT.founder.totalSpots - CONTENT.founder.spotsLeft)} />
           ))}
           <span style={{ fontSize: 14, fontWeight: 600, color: COLORS.neon, marginLeft: 8 }}>
-            {CONTENT.founder.spotsLeft} of {CONTENT.founder.totalSpots} spots left
+            {CONTENT.founder.spotsLeft} spots left
           </span>
         </div>
 

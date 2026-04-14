@@ -467,7 +467,7 @@ export default function Product({ bp }) {
               const textColor = isNow ? '#fff' : isNext ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.35)';
               return (
                 <div key={idx} style={{ display:'flex',alignItems:'flex-start',flex:1,flexDirection:isMobile?'row':'column',gap:isMobile?12:0 }}>
-                  <div style={{ display:'flex',flexDirection:isMobile?'column':'row',alignItems:'center',marginBottom:isMobile?0:16 }}>
+                  <div style={{ display:'flex',flexDirection:isMobile?'column':'row',alignItems:'center',marginBottom:isMobile?0:16,width:isMobile?undefined:'100%' }}>
                     <div style={{
                       width:32,height:32,borderRadius:'50%',flexShrink:0,
                       backgroundColor:isNow?COLORS.neon:'transparent',
@@ -479,7 +479,7 @@ export default function Product({ bp }) {
                     }}>{idx+1}</div>
                     {!isLast && (
                       <div style={{
-                        width:isMobile?2:'100%',height:isMobile?24:2,
+                        width:isMobile?2:'100%',height:isMobile?24:3,
                         backgroundColor:connectorColor,
                         margin:isMobile?'4px auto':'0',
                         flex:isMobile?'none':1,minWidth:isMobile?undefined:8,
