@@ -131,8 +131,8 @@ export default function App() {
       <Nav bp={bp} />
       <main style={{ paddingTop: 56 }}>
         <Hero bp={bp} />
-        <Problem bp={bp} />
         <Product bp={bp} />
+        <Problem bp={bp} />
         <Results bp={bp} />
         <Pricing bp={bp} onOpenWaitlist={(plan) => setWaitlistPlan(plan)} />
         <FoundingMember bp={bp} />
