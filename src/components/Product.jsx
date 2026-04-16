@@ -374,7 +374,7 @@ export default function Product({ bp }) {
           borderRadius:28,
           overflow:'hidden',
           padding: isMobile ? '48px 20px 40px' : isTablet ? '56px 32px 48px' : '72px 56px 64px',
-          marginBottom: 88,
+          marginBottom: 48,
         }}>
           {!isMobile && <WaveLines />}
 
@@ -441,12 +441,22 @@ export default function Product({ bp }) {
                     </li>
                   ))}
                 </ul>
-              
-          </div></div>
+              </div>
+            </div>
 
-        {/* ── TRY THE DEMO CTA ─────────────────────────────────── */}
-        <div style={{ marginTop: 64, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, textAlign: 'center' }}>
-          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.04em' }}>
+          </div>
+        </div>
+
+        {/* ── TRY THE DEMO CTA ──────────────────────────────────── */}
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 12,
+          textAlign: 'center',
+          marginBottom: 64,
+        }}>
+          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.04em' }}>
             See it in action — no commitment required.
           </p>
           <button
@@ -472,9 +482,6 @@ export default function Product({ bp }) {
             <span style={{ fontSize: 18, lineHeight: 1 }}>→</span>
           </button>
         </div>
-
-      </div>
-    </section>
 
         {/* ── ROADMAP ───────────────────────────────────────────── */}
         <div style={{ borderTop:'1px solid rgba(74,248,212,0.10)',paddingTop:64 }}>
@@ -526,5 +533,10 @@ export default function Product({ bp }) {
                 </div>
               );
             })}
+          </div>
+        </div>
+
+      </div>
+    </section>
   );
 }
