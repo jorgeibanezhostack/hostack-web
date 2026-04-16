@@ -236,7 +236,7 @@ export default function Hero({ bp }) {
             style={secondaryButtonStyle}
             onMouseEnter={(e) => (e.target.style.borderColor = 'rgba(74,248,212,0.8)')}
             onMouseLeave={(e) => (e.target.style.borderColor = COLORS.neon)}
-            onClick={() => handleScroll('#product')}
+            onClick={() => { window.location.href = '/demo?ref=site' }}
           >
             {CONTENT.hero.ctaSub}
           </button>
