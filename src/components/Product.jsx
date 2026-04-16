@@ -441,11 +441,40 @@ export default function Product({ bp }) {
                     </li>
                   ))}
                 </ul>
-              </div>
-            </div>
+              
+          </div></div>
 
-          </div>
+        {/* ── TRY THE DEMO CTA ─────────────────────────────────── */}
+        <div style={{ marginTop: 64, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, textAlign: 'center' }}>
+          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.04em' }}>
+            See it in action — no commitment required.
+          </p>
+          <button
+            onClick={() => { window.location.href = '/demo?ref=product' }}
+            onMouseEnter={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.color = COLORS.tealDeep; }}
+            onMouseLeave={e => { e.currentTarget.style.background = COLORS.neon; e.currentTarget.style.color = COLORS.tealDeep; }}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 10,
+              padding: '14px 36px',
+              backgroundColor: COLORS.neon,
+              color: COLORS.tealDeep,
+              border: 'none',
+              borderRadius: 8,
+              fontSize: 15,
+              fontWeight: 700,
+              cursor: 'pointer',
+              letterSpacing: '0.02em',
+              fontFamily: FONTS.sans,
+              transition: 'background 0.18s, color 0.18s',
+            }}
+          >
+            Try the Demo
+            <span style={{ fontSize: 18, lineHeight: 1 }}>→</span>
+          </button>
         </div>
+
+      </div>
+    </section>
 
         {/* ── ROADMAP ───────────────────────────────────────────── */}
         <div style={{ borderTop:'1px solid rgba(74,248,212,0.10)',paddingTop:64 }}>
@@ -497,38 +526,5 @@ export default function Product({ bp }) {
                 </div>
               );
             })}
-          </div></div>
-
-        {/* ── TRY THE DEMO CTA ─────────────────────────────────── */}
-        <div style={{ marginTop: 64, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, textAlign: 'center' }}>
-          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.04em' }}>
-            See it in action — no commitment required.
-          </p>
-          <button
-            onClick={() => { window.location.href = '/demo?ref=product' }}
-            onMouseEnter={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.color = COLORS.tealDeep; }}
-            onMouseLeave={e => { e.currentTarget.style.background = COLORS.neon; e.currentTarget.style.color = COLORS.tealDeep; }}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 10,
-              padding: '14px 36px',
-              backgroundColor: COLORS.neon,
-              color: COLORS.tealDeep,
-              border: 'none',
-              borderRadius: 8,
-              fontSize: 15,
-              fontWeight: 700,
-              cursor: 'pointer',
-              letterSpacing: '0.02em',
-              fontFamily: FONTS.sans,
-              transition: 'background 0.18s, color 0.18s',
-            }}
-          >
-            Try the Demo
-            <span style={{ fontSize: 18, lineHeight: 1 }}>→</span>
-          </button>
-        </div>
-
-      </div>
-    </section>
   );
 }
