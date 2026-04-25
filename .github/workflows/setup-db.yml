@@ -1,0 +1,41 @@
+name: Setup Command Center Database
+
+on:
+  workflow_dispatch:
+    inputs:
+      admin_email:
+        description: 'Admin email for Command Center login'
+        required: true
+        default: 'jorge@hostack.io'
+      admin_password:
+        description: 'Admin password (min 8 chars)'
+        required: true
+
+jobs:
+  migrate:
+    name: Apply Schema + Create Admin User
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Apply database schema
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node scripts/migrate.js
+
+      - name: Create admin user
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          ADMIN_EMAIL: ${{ github.event.inputs.admin_email }}
+          ADMIN_PASSWORD: ${{ github.event.inputs.admin_password }}
+        run: node scripts/create-admin-user.js

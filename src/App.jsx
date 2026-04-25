@@ -1,23 +1,41 @@
-import { useState } from 'react'
-import useBreakpoint from './hooks/useBreakpoint'
-import Nav from './components/Nav'
-import Hero from './components/Hero'
-import Problem from './components/Problem'
-import Product from './components/Product'
-import Results from './components/Results'
-import Pricing from './components/Pricing'
-import FoundingMember from './components/FoundingMember'
-import Footer from './components/Footer'
-import WaitlistModal from './components/WaitlistModal'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import useAuth from './hooks/useAuth'
+import LandingLayout from './components/LandingLayout'
+import LoginPage from './pages/LoginPage'
+import CommandCenter from './pages/CommandCenter'
+
+function ProtectedRoute({ session, loading, children }) {
+  if (loading) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        backgroundColor: '#031e23',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+        <div style={{
+          width: 8,
+          height: 8,
+          borderRadius: '50%',
+          backgroundColor: '#4af8d4',
+          boxShadow: '0 0 16px rgba(74,248,212,0.5)',
+          animation: 'neonPulse 1.4s ease-in-out infinite',
+        }} />
+      </div>
+    )
+  }
+  if (!session) return <Navigate to="/command-center/login" replace />
+  return children
+}
 
 export default function App() {
-  const bp = useBreakpoint()
-  const [waitlistPlan, setWaitlistPlan] = useState(null)
+  const { session, loading, signIn, signOut } = useAuth()
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=DM+Mono:wght@400;500&display=swap');
 
         *, *::before, *::after {
           margin: 0;
@@ -40,49 +58,30 @@ export default function App() {
           overflow-x: hidden;
         }
 
-        main {
-          width: 100%;
-        }
-
-        section {
-          width: 100%;
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-          margin: 0;
-          line-height: 1.15;
-        }
-
-        p {
-          margin: 0;
-        }
+        main { width: 100%; }
+        section { width: 100%; }
+        h1, h2, h3, h4, h5, h6 { margin: 0; line-height: 1.15; }
+        p { margin: 0; }
 
         button {
           font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
           cursor: pointer;
         }
 
-        a {
-          text-decoration: none;
-          color: inherit;
-        }
+        a { text-decoration: none; color: inherit; }
 
         input, select, textarea {
           font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
-        input::placeholder,
-        textarea::placeholder {
-          opacity: 0.5;
+        input::placeholder, textarea::placeholder { opacity: 0.5; }
+        input:focus, select:focus, textarea:focus { outline: none; }
+
+        select option {
+          background: #0a2029;
+          color: #e8f6f5;
         }
 
-        input:focus,
-        select:focus,
-        textarea:focus {
-          outline: none;
-        }
-
-        /* Global glass card effect */
         .glass-card {
           background: rgba(4,78,89,0.35);
           border: 1px solid rgba(74,248,212,0.15);
@@ -91,13 +90,11 @@ export default function App() {
           border-radius: 16px;
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #031e23; }
         ::-webkit-scrollbar-thumb { background: #004F59; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #4af8d4; }
 
-        /* Global neon glow keyframe */
         @keyframes neonPulse {
           0%, 100% { box-shadow: 0 0 0 0 rgba(74,248,212,0.4); }
           50% { box-shadow: 0 0 20px 4px rgba(74,248,212,0.15); }
@@ -119,7 +116,6 @@ export default function App() {
           50%       { transform: translateY(-6px); }
         }
 
-        /* Reduce motion */
         @media (prefers-reduced-motion: reduce) {
           *, *::before, *::after {
             animation-duration: 0.01ms !important;
@@ -128,20 +124,22 @@ export default function App() {
         }
       `}</style>
 
-      <Nav bp={bp} />
-      <main style={{ paddingTop: 56 }}>
-        <Hero bp={bp} />
-        <Product bp={bp} />
-        <Problem bp={bp} />
-        <Results bp={bp} />
-        <Pricing bp={bp} onOpenWaitlist={(plan) => setWaitlistPlan(plan)} />
-        <FoundingMember bp={bp} />
-      </main>
-      <Footer bp={bp} />
-
-      {waitlistPlan && (
-        <WaitlistModal plan={waitlistPlan} onClose={() => setWaitlistPlan(null)} />
-      )}
+      <Routes>
+        <Route path="/" element={<LandingLayout />} />
+        <Route
+          path="/command-center/login"
+          element={<LoginPage session={session} signIn={signIn} />}
+        />
+        <Route
+          path="/command-center"
+          element={
+            <ProtectedRoute session={session} loading={loading}>
+              <CommandCenter session={session} signOut={signOut} />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </>
   )
 }
