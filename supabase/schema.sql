@@ -78,6 +78,22 @@ ALTER TABLE service_states DISABLE ROW LEVEL SECURITY;
 ALTER TABLE task_queue    DISABLE ROW LEVEL SECURITY;
 ALTER TABLE activity_log  DISABLE ROW LEVEL SECURITY;
 
+-- ── APP_CONFIG ─────────────────────────────────────────────
+-- One row per client per app; config stored as JSONB for schema flexibility
+CREATE TABLE IF NOT EXISTS app_config (
+  id         UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
+  client_id  UUID        NOT NULL REFERENCES clients(id) ON DELETE CASCADE,
+  app        TEXT        NOT NULL
+                         CHECK (app IN ('guest_app', 'staff_app', 'owner_dashboard')),
+  config     JSONB       NOT NULL DEFAULT '{}',
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  UNIQUE (client_id, app)
+);
+
+CREATE INDEX IF NOT EXISTS idx_app_config_client ON app_config(client_id);
+
+ALTER TABLE app_config DISABLE ROW LEVEL SECURITY;
+
 -- ── SEED: TORRIDONIA ───────────────────────────────────────
 -- Idempotent: safe to re-run
 DO $$

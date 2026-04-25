@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { COLORS, FONTS } from '../../data/tokens'
 import StatusBadge from './StatusBadge'
 import ServiceToggle from './ServiceToggle'
@@ -141,14 +142,26 @@ export default function ClientTable({ clients, loading, onToggleService, session
                   {/* Service columns */}
                   {SERVICES.map(({ key }) => {
                     const svc = svcMap[key] || { status: 'offline', enabled: false }
+                    const configPath = `/command-center/clients/${client.slug}/${key.replace(/_/g, '-')}`
                     return (
                       <td key={key} style={CELL}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-start' }}>
                           <StatusBadge status={svc.status} />
-                          <ServiceToggle
-                            enabled={!!svc.enabled}
-                            onChange={(enabled) => onToggleService(client.id, key, enabled, token)}
-                          />
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                            <ServiceToggle
+                              enabled={!!svc.enabled}
+                              onChange={(enabled) => onToggleService(client.id, key, enabled, token)}
+                            />
+                            <Link
+                              to={configPath}
+                              title="Configure"
+                              style={{ color: 'rgba(74,248,212,0.3)', display: 'flex', transition: 'color 0.15s' }}
+                              onMouseEnter={e => { e.currentTarget.style.color = COLORS.neon }}
+                              onMouseLeave={e => { e.currentTarget.style.color = 'rgba(74,248,212,0.3)' }}
+                            >
+                              <Icon name="settings" size={12} color="currentColor" />
+                            </Link>
+                          </div>
                         </div>
                       </td>
                     )

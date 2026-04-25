@@ -3,6 +3,7 @@ import useAuth from './hooks/useAuth'
 import LandingLayout from './components/LandingLayout'
 import LoginPage from './pages/LoginPage'
 import CommandCenter from './pages/CommandCenter'
+import AppConfigPage from './pages/AppConfigPage'
 
 function ProtectedRoute({ session, loading, children }) {
   if (loading) {
@@ -138,6 +139,20 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        {['guest-app', 'staff-app', 'owner-dashboard'].map(slug => {
+          const app = slug.replace(/-/g, '_')
+          return (
+            <Route
+              key={app}
+              path={`/command-center/clients/:slug/${slug}`}
+              element={
+                <ProtectedRoute session={session} loading={loading}>
+                  <AppConfigPage session={session} app={app} />
+                </ProtectedRoute>
+              }
+            />
+          )
+        })}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
