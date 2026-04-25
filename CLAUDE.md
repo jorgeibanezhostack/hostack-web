@@ -98,11 +98,3 @@ RESEND_API_KEY             # email (waitlist, subscribe)
 
 Admin user: `hello@hostack.co` — manage via Supabase dashboard → Authentication → Users.
 
-### Pending cleanup
-
-- Delete stale branches on GitHub manually (proxy blocks `--delete` from this environment):
-  - `claude/hostack-landing-redesign-6ToMK`
-  - `claude/install-cyber-neo-skill-on6UC`
-  - `claude/hostack-command-center-EQ6ch` (merged)
-- Delete or redeploy the old `hostack` Vercel project (shows stale content at `hostack.vercel.app`)
-- Update GitHub repo "About" URL from `hostack.vercel.app` → `www.hostack.co`
