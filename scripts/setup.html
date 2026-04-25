@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hostack Command Center — Setup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+:root {
+  --bg:#040f11;--surface:#071820;--card:#0a2029;
+  --accent:#4af8d4;--accent-dim:rgba(74,248,212,.12);
+  --border:rgba(74,248,212,.10);--border-md:rgba(74,248,212,.20);
+  --text:#e8f6f5;--muted:#7ab8b0;--hint:#3a6068;
+  --green:#10B981;--red:#EF4444;--amber:#F59E0B;--blue:#4a8cff;
+  --font:'DM Sans',system-ui,sans-serif;--mono:'DM Mono',monospace;--r:10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;padding:40px 20px}
+.wrap{max-width:660px;margin:0 auto}
+h1{font-size:22px;font-weight:600;margin-bottom:6px}
+.sub{font-size:13px;color:var(--muted);margin-bottom:28px;line-height:1.6}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:14px}
+.card-title{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px;margin-top:10px}
+label:first-of-type{margin-top:0}
+input{width:100%;background:var(--card);border:1px solid var(--border-md);border-radius:8px;padding:10px 13px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;transition:border-color .2s}
+input:focus{border-color:var(--accent)}
+input::placeholder{color:var(--hint)}
+.hint{font-size:11px;color:var(--hint);margin-top:3px;margin-bottom:10px;line-height:1.5}
+.row{display:flex;gap:10px;margin-top:14px}
+.btn{flex:1;padding:12px;border:none;border-radius:8px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;transition:opacity .15s}
+.btn-primary{background:var(--accent);color:#031e23}
+.btn-secondary{background:rgba(74,248,212,.1);color:var(--accent);border:1px solid var(--border-md)}
+.btn:hover{opacity:.88}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.log{font-family:var(--mono);font-size:11px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;max-height:360px;overflow-y:auto;margin-top:14px}
+.l{padding:2px 0;line-height:1.5}
+.ok{color:var(--green)}.err{color:var(--red)}.warn{color:var(--amber)}.info{color:var(--muted)}.head{color:var(--accent)}
+.sql-box{background:var(--card);border:1px solid var(--border-md);border-radius:8px;padding:16px;margin-top:14px;font-family:var(--mono);font-size:10px;color:var(--muted);white-space:pre-wrap;word-break:break-all;max-height:200px;overflow-y:auto}
+.copy-btn{margin-top:8px;padding:7px 14px;background:var(--accent-dim);color:var(--accent);border:1px solid var(--border-md);border-radius:6px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer}
+.done{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);border-radius:10px;padding:16px;margin-top:14px;display:none}
+.done h3{color:var(--green);font-size:14px;margin-bottom:8px}
+.done p{font-size:12px;color:var(--muted);line-height:1.65}
+.done code{background:rgba(74,248,212,.1);padding:1px 5px;border-radius:4px;font-family:var(--mono);font-size:11px;color:var(--accent)}
+.badge{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--accent-dim);color:var(--accent);border:1px solid var(--border-md);padding:2px 8px;border-radius:20px}
+.section-sep{border:none;border-top:1px solid var(--border);margin:18px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:28px">
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+      <rect width="32" height="32" rx="7" fill="#084e59"/>
+      <rect x="3" y="3" width="12" height="12" rx="2.5" fill="#4af8d4"/>
+      <rect x="17" y="3" width="12" height="12" rx="2.5" fill="#4af8d4" opacity=".55"/>
+      <rect x="3" y="17" width="12" height="12" rx="2.5" fill="#4af8d4" opacity=".55"/>
+      <rect x="17" y="17" width="12" height="12" rx="2.5" fill="#4af8d4" opacity=".25"/>
+    </svg>
+    <span style="font-size:16px;font-weight:600">Hostack</span>
+    <span class="badge">Command Center Setup</span>
+  </div>
+
+  <h1>Database Setup</h1>
+  <p class="sub">Open this file locally in your browser. It creates the admin login user automatically. For the database schema, you can either paste the SQL into Supabase SQL Editor, or provide a Personal Access Token for full automation.</p>
+
+  <!-- STEP 1: Credentials -->
+  <div class="card">
+    <div class="card-title">Step 1 — Credentials</div>
+    <label>Supabase Project URL</label>
+    <input id="url" value="https://yskzkobduekupiobrbxr.supabase.co" />
+    <label>Service Role Key <span style="color:var(--amber)">(keep private)</span></label>
+    <input id="srvkey" type="password" placeholder="eyJhbG… (from Supabase → Project Settings → API)" />
+    <hr class="section-sep">
+    <label>Personal Access Token <span style="color:var(--hint)">(optional — enables automated SQL)</span></label>
+    <input id="pat" type="password" placeholder="sbp_… (from supabase.com → Account → Access Tokens)" />
+    <div class="hint">
+      Without a PAT: schema SQL will be shown for manual copy-paste into Supabase SQL Editor.<br>
+      With a PAT: the full schema runs automatically. Get one at supabase.com → Account → Access Tokens → Generate new token.
+    </div>
+  </div>
+
+  <!-- STEP 2: Admin user -->
+  <div class="card">
+    <div class="card-title">Step 2 — Admin Login User</div>
+    <label>Email</label>
+    <input id="email" type="email" value="jorge.ibanez.ciej@gmail.com" />
+    <label>Password</label>
+    <input id="password" type="password" value="Hostack2026" />
+  </div>
+
+  <div class="row">
+    <button class="btn btn-primary" id="runBtn" onclick="runSetup()">Run Setup</button>
+    <button class="btn btn-secondary" onclick="showSQL()">Show SQL only</button>
+  </div>
+
+  <!-- LOG -->
+  <div id="logSection" style="display:none">
+    <div class="log" id="log"></div>
+    <div class="done" id="doneBox">
+      <h3>Setup complete</h3>
+      <p>
+        Admin user created — sign in at <code>/command-center/login</code>.<br><br>
+        <strong>If you haven't applied the schema yet:</strong> copy the SQL block above and paste it into
+        Supabase → SQL Editor → New query → Run.<br><br>
+        <strong>Enable Realtime</strong> in Supabase → Table Editor for:
+        <code>service_states</code>, <code>task_queue</code>, <code>activity_log</code><br><br>
+        <strong>Add env vars to Vercel</strong> → hostack-web → Settings → Environment Variables:
+        <code>VITE_SUPABASE_URL</code>, <code>VITE_SUPABASE_ANON_KEY</code>,
+        <code>SUPABASE_URL</code>, <code>SUPABASE_SERVICE_ROLE_KEY</code>,
+        <code>COMMAND_CENTER_API_KEY</code>
+      </p>
+    </div>
+  </div>
+
+  <!-- SQL copy-paste fallback -->
+  <div id="sqlSection" style="display:none" class="card">
+    <div class="card-title">Schema SQL — paste into Supabase SQL Editor</div>
+    <div class="sql-box" id="sqlBox"></div>
+    <button class="copy-btn" onclick="copySQL()">Copy SQL</button>
+  </div>
+
+</div>
+
+<script>
+const SCHEMA_SQL = `-- Hostack Command Center Schema
+-- Paste this into Supabase → SQL Editor → Run
+
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+CREATE TABLE IF NOT EXISTS clients (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  slug TEXT NOT NULL UNIQUE,
+  property_type TEXT NOT NULL DEFAULT 'hostel',
+  beds INTEGER NOT NULL DEFAULT 0,
+  country TEXT NOT NULL,
+  plan TEXT NOT NULL DEFAULT 'free' CHECK (plan IN ('free','pro','custom')),
+  notes TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS service_states (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  client_id UUID NOT NULL REFERENCES clients(id) ON DELETE CASCADE,
+  service TEXT NOT NULL CHECK (service IN ('guest_app','staff_app','owner_dashboard')),
+  status TEXT NOT NULL DEFAULT 'online' CHECK (status IN ('online','offline','maintenance')),
+  enabled BOOLEAN NOT NULL DEFAULT true,
+  last_checked TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  UNIQUE (client_id, service)
+);
+
+CREATE TABLE IF NOT EXISTS task_queue (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  client_id UUID REFERENCES clients(id) ON DELETE SET NULL,
+  title TEXT NOT NULL,
+  description TEXT,
+  task_type TEXT NOT NULL DEFAULT 'other' CHECK (task_type IN ('fix','deploy','config','review','other')),
+  priority TEXT NOT NULL DEFAULT 'medium' CHECK (priority IN ('low','medium','high','critical')),
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending','in_progress','completed','failed')),
+  assigned_agent TEXT,
+  result TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  completed_at TIMESTAMPTZ
+);
+
+CREATE TABLE IF NOT EXISTS activity_log (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  client_id UUID REFERENCES clients(id) ON DELETE SET NULL,
+  action TEXT NOT NULL,
+  actor TEXT NOT NULL DEFAULT 'human' CHECK (actor IN ('human','agent')),
+  metadata JSONB,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS idx_service_states_client ON service_states(client_id);
+CREATE INDEX IF NOT EXISTS idx_task_queue_status     ON task_queue(status);
+CREATE INDEX IF NOT EXISTS idx_task_queue_created    ON task_queue(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_activity_log_created  ON activity_log(created_at DESC);
+
+ALTER TABLE clients        DISABLE ROW LEVEL SECURITY;
+ALTER TABLE service_states DISABLE ROW LEVEL SECURITY;
+ALTER TABLE task_queue     DISABLE ROW LEVEL SECURITY;
+ALTER TABLE activity_log   DISABLE ROW LEVEL SECURITY;
+
+-- Seed: Torridonia
+DO $$
+DECLARE v UUID;
+BEGIN
+  INSERT INTO clients (name, slug, property_type, beds, country, plan)
+  VALUES ('Torridonia', 'torridonia', 'hostel', 23, 'Scotland', 'pro')
+  ON CONFLICT (slug) DO NOTHING
+  RETURNING id INTO v;
+  IF v IS NOT NULL THEN
+    INSERT INTO service_states (client_id, service, status, enabled, last_checked)
+    VALUES
+      (v, 'guest_app',       'online', true, now()),
+      (v, 'staff_app',       'online', true, now()),
+      (v, 'owner_dashboard', 'online', true, now());
+  END IF;
+END $$;`
+
+function log(msg, cls='info') {
+  const d = document.getElementById('log')
+  const el = document.createElement('div')
+  el.className = 'l ' + cls
+  el.textContent = msg
+  d.appendChild(el)
+  d.scrollTop = d.scrollHeight
+}
+
+function showSQL() {
+  document.getElementById('sqlSection').style.display = 'block'
+  document.getElementById('sqlBox').textContent = SCHEMA_SQL
+}
+
+function copySQL() {
+  navigator.clipboard.writeText(SCHEMA_SQL).then(() => {
+    document.querySelector('.copy-btn').textContent = 'Copied!'
+    setTimeout(() => document.querySelector('.copy-btn').textContent = 'Copy SQL', 2000)
+  })
+}
+
+async function runSetup() {
+  const url    = document.getElementById('url').value.trim()
+  const srvkey = document.getElementById('srvkey').value.trim()
+  const pat    = document.getElementById('pat').value.trim()
+  const email  = document.getElementById('email').value.trim()
+  const pass   = document.getElementById('password').value
+
+  if (!url || !srvkey) { alert('Fill in Project URL and Service Role Key'); return }
+  if (!email || !pass) { alert('Fill in admin email and password'); return }
+
+  document.getElementById('runBtn').disabled = true
+  document.getElementById('logSection').style.display = 'block'
+
+  // ── Schema via Management API (needs PAT) ──
+  if (pat) {
+    log('── Schema (automated) ────────────────────────', 'head')
+    const ref = new URL(url).hostname.split('.')[0]
+    const stmts = SCHEMA_SQL.split(';').map(s => s.trim()).filter(s => s && !s.startsWith('--'))
+    let ok = 0
+    for (const stmt of stmts) {
+      const preview = stmt.slice(0, 55).replace(/\s+/g, ' ')
+      try {
+        const r = await fetch(`https://api.supabase.com/v1/projects/${ref}/database/query`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${pat}` },
+          body: JSON.stringify({ query: stmt }),
+        })
+        const d = await r.json().catch(() => ({}))
+        if (!r.ok) {
+          const msg = d.error || d.message || ''
+          if (/already exists|42P07|42710|23505/.test(msg)) { log(`○ (exists) ${preview}…`, 'warn'); continue }
+          throw new Error(msg || `HTTP ${r.status}`)
+        }
+        log(`✓ ${preview}…`, 'ok'); ok++
+      } catch(e) {
+        const msg = String(e.message || e)
+        if (/already exists|42P07|42710|23505/.test(msg)) { log(`○ (exists) ${preview}…`, 'warn'); continue }
+        log(`✗ ${preview}… → ${msg}`, 'err')
+      }
+    }
+    log(`   Schema done — ${ok} statements applied`)
+  } else {
+    log('── Schema (manual) ───────────────────────────', 'head')
+    log('  No PAT provided — showing SQL for copy-paste below.', 'warn')
+    log('  Copy it into: Supabase → SQL Editor → New query → Run', 'info')
+    showSQL()
+  }
+
+  log('')
+  // ── Admin auth user ──
+  log('── Admin user ────────────────────────────────', 'head')
+  try {
+    const { createClient } = supabase
+    const sb = createClient(url, srvkey, { auth: { autoRefreshToken: false, persistSession: false } })
+    const { data, error } = await sb.auth.admin.createUser({
+      email, password: pass, email_confirm: true,
+    })
+    if (error) {
+      if (/already registered|already exists/i.test(error.message)) {
+        log(`○ ${email} already exists — updating password…`, 'warn')
+        const { data: list } = await sb.auth.admin.listUsers()
+        const u = list?.users?.find(u => u.email === email)
+        if (u) {
+          await sb.auth.admin.updateUserById(u.id, { password: pass })
+          log(`✓ Password updated for ${email}`, 'ok')
+        }
+      } else throw error
+    } else {
+      log(`✓ Admin user created: ${data.user.email}`, 'ok')
+    }
+  } catch(e) {
+    log(`✗ Auth error: ${e.message}`, 'err')
+    log('  If this fails, create the user manually in Supabase → Authentication → Users', 'info')
+  }
+
+  log('')
+  log('Done.', 'ok')
+  document.getElementById('doneBox').style.display = 'block'
+  document.getElementById('runBtn').disabled = false
+}
+</script>
+</body>
+</html>
