@@ -1,6 +1,6 @@
 # Hostack — Marketing Landing Page
 
-Production landing page for [hostack.vercel.app](https://hostack.vercel.app)
+Production landing page for [hostack.co](hostack-web.vercel.app)
 
 ## Stack
 - React 19 + Vite
